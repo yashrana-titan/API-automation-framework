@@ -1,0 +1,416 @@
+[
+  {
+    "date": "2023-05-01",
+    "flow": "MEDIUM",
+    "signs": ["ABDOMINAL_CRAMPS", "TIREDNESS"],
+    "mood": "NEUTRAL",
+    "sex": "PROTECTED",
+    "discharge": "WATERY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-01",
+    "flow": "HEAVY",
+    "signs": ["BACK_PAIN", "HEADACHE"],
+    "mood": "SAD",
+    "sex": "UNPROTECTED",
+    "discharge": "CREAMY",
+    "medication": "Ibuprofen"
+  },
+  {
+    "date": "2023-05-02",
+    "flow": "LIGHT",
+    "signs": ["BLOATING", "ACNE"],
+    "mood": "HAPPY",
+    "sex": "PROTECTED",
+    "discharge": "STICKY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-02",
+    "flow": "MEDIUM",
+    "signs": ["CONSTIPATION", "LEG_CRAMPS"],
+    "mood": "RELAXED",
+    "sex": "UNPROTECTED",
+    "discharge": "DRY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-03",
+    "flow": "HEAVY",
+    "signs": ["DIARRHOEA", "BREAST_TENDERNESS"],
+    "mood": "ANGRY",
+    "sex": "PROTECTED",
+    "discharge": "EGG_WHITE",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-03",
+    "flow": "MEDIUM",
+    "signs": ["ACNE", "HEADACHE"],
+    "mood": "SAD",
+    "sex": "UNPROTECTED",
+    "discharge": "WATERY",
+    "medication": "Tylenol"
+  },
+  {
+    "date": "2023-05-04",
+    "flow": "LIGHT",
+    "signs": ["BACK_PAIN", "CONSTIPATION"],
+    "mood": "HAPPY",
+    "sex": "PROTECTED",
+    "discharge": "CREAMY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-04",
+    "flow": "MEDIUM",
+    "signs": ["BLOATING", "TIREDNESS"],
+    "mood": "NEUTRAL",
+    "sex": "UNPROTECTED",
+    "discharge": "STICKY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-05",
+    "flow": "HEAVY",
+    "signs": ["LEG_CRAMPS", "ACNE"],
+    "mood": "RELAXED",
+    "sex": "PROTECTED",
+    "discharge": "DRY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-05",
+    "flow": "LIGHT",
+    "signs": ["ABDOMINAL_CRAMPS", "HEADACHE"],
+    "mood": "HAPPY",
+    "sex": "UNPROTECTED",
+    "discharge": "EGG_WHITE",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-06",
+    "flow": "MEDIUM",
+    "signs": ["DIARRHOEA", "BACK_PAIN"],
+    "mood": "ANGRY",
+    "sex": "PROTECTED",
+    "discharge": "WATERY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-06",
+    "flow": "HEAVY",
+    "signs": ["CONSTIPATION", "BLOATING"],
+    "mood": "SAD",
+    "sex": "UNPROTECTED",
+    "discharge": "CREAMY",
+    "medication": "Ibuprofen"
+  },
+  {
+    "date": "2023-05-07",
+    "flow": "LIGHT",
+    "signs": ["TIREDNESS", "LEG_CRAMPS"],
+    "mood": "NEUTRAL",
+    "sex": "PROTECTED",
+    "discharge": "STICKY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-07",
+    "flow": "MEDIUM",
+    "signs": ["ABDOMINAL_CRAMPS", "HEADACHE"],
+    "mood": "HAPPY",
+    "sex": "UNPROTECTED",
+    "discharge": "DRY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-08",
+    "flow": "HEAVY",
+    "signs": ["DIARRHOEA", "ACNE"],
+    "mood": "RELAXED",
+    "sex": "PROTECTED",
+    "discharge": "EGG_WHITE",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-08",
+    "flow": "MEDIUM",
+    "signs": ["BREAST_TENDERNESS", "BACK_PAIN"],
+    "mood": "ANGRY",
+    "sex": "UNPROTECTED",
+    "discharge": "WATERY",
+    "medication": "Tylenol"
+  },
+  {
+    "date": "2023-05-09",
+    "flow": "LIGHT",
+    "signs": ["CONSTIPATION", "BLOATING"],
+    "mood": "HAPPY",
+    "sex": "PROTECTED",
+    "discharge": "CREAMY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-09",
+    "flow": "MEDIUM",
+    "signs": ["HEADACHE", "LEG_CRAMPS"],
+    "mood": "NEUTRAL",
+    "sex": "UNPROTECTED",
+    "discharge": "STICKY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-10",
+    "flow": "HEAVY",
+    "signs": ["ABDOMINAL_CRAMPS", "ACNE"],
+    "mood": "RELAXED",
+    "sex": "PROTECTED",
+    "discharge": "DRY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-10",
+    "flow": "LIGHT",
+    "signs": ["DIARRHOEA", "BACK_PAIN"],
+    "mood": "SAD",
+    "sex": "UNPROTECTED",
+    "discharge": "EGG_WHITE",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-11",
+    "flow": "MEDIUM",
+    "signs": ["BREAST_TENDERNESS", "CONSTIPATION"],
+    "mood": "HAPPY",
+    "sex": "PROTECTED",
+    "discharge": "WATERY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-11",
+    "flow": "HEAVY",
+    "signs": ["HEADACHE", "LEG_CRAMPS"],
+    "mood": "ANGRY",
+    "sex": "UNPROTECTED",
+    "discharge": "CREAMY",
+    "medication": "Ibuprofen"
+  },
+  {
+    "date": "2023-05-12",
+    "flow": "LIGHT",
+    "signs": ["ABDOMINAL_CRAMPS", "ACNE"],
+    "mood": "NEUTRAL",
+    "sex": "PROTECTED",
+    "discharge": "STICKY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-12",
+    "flow": "MEDIUM",
+    "signs": ["DIARRHOEA", "BLOATING"],
+    "mood": "HAPPY",
+    "sex": "UNPROTECTED",
+    "discharge": "DRY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-13",
+    "flow": "HEAVY",
+    "signs": ["CONSTIPATION", "BACK_PAIN"],
+    "mood": "RELAXED",
+    "sex": "PROTECTED",
+    "discharge": "EGG_WHITE",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-13",
+    "flow": "LIGHT",
+    "signs": ["TIREDNESS", "HEADACHE"],
+    "mood": "SAD",
+    "sex": "UNPROTECTED",
+    "discharge": "WATERY",
+    "medication": "Tylenol"
+  },
+  {
+    "date": "2023-05-14",
+    "flow": "MEDIUM",
+    "signs": ["BREAST_TENDERNESS", "ACNE"],
+    "mood": "HAPPY",
+    "sex": "PROTECTED",
+    "discharge": "CREAMY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-14",
+    "flow": "HEAVY",
+    "signs": ["LEG_CRAMPS", "BLOATING"],
+    "mood": "NEUTRAL",
+    "sex": "UNPROTECTED",
+    "discharge": "STICKY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-15",
+    "flow": "LIGHT",
+    "signs": ["ABDOMINAL_CRAMPS", "DIARRHOEA"],
+    "mood": "RELAXED",
+    "sex": "PROTECTED",
+    "discharge": "DRY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-15",
+    "flow": "MEDIUM",
+    "signs": ["HEADACHE", "TIREDNESS"],
+    "mood": "ANGRY",
+    "sex": "UNPROTECTED",
+    "discharge": "EGG_WHITE",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-16",
+    "flow": "HEAVY",
+    "signs": ["CONSTIPATION", "BACK_PAIN"],
+    "mood": "SAD",
+    "sex": "PROTECTED",
+    "discharge": "WATERY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-16",
+    "flow": "LIGHT",
+    "signs": ["LEG_CRAMPS", "ACNE"],
+    "mood": "HAPPY",
+    "sex": "UNPROTECTED",
+    "discharge": "CREAMY",
+    "medication": "Ibuprofen"
+  },
+  {
+    "date": "2023-05-17",
+    "flow": "MEDIUM",
+    "signs": ["ABDOMINAL_CRAMPS", "BLOATING"],
+    "mood": "NEUTRAL",
+    "sex": "PROTECTED",
+    "discharge": "STICKY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-17",
+    "flow": "HEAVY",
+    "signs": ["DIARRHOEA", "HEADACHE"],
+    "mood": "RELAXED",
+    "sex": "UNPROTECTED",
+    "discharge": "DRY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-18",
+    "flow": "LIGHT",
+    "signs": ["CONSTIPATION", "TIREDNESS"],
+    "mood": "HAPPY",
+    "sex": "PROTECTED",
+    "discharge": "EGG_WHITE",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-18",
+    "flow": "MEDIUM",
+    "signs": ["BREAST_TENDERNESS", "BACK_PAIN"],
+    "mood": "ANGRY",
+    "sex": "UNPROTECTED",
+    "discharge": "WATERY",
+    "medication": "Tylenol"
+  },
+  {
+    "date": "2023-05-19",
+    "flow": "HEAVY",
+    "signs": ["LEG_CRAMPS", "ACNE"],
+    "mood": "NEUTRAL",
+    "sex": "PROTECTED",
+    "discharge": "CREAMY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-19",
+    "flow": "LIGHT",
+    "signs": ["ABDOMINAL_CRAMPS", "HEADACHE"],
+    "mood": "HAPPY",
+    "sex": "UNPROTECTED",
+    "discharge": "STICKY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-20",
+    "flow": "MEDIUM",
+    "signs": ["DIARRHOEA", "BLOATING"],
+    "mood": "RELAXED",
+    "sex": "PROTECTED",
+    "discharge": "DRY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-20",
+    "flow": "HEAVY",
+    "signs": ["CONSTIPATION", "TIREDNESS"],
+    "mood": "SAD",
+    "sex": "UNPROTECTED",
+    "discharge": "EGG_WHITE",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-21",
+    "flow": "LIGHT",
+    "signs": ["ABDOMINAL_CRAMPS", "LEG_CRAMPS"],
+    "mood": "HAPPY",
+    "sex": "PROTECTED",
+    "discharge": "WATERY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-21",
+    "flow": "MEDIUM",
+    "signs": ["HEADACHE", "BREAST_TENDERNESS"],
+    "mood": "NEUTRAL",
+    "sex": "UNPROTECTED",
+    "discharge": "CREAMY",
+    "medication": "Ibuprofen"
+  },
+  {
+    "date": "2023-05-22",
+    "flow": "HEAVY",
+    "signs": ["CONSTIPATION", "ACNE"],
+    "mood": "RELAXED",
+    "sex": "PROTECTED",
+    "discharge": "STICKY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-22",
+    "flow": "LIGHT",
+    "signs": ["DIARRHOEA", "BACK_PAIN"],
+    "mood": "HAPPY",
+    "sex": "UNPROTECTED",
+    "discharge": "DRY",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-23",
+    "flow": "MEDIUM",
+    "signs": ["ABDOMINAL_CRAMPS", "TIREDNESS"],
+    "mood": "NEUTRAL",
+    "sex": "PROTECTED",
+    "discharge": "EGG_WHITE",
+    "medication": ""
+  },
+  {
+    "date": "2023-05-23",
+    "flow": "HEAVY",
+    "signs": ["BLOATING", "HEADACHE"],
+    "mood": "SAD",
+    "sex": "UNPROTECTED",
+    "discharge": "WATERY",
+    "medication": "Tylenol"
+  }
+]

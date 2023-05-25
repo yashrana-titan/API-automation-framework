@@ -1,0 +1,48 @@
+{
+  "date": "<yyyy-MM-dd>",
+  "start_time": "<Number>", // start time millisecond
+  "type": "<String>", // activity type
+  "dur": "<Number>",
+  "steps_interval": "<Number>",
+  "hr_interval": "<Number>",
+  "avg_heart_rate": "<Number>",
+  "heart_rate_zones": ["<Number>", "<Number>",..], //[warm_up, fat_burn, aerobic,
+  anaerobic, extreme],
+  "total_steps": "<Number>",
+  "total_cal": "<Number>", // total calories
+  "total_dist": "<Number>", // total distance
+  "steps": ["<Number>", "<Number>", ..],
+  "cal": ["<Number>", "<Number>", ..],
+  "dist": ["<Number>", "<Number>", ..],
+  "avg_speed": "<Float>", // number(5,2)
+  "pace": "<Number>",
+  "avg_pace": "<Number>",
+  "fast_pace": "<Number>",
+  "pace_per_km": ["<Number>", "<Number>", ..],
+  "pace_per_mi": ["<Number>", "<Number>", ..],
+  "cadence": ["<Number>", "<Number>", ..],
+  "avg_cadence": "<Number>",
+  "stride": "<Number>",
+  "vo2_max": "<Number>",  // optional
+  "hr": ["<Number>", "<Number>", ..],
+  "duration_details":["<Number>","<Number>",...],
+  "overall_stroke_type":"<String>",
+  "stroke_types":["<String>","<String>",....],
+  "total_strokes":"<Number>",
+  "total_swolf":"<Number>",
+  "swolf":["<Number>","<Number>",....],
+  "laps_per_distance":"<Number>",
+  "lap_count": "<Number>",
+  "total_activity_time" : "<Number>",
+  "stroke_rate_per_min" : "<Number>",
+  "swim_details" : [{
+    "start_time" :"<Number>",
+    "duration" :"<Number>",
+    "strokes" :"<Number>",
+    "swolf_score" :"<Number>",
+    "stroke_type" :"<Number>",
+    "distance" :"<Number>",
+    "frequency" :"<Number>",
+    "speed" :"<Number>""
+  }]
+}

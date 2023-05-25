@@ -1,0 +1,6 @@
+{
+  "UserSignUP": "https://dev-wearables.titan.in/api/registry/users/mobiles",
+  "OTPVerification": "https://dev-wearables.titan.in/api/registry/otp",
+  "Health": "https://dev-wearables.titan.in/api/health/",
+  "PeriodTracking":"https://dev-wearables.titan.in/api/health/pt"
+}
