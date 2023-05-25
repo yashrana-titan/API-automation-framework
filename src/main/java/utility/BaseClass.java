@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class BaseClass {
     public static String accessToken;
+    public static String productCode;
     public static Map<String, Object> urls = new HashMap<>();
     public static Map<String, Object> headers = new HashMap<>();
 

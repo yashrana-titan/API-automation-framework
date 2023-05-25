@@ -1,40 +1,42 @@
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
-import url.Sleep;
+import url.health.Sleep;
 import utility.AssertUtility;
 import utility.JSONUtility;
 
-public class TestSleep{
-    Sleep Sleep;
+public class TestSleep {
+    Sleep sleep;
     AssertUtility assertUtility;
 
     @Test
-    public void testGETDailySleep(){
-        Sleep=new Sleep();
+    public void testGetDailySleep()
+    {
+        sleep=new Sleep();
         assertUtility=new AssertUtility();
-        Response dailySleep = Sleep.getDailySleep("2023-05-11");
+        Response dailySleep= sleep.getDailySleep("2023-05-09");
+        //JSONUtility.saveResponseInFile(dailySleep);
         assertUtility.checkStatusIs200(dailySleep);
     }
     @Test
-    public void testGETWeeklySleep(){
-        Sleep=new Sleep();
+    public void testGetWeeklySleep(){
+        sleep=new Sleep();
         assertUtility=new AssertUtility();
-        Response weeklySleep = Sleep.getDailySleep("2023-05-11");
+        Response weeklySleep= sleep.getWeeklySleep("2023-05-09");
+        //JSONUtility.saveResponseInFile(weeklySleep);
         assertUtility.checkStatusIs200(weeklySleep);
     }
     @Test
-    public void testGETMonthlySleep(){
-        Sleep=new Sleep();
+    public void testGetMonthlySleep(){
+        sleep=new Sleep();
         assertUtility=new AssertUtility();
-        Response monthlySleep = Sleep.getMonthlySleep("2023-03-11");
-        JSONUtility.saveResponseInFile(monthlySleep);
+        Response monthlySleep= sleep.getMonthlySleep("2023-05-09");
         assertUtility.checkStatusIs200(monthlySleep);
     }
     @Test
-    public void testPUTSleep() {
-        Sleep=new Sleep();
+    public void testPutSleep() {
+        sleep=new Sleep();
         assertUtility=new AssertUtility();
-        Response putHr= Sleep.putSleep();
-        assertUtility.checkStatusIs200(putHr);
+        Response putSleep= sleep.putSleep();
+        assertUtility.checkStatusIs200(putSleep);
     }
 }

@@ -1,4 +1,4 @@
-package url;
+package url.health;
 
 import io.restassured.response.Response;
 import utility.BaseClass;

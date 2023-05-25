@@ -1,32 +1,37 @@
-package url;
+package url.health;
 
 import io.restassured.response.Response;
 import utility.BaseClass;
 import utility.HealthURLMethods;
 import utility.RESTUtility;
 
-public class BloodPressure extends BaseClass {
+public class SpO2 extends BaseClass {
     public RESTUtility restUtil;
-    public String url = urls.get("Health") + "bp";
-
+    public String url = (String) urls.get("Health")+"spo2";
     public HealthURLMethods healthURLMethods = new HealthURLMethods();
 
-    public Response getDailyBloodPressure(String date) {
+    public Response getDailySpO2(String date) {
         Response res = healthURLMethods.getDailyData(url, date, headers);
         return res;
     }
 
-    public Response getWeeklyBloodPressure(String date) {
+    public Response getWeeklySpO2(String date) {
         System.out.println(headers);
         return healthURLMethods.getWeeklyData(url, date, headers);
     }
 
-    public Response getMonthlyBloodPressure(String date) {
+    public Response getMonthlySpO2(String date) {
         return healthURLMethods.getMonthlyData(url, date, headers);
     }
 
-    public Response putBloodPressure() {
-        String FilePath = "./src/main/java/putData/PutBloodPressureData.json";
+    public Response putSpO2() {
+        String FilePath = "./src/main/java/putData/PutSpO2Data.json";
         return healthURLMethods.putData(url, FilePath, headers);
+    }
+
+    public Boolean getAndPutSpO2()
+    {
+        String FilePath = "./src/main/java/putdata/samplespo2.json";
+        return healthURLMethods.verifyPutAndGet(url,FilePath,headers);
     }
 }

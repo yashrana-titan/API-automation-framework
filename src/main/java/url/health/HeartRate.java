@@ -1,4 +1,4 @@
-package url;
+package url.health;
 
 import io.restassured.response.Response;
 import utility.BaseClass;
@@ -10,20 +10,20 @@ public class HeartRate extends BaseClass {
     public String url = (String) urls.get("Health")+"hr";
     public HealthURLMethods healthURLMethods = new HealthURLMethods();
 
-    public Response getDailyHR(String date) {
+    public Response getDailyHeartRate(String date) {
         Response res = healthURLMethods.getDailyData(url, date, headers);
         return res;
     }
 
-    public Response getWeeklyHR(String date) {
+    public Response getWeeklyHeartRate(String date) {
         return healthURLMethods.getWeeklyData(url, date, headers);
     }
 
-    public Response getMonthlyHR(String date) {
+    public Response getMonthlyHeartRate(String date) {
         return healthURLMethods.getMonthlyData(url, date, headers);
     }
 
-    public Response putHr() {
+    public Response putHeartRate() {
         String FilePath = "./src/main/java/putData/PutHRData.json";
         return healthURLMethods.putData(url, FilePath, headers);
     }

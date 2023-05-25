@@ -1,31 +1,31 @@
-package url;
+package url.health;
 
 import io.restassured.response.Response;
 import utility.BaseClass;
 import utility.HealthURLMethods;
 import utility.RESTUtility;
 
-public class SpO2 extends BaseClass {
+public class Stress extends BaseClass {
     public RESTUtility restUtil;
-    public String url = (String) urls.get("Health")+"spo2";
+    public String url = (String) urls.get("Health")+"stress";
     public HealthURLMethods healthURLMethods = new HealthURLMethods();
 
-    public Response getDailySpO2(String date) {
+    public Response getDailyStress(String date) {
         Response res = healthURLMethods.getDailyData(url, date, headers);
         return res;
     }
 
-    public Response getWeeklySpO2(String date) {
+    public Response getWeeklyStress(String date) {
         System.out.println(headers);
         return healthURLMethods.getWeeklyData(url, date, headers);
     }
 
-    public Response getMonthlySpO2(String date) {
+    public Response getMonthlyStress(String date) {
         return healthURLMethods.getMonthlyData(url, date, headers);
     }
 
-    public Response putSpO2() {
-        String FilePath = "./src/main/java/putData/PutSpO2Data.json";
+    public Response putStress() {
+        String FilePath = "./src/main/java/putData/PutStressData.json";
         return healthURLMethods.putData(url, FilePath, headers);
     }
 }

@@ -1,31 +1,32 @@
-package url;
+package url.health;
 
 import io.restassured.response.Response;
 import utility.BaseClass;
 import utility.HealthURLMethods;
 import utility.RESTUtility;
 
-public class Sleep extends BaseClass {
+public class Sports extends BaseClass {
     public RESTUtility restUtil;
-    public String url = (String) urls.get("Health")+"sleep";
+    public String url = (String) urls.get("health")+"sports";
     public HealthURLMethods healthURLMethods = new HealthURLMethods();
 
-    public Response getDailySleep(String date) {
+    public Response getDailySports(String date) {
         Response res = healthURLMethods.getDailyData(url, date, headers);
         return res;
     }
 
-    public Response getWeeklySleep(String date) {
+    public Response getWeeklySports(String date) {
         System.out.println(headers);
         return healthURLMethods.getWeeklyData(url, date, headers);
     }
 
-    public Response getMonthlySleep(String date) {
+    public Response getMonthlySports(String date) {
         return healthURLMethods.getMonthlyData(url, date, headers);
     }
 
-    public Response putSleep() {
-        String FilePath = "./src/main/java/putData/PutSleepData.json";
+    public Response putSports() {
+        String FilePath = "./src/main/java/putData/PutSportsData.json";
         return healthURLMethods.putData(url, FilePath, headers);
     }
+
 }

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class RESTUtility {
 
@@ -85,6 +86,13 @@ public class RESTUtility {
         System.out.println(response.statusCode());
         System.out.println(token);
         return token;
+    }
+
+    public static boolean CompareTwoResponses(Response res1,Response res2)
+    {
+        String st1 = res1.toString();
+        String st2 = res2.toString();
+        return (Objects.equals(st1, st2));
     }
 }
 

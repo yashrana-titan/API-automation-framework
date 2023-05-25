@@ -5,13 +5,21 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class JSONUtility {
@@ -64,6 +72,33 @@ public class JSONUtility {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<String> fetchDatesFromJson(String filePath) {
+        List<String> dates = new ArrayList<>();
+
+        try {
+            // Read the JSON file
+            FileReader reader = new FileReader(filePath);
+
+            // Parse the JSON data
+            JSONParser parser = new JSONParser();
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
+            // Extract the dates
+            for (Object obj : jsonArray) {
+                JSONObject entry = (JSONObject) obj;
+                String date = (String) entry.get("date");
+                dates.add(date);
+            }
+
+            // Close the reader
+            reader.close();
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return dates;
     }
 
 

@@ -1,42 +1,42 @@
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
-import url.HeartRate;
+import url.health.HeartRate;
 import utility.AssertUtility;
 import utility.JSONUtility;
 
-import java.io.IOException;
-
 public class TestHeartRate {
-    HeartRate hr;
+    HeartRate heartRate;
     AssertUtility assertUtility;
 
     @Test
-    public void testGetDailyHR(){
-        hr=new HeartRate();
+    public void testGetDailyHeartRate()
+    {
+        heartRate=new HeartRate();
         assertUtility=new AssertUtility();
-        Response dailyHR= hr.getDailyHR("2023-05-09");
-        assertUtility.checkStatusIs200(dailyHR);
+        Response dailyHeartRate= heartRate.getDailyHeartRate("2023-05-09");
+        //JSONUtility.saveResponseInFile(dailyHeartRate);
+        assertUtility.checkStatusIs200(dailyHeartRate);
     }
     @Test
-    public void testGetWeeklyHR(){
-        hr=new HeartRate();
+    public void testGetWeeklyHeartRate(){
+        heartRate=new HeartRate();
         assertUtility=new AssertUtility();
-        Response dailyHR= hr.getWeeklyHR("2023-05-09");
-        JSONUtility.saveResponseInFile(dailyHR);
-        assertUtility.checkStatusIs200(dailyHR);
+        Response weeklyHeartRate= heartRate.getWeeklyHeartRate("2023-05-09");
+        //JSONUtility.saveResponseInFile(weeklyHeartRate);
+        assertUtility.checkStatusIs200(weeklyHeartRate);
     }
     @Test
-    public void testGetMonthlyHR(){
-        hr=new HeartRate();
+    public void testGetMonthlyHeartRate(){
+        heartRate=new HeartRate();
         assertUtility=new AssertUtility();
-        Response dailyHR= hr.getMonthlyHR("2023-05-09");
-        assertUtility.checkStatusIs200(dailyHR);
+        Response monthlyHeartRate= heartRate.getMonthlyHeartRate("2023-05-09");
+        assertUtility.checkStatusIs200(monthlyHeartRate);
     }
     @Test
-    public void testPutHR() {
-        hr=new HeartRate();
+    public void testPutHeartRate() {
+        heartRate=new HeartRate();
         assertUtility=new AssertUtility();
-        Response putHr= hr.putHr();
-       // assertUtility.checkStatusIs200(putHr);
+        Response putHeartRate= heartRate.putHeartRate();
+        assertUtility.checkStatusIs200(putHeartRate);
     }
 }
