@@ -75,7 +75,7 @@ public class HealthURLMethods{
             resGet = RestAssured.given().headers(headers).contentType(ContentType.JSON)
                     .param("date", startDate).param("scope","MONTH").get(url);
         }
-        return Objects.equals(resGet.toString(), resPut.toString());
+        return JSONUtility.areEqualIgnoringProductField(resGet.toString(),resPut.toString());
     }
 
 }

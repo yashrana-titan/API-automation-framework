@@ -10,8 +10,8 @@ public class BaseClass {
     public static Map<String, Object> headers = new HashMap<>();
 
     static {
-       // accessToken = RESTUtility.getAccessToken();
-        accessToken = "ued8047d0-8306-431e-ae90-a66074a8f13850643";
+       //accessToken = RESTUtility.getAccessToken();
+        accessToken = "u30a0cd32-270c-48dd-9cc7-4d87c8f7ad0851867";
         //System.out.println("access-token  " + accessToken);
         try {
             urls = JSONUtility.getJsonDataInMap("./src/main/resources/URL.json");
