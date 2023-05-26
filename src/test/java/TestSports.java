@@ -3,10 +3,11 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import url.health.Sports;
 import utility.AssertUtility;
+import utility.BaseClass;
 import utility.JSONUtility;
 import utility.RESTUtility;
 
-public class TestSports {
+public class TestSports extends BaseClass {
     Sports sports;
     AssertUtility assertUtility;
 

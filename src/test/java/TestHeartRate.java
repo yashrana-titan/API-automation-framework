@@ -2,9 +2,10 @@ import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import url.health.HeartRate;
 import utility.AssertUtility;
+import utility.BaseClass;
 import utility.JSONUtility;
 
-public class TestHeartRate {
+public class TestHeartRate extends BaseClass {
     HeartRate heartRate;
     AssertUtility assertUtility;
 

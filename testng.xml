@@ -2,10 +2,7 @@
 <suite name="Test Suite" parallel="tests" thread-count="4">
     <test name="Health API tests">
         <classes>
-            <class name="TestSteps">
-                <methods>
-                    <include name="testGetMonthlySteps"></include>
-                </methods>
+            <class name="TestSpO2">
             </class>
         </classes>
     </test>

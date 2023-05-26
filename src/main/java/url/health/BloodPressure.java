@@ -5,6 +5,8 @@ import utility.BaseClass;
 import utility.HealthURLMethods;
 import utility.RESTUtility;
 
+import java.io.IOException;
+
 public class BloodPressure extends BaseClass {
     public RESTUtility restUtil;
     public String url = urls.get("Health") + "bp";
@@ -28,5 +30,10 @@ public class BloodPressure extends BaseClass {
     public Response putBloodPressure() {
         String FilePath = "./src/main/java/putData/PutBloodPressureData.json";
         return healthURLMethods.putData(url, FilePath, headers);
+    }
+
+    public Boolean getAndPutBloodPressure() throws IOException {
+        String FilePath = "./src/main/java/putdata/PutBPData.json";
+        return healthURLMethods.verifyPutAndGet(url,FilePath,headers);
     }
 }

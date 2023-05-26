@@ -3,6 +3,7 @@ package utility;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.restassured.response.Response;
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
@@ -27,7 +28,6 @@ import java.util.List;
 public class JSONUtility {
     private static final ObjectMapper objectMapper = new ObjectMapper();
     public static HashMap<String,Object> getJsonDataInMap(String FilePath) throws IOException {
-        //Convert json file to json string
         String JsonString = FileUtils.readFileToString(new File(FilePath), StandardCharsets.UTF_8);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -41,7 +41,6 @@ public class JSONUtility {
     }
 
     public static boolean compareResJsonWithFile(Response response, String filePath) throws IOException {
-        // Extract the JSON content from the response
         String responseJson = response.getBody().asString();
         String expectedJson = new String(Files.readAllBytes(Paths.get(filePath)));
 
@@ -49,8 +48,6 @@ public class JSONUtility {
 
         JsonNode responseNode = objectMapper.readTree(responseJson);
         JsonNode expectedNode = objectMapper.readTree(expectedJson);
-
-        // Compare the JSON nodes using the equals() method
         return responseNode.equals(expectedNode);
     }
     public static boolean compareJsonFromResponse(Response response1, Response response2) throws IOException {
@@ -67,7 +64,6 @@ public class JSONUtility {
     public static void saveResponseInFile(Response response) {
         String responseBody = response.getBody().asString();
 
-        // Save the response to a JSON file
         try (FileWriter fileWriter = new FileWriter("dataSpo2.json")) {
             fileWriter.write(responseBody);
             System.out.println("Response saved to response.json");
@@ -80,21 +76,16 @@ public class JSONUtility {
         List<String> dates = new ArrayList<>();
 
         try {
-            // Read the JSON file
             FileReader reader = new FileReader(filePath);
 
-            // Parse the JSON data
             JSONParser parser = new JSONParser();
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
-            // Extract the dates
             for (Object obj : jsonArray) {
                 JSONObject entry = (JSONObject) obj;
                 String date = (String) entry.get("date");
                 dates.add(date);
             }
-
-            // Close the reader
             reader.close();
         } catch (IOException | ParseException e) {
             e.printStackTrace();
@@ -104,29 +95,38 @@ public class JSONUtility {
     }
 
     public static boolean areEqualIgnoringProductField(String jsonString1, String jsonString2) {
-        JsonNode node1 = null;
+        JsonNode arrayNode1 = null;
         try {
-            node1 = objectMapper.readTree(jsonString1);
+            arrayNode1 = objectMapper.readTree(jsonString1);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        JsonNode node2 = null;
-        try {
-            node2 = objectMapper.readTree(jsonString2);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        String date1 = node1.get("date").asText();
-        JsonNode details1 = node1.get("details");
 
-        String date2 = node2.get("date").asText();
-        JsonNode details2 = node2.get("details");
-        if (!date1.equals(date2)) {
+        JsonNode arrayNode2 = null;
+        try {
+            arrayNode2 = objectMapper.readTree(jsonString2);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (arrayNode1.size() != arrayNode2.size()) {
             return false;
         }
-        if (!details1.equals(details2)) {
-            return false;
+
+        for (int i = 0; i < arrayNode1.size(); i++) {
+            JsonNode node1 = arrayNode1.get(i);
+            JsonNode node2 = arrayNode2.get(i);
+
+            // Remove the "product" field from the nodes before comparison
+            ((ObjectNode) node1).remove("product");
+            ((ObjectNode) node2).remove("product");
+            System.out.println("node1  "+ node1);
+            System.out.println("node2  "+node2);
+            if (!node1.equals(node2)) {
+                return false;
+            }
         }
+
         return true;
     }
 

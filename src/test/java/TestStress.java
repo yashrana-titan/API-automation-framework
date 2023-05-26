@@ -2,9 +2,10 @@ import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import url.health.Stress;
 import utility.AssertUtility;
+import utility.BaseClass;
 import utility.JSONUtility;
 
-public class TestStress {
+public class TestStress extends BaseClass {
     Stress stress;
     AssertUtility assertUtility;
 

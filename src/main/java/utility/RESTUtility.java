@@ -1,17 +1,10 @@
 package utility;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.apache.commons.io.FileUtils;
-import utility.BaseClass;
-import utility.JSONUtility;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -31,18 +24,6 @@ public class RESTUtility {
         return response;
     }
 
-//    public Response getReqWithParamsJSON(String JsonPath)  {
-//        Map<String,Object>map;
-//        try {
-//            map= JSONUtility.getJsonDataInMap(JsonPath);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        System.out.println(map);
-//        Response response = RestAssured.given().contentType(ContentType.JSON).queryParams(map).get(CurrentURL);
-//        return response;
-//    }
-
 //    public Response getReqWithHeadersJSON(String JsonPath)  {
 //        Map<String,Object>map;
 //        try {
@@ -60,7 +41,8 @@ public class RESTUtility {
 //        return null;
 //    }
 
-    public static String getAccessToken() {
+    public static Map<String,Object> getAccessToken() {
+        Map<String,Object>map = new HashMap<>();
         String otp1 = "https://dev-wearables.titan.in/api/registry/users/mobiles";
         String otp2 = "https://dev-wearables.titan.in/api/registry/otp";
         //HashMap<String,Object>body=new HashMap<>(JSONUtility.getJsonDataInMap("./src/main/resources/SignUP.json"));
@@ -70,9 +52,9 @@ public class RESTUtility {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(body);
+        System.out.println("JSON input for User Reg : "+body);
         Response response1 = RestAssured.given().headers("titan-context-group-code", "FASTRACK").body(body).contentType(ContentType.JSON).post(otp1);
-        System.out.println(response1.statusCode());
+        System.out.println("Response code of User Reg : "+response1.statusCode());
         //HashMap<String,Object>otpbody=new HashMap<>(JSONUtility.getJsonDataInMap("./src/main/resources/OTP.json"));
         String otpbody = null;
         try {
@@ -80,12 +62,31 @@ public class RESTUtility {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(otpbody);
+        System.out.println("JSON input for OTP verification : "+otpbody);
         Response response = RestAssured.given().header("titan-context-group-code", "FASTRACK").body(otpbody).contentType(ContentType.JSON).post(otp2);
-        String token = response.getHeader("access-token");
-        System.out.println(response.statusCode());
-        System.out.println(token);
-        return token;
+        String AccessToken = response.getHeader("access-token");
+        String RefreshToken = response.getHeader("refresh-token");
+        System.out.println("Response Code of OTP verification : "+response.statusCode());
+        System.out.println("Access token : "+AccessToken);
+        map.put("Refresh-Token",RefreshToken);
+        return map;
+    }
+
+    public static Map<String,Object> refreshAccessToken(String RefreshToken) {
+        String refreshURL = "https://dev-wearables.titan.in/api/registry/users/renew";
+        Map<String,Object>map = new HashMap<>();
+        //HashMap<String,Object>body=new HashMap<>(JSONUtility.getJsonDataInMap("./src/main/resources/SignUP.json"));
+        String body = null;
+        Response response1 = RestAssured.given().headers("titan-context-group-code", "FASTRACK").body(body).contentType(ContentType.JSON).post(refreshURL);
+        System.out.println("Response code of Access Token Refresh : "+response1.statusCode());
+        //HashMap<String,Object>otpbody=new HashMap<>(JSONUtility.getJsonDataInMap("./src/main/resources/OTP.json"));
+        String AccessToken = response1.getHeader("access-token");
+        String NewRefreshToken = response1.getHeader("refresh-token");
+        System.out.println("Access token : "+AccessToken);
+        System.out.println("Refresh token : "+NewRefreshToken);
+        //map.put("Access-Token",AccessToken);
+        map.put("Refresh-token",RefreshToken);
+        return map;
     }
 
     public static boolean CompareTwoResponses(Response res1,Response res2)

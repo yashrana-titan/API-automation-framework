@@ -5,6 +5,8 @@ import utility.BaseClass;
 import utility.HealthURLMethods;
 import utility.RESTUtility;
 
+import java.io.IOException;
+
 public class SpO2 extends BaseClass {
     public RESTUtility restUtil;
     public String url = (String) urls.get("Health")+"spo2";
@@ -16,7 +18,6 @@ public class SpO2 extends BaseClass {
     }
 
     public Response getWeeklySpO2(String date) {
-        System.out.println(headers);
         return healthURLMethods.getWeeklyData(url, date, headers);
     }
 
@@ -29,8 +30,7 @@ public class SpO2 extends BaseClass {
         return healthURLMethods.putData(url, FilePath, headers);
     }
 
-    public Boolean getAndPutSpO2()
-    {
+    public Boolean getAndPutSpO2() throws IOException {
         String FilePath = "./src/main/java/putdata/samplespo2.json";
         return healthURLMethods.verifyPutAndGet(url,FilePath,headers);
     }

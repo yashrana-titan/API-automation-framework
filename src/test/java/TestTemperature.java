@@ -2,9 +2,10 @@ import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import url.health.Temperature;
 import utility.AssertUtility;
+import utility.BaseClass;
 import utility.JSONUtility;
 
-public class TestTemperature {
+public class TestTemperature extends BaseClass {
     Temperature temperature;
     AssertUtility assertUtility;
 

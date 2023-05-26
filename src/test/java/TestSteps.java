@@ -2,9 +2,10 @@ import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import url.health.Steps;
 import utility.AssertUtility;
+import utility.BaseClass;
 import utility.JSONUtility;
 
-public class TestSteps{
+public class TestSteps extends BaseClass {
     Steps steps;
     AssertUtility assertUtility;
 

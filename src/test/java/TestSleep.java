@@ -2,9 +2,10 @@ import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import url.health.Sleep;
 import utility.AssertUtility;
+import utility.BaseClass;
 import utility.JSONUtility;
 
-public class TestSleep {
+public class TestSleep extends BaseClass {
     Sleep sleep;
     AssertUtility assertUtility;
 
