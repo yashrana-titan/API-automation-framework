@@ -13,9 +13,9 @@ public class BaseClass {
 
     @BeforeSuite
     public void beforeSuite() {
-        tokens=RESTUtility.getAccessToken();
-        accessToken = (String) tokens.get("Access-Token");
-        //accessToken = "ud6c878f3-cdaf-4e14-a166-9341a20df60751867";
+//        tokens=RESTUtility.getAccessToken();
+//        accessToken = (String) tokens.get("Access-Token");
+        accessToken = "uf7ff4327-4b03-4599-bb51-37e4d3ac4ee651867";
         System.out.println("Access-Token: " + accessToken);
 
         try {

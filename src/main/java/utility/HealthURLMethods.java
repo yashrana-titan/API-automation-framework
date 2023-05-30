@@ -9,50 +9,50 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-public class HealthURLMethods{
+public class HealthURLMethods extends BaseClass{
     public RESTUtility restUtil;
-    public Response getDailyData( String url,String date, Map<String,Object> headers) {
+    public String healthURL = (String) urls.get("health");
+    public Response getDataHealthAPI(String date, Map<String,Object> headers,String HealthApiItem,String scope) {
         restUtil = new RESTUtility();
+        String url = healthURL + HealthApiItem;
         System.out.println(url);
         Response res = RestAssured.given()
                 .headers(headers).
                 contentType(ContentType.JSON)
-                .param("date", date).get(url);
+                .param("scope",scope).param("date", date).get(url);
+//        System.out.println("response   "+ res.prettyPrint());
+        System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
+        return res;
+    }
+    public Response getDataHealthAPI(Map<String,Object> headers,String HealthApiItem,String id) {
+        restUtil = new RESTUtility();
+        String url = healthURL + HealthApiItem+"/"+id;
+        System.out.println(url);
+        Response res = RestAssured.given()
+                .headers(headers).
+                contentType(ContentType.JSON)
+                .get(url);
+//        System.out.println("response   "+ res.prettyPrint());
+        System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
+        return res;
+    }
+    public Response getDataHealthAPI(Map<String,Object> headers,String HealthApiItem) {
+        restUtil = new RESTUtility();
+        String url = healthURL + HealthApiItem;
+        System.out.println(url);
+        Response res = RestAssured.given()
+                .headers(headers).
+                contentType(ContentType.JSON)
+                .get(url);
 //        System.out.println("response   "+ res.prettyPrint());
         System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
         return res;
     }
 
-    public Response getWeeklyData(String url,String date,Map<String,Object> headers)
+    public Response putDataHealthAPI(String filePath,Map<String,Object> headers,String HealthApiItem)
     {
-        System.out.println("url"+url);
-        restUtil = new RESTUtility();
-        Response res = RestAssured.given()
-                .headers(headers)
-                .contentType(ContentType.JSON)
-                .param("date", date)
-                .param("scope","WEEK").get(url);
-        //System.out.println("response of weeklyData"+ res.prettyPrint());
-        System.out.println("Response Code for Get Weekly Data Request : "+restUtil.getStatusCode(res));
-        return res;
-    }
-
-    public Response getMonthlyData(String url,String date,Map<String,Object> headers)
-    {
-        restUtil = new RESTUtility();
-        Response res = RestAssured.given()
-                .headers(headers)
-                .contentType(ContentType.JSON)
-                .param("date", date).param("scope","MONTH").get(url);
-        //System.out.println("response   "+ res.prettyPrint());
-        System.out.println("Response Code for Get Monthly Data Request : "+restUtil.getStatusCode(res));
-        return res;
-    }
-
-    public Response putData(String url,String filePath,Map<String,Object> headers)
-    {
+        String url = healthURL+HealthApiItem;
         Response res = RestAssured.given().headers(headers)
                 .contentType(ContentType.JSON)
                 .body(new File(filePath))
@@ -61,16 +61,9 @@ public class HealthURLMethods{
         System.out.println("Response Code for Put Data Request : "+res.statusCode());
         return res;
     }
-    public Response getDataWithoutDate( String url, Map<String,Object> headers) {
-        restUtil = new RESTUtility();
-        Response res = RestAssured.given()
-                .headers(headers)
-                .contentType(ContentType.JSON).get(url);
-        //System.out.println("response   "+ res.prettyPrint());
-        return res;
-    }
 
-    public boolean verifyPutAndGet(String url,String filePath,Map<String,Object> headers) throws IOException {
+    public boolean verifyPutAndGetHealthAPI(String filePath,Map<String,Object> headers,String HealthApiItem) throws IOException {
+        String url = healthURL+HealthApiItem;
         List<String> dates = JSONUtility.fetchDatesFromJson(filePath);
         restUtil = new RESTUtility();
         Response resGet;
@@ -116,7 +109,19 @@ public class HealthURLMethods{
         String responsePut = new String(Files.readAllBytes(Paths.get(filePath)));
         System.out.println("put data "+responsePut);
         System.out.println("get data "+resGet.asPrettyString());
-        return JSONUtility.areEqualIgnoringProductField(resGet.asString(),responsePut);
+        return JSONUtility.compareUsingCommonFields(resGet.asString(),responsePut);
+    }
+
+    public Response updateDataUsingIDHealthAPI(String filePath,Map<String,Object> headers,String HealthApiItem,String id)
+    {
+        String url = healthURL+HealthApiItem+"/"+id;
+        Response res = RestAssured.given().headers(headers)
+                .contentType(ContentType.JSON)
+                .body(new File(filePath))
+                .put(url);
+        //System.out.println(res.statusCode());
+        System.out.println("Response Code for Update Data Request : "+res.statusCode());
+        return res;
     }
 
 }

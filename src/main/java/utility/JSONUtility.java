@@ -1,5 +1,4 @@
 package utility;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,9 +9,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -22,16 +18,19 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 
 public class JSONUtility {
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    public static HashMap<String,Object> getJsonDataInMap(String FilePath) throws IOException {
+
+    public static HashMap<String, Object> getJsonDataInMap(String FilePath) throws IOException {
         String JsonString = FileUtils.readFileToString(new File(FilePath), StandardCharsets.UTF_8);
 
         ObjectMapper mapper = new ObjectMapper();
-        HashMap<String,Object> data = mapper.readValue(JsonString, new TypeReference<HashMap<String, Object>>() {});
+        HashMap<String, Object> data = mapper.readValue(JsonString, new TypeReference<HashMap<String, Object>>() {
+        });
         return data;
     }
 
@@ -50,6 +49,7 @@ public class JSONUtility {
         JsonNode expectedNode = objectMapper.readTree(expectedJson);
         return responseNode.equals(expectedNode);
     }
+
     public static boolean compareJsonFromResponse(Response response1, Response response2) throws IOException {
         String responseJson1 = response1.getBody().asString();
         String responseJson2 = response2.getBody().asString();
@@ -61,6 +61,7 @@ public class JSONUtility {
 
         return responseNode1.equals(responseNode2);
     }
+
     public static void saveResponseInFile(Response response) {
         String responseBody = response.getBody().asString();
 
@@ -120,8 +121,8 @@ public class JSONUtility {
             // Remove the "product" field from the nodes before comparison
             ((ObjectNode) node1).remove("product");
             ((ObjectNode) node2).remove("product");
-            System.out.println("node1  "+ node1);
-            System.out.println("node2  "+node2);
+            System.out.println("node1  " + node1);
+            System.out.println("node2  " + node2);
             if (!node1.equals(node2)) {
                 return false;
             }
@@ -131,4 +132,44 @@ public class JSONUtility {
     }
 
 
+    public static boolean compareUsingCommonFields(String jsonString1, String jsonString2) {
+        try {
+            JsonNode jsonNode1 = objectMapper.readTree(jsonString1);
+            JsonNode jsonNode2 = objectMapper.readTree(jsonString2);
+
+            return compareJsonNodes(jsonNode1, jsonNode2);
+        } catch (IOException e) {
+            throw new RuntimeException("Error parsing JSON strings", e);
+        }
+    }
+
+    private static boolean compareJsonNodes(JsonNode node1, JsonNode node2) {
+        if (node1.equals(node2)) {
+            return true;
+        }
+
+        if (node1.isObject() && node2.isObject()) {
+            if (node1.size() != node2.size()) {
+                return false;
+            }
+
+            for (Iterator<String> fieldNames = node1.fieldNames(); fieldNames.hasNext(); ) {
+                String fieldName = fieldNames.next();
+                if (!node2.has(fieldName)) {
+                    return false;
+                }
+
+                JsonNode fieldValue1 = node1.get(fieldName);
+                JsonNode fieldValue2 = node2.get(fieldName);
+
+                if (!compareJsonNodes(fieldValue1, fieldValue2)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 }

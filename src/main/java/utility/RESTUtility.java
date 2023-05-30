@@ -24,23 +24,6 @@ public class RESTUtility {
         return response;
     }
 
-//    public Response getReqWithHeadersJSON(String JsonPath)  {
-//        Map<String,Object>map;
-//        try {
-//            map=JSONUtility.getJsonDataInMap(JsonPath);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        System.out.println(map);
-//        Response response = RestAssured.given().contentType(ContentType.JSON).headers(map).get(CurrentURL);
-//        return response;
-//    }
-//    public static Response postRequest(String url)
-//    {
-//
-//        return null;
-//    }
-
     public static Map<String,Object> getAccessToken() {
         Map<String,Object>map = new HashMap<>();
         String otp1 = "https://dev-wearables.titan.in/api/registry/users/mobiles";
