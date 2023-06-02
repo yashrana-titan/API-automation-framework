@@ -53,10 +53,25 @@ public class HealthURLMethods extends BaseClass{
     public Response putDataHealthAPI(String filePath,Map<String,Object> headers,String HealthApiItem)
     {
         String url = healthURL+HealthApiItem;
-        Response res = RestAssured.given().headers(headers)
-                .contentType(ContentType.JSON)
-                .body(new File(filePath))
-                .put(url);
+        System.out.println(url);
+        Response res;
+        if(filePath.contains("xlsx"))
+        {
+            System.out.println("entered excel file condition");
+            String jsonString = JSONUtility.excelToJson(filePath);
+            System.out.println(jsonString);
+            res = RestAssured.given().headers(headers)
+                    .contentType(ContentType.JSON)
+                    .body(jsonString)
+                    .put(url);
+        }
+        else {
+            res = RestAssured.given().headers(headers)
+                    .contentType(ContentType.JSON)
+                    .body(new File(filePath))
+                    .put(url);
+
+        }
         //System.out.println(res.statusCode());
         System.out.println("Response Code for Put Data Request : "+res.statusCode());
         return res;
@@ -65,6 +80,7 @@ public class HealthURLMethods extends BaseClass{
     public boolean verifyPutAndGetHealthAPI(String filePath,Map<String,Object> headers,String HealthApiItem) throws IOException {
         String url = healthURL+HealthApiItem;
         List<String> dates = JSONUtility.fetchDatesFromJson(filePath);
+        System.out.println(dates);
         restUtil = new RESTUtility();
         Response resGet;
         Response resPut = RestAssured.given()

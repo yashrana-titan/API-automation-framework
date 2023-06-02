@@ -6,18 +6,16 @@ import java.util.Map;
 
 public class BaseClass {
     public static String accessToken;
-    public static String productCode;
     public static Map<String, Object> urls = new HashMap<>();
     public static Map<String, Object> headers = new HashMap<>();
     public static Map<String, Object> tokens = new HashMap<>();
 
     @BeforeSuite
     public void beforeSuite() {
-//        tokens=RESTUtility.getAccessToken();
-//        accessToken = (String) tokens.get("Access-Token");
-        accessToken = "uf7ff4327-4b03-4599-bb51-37e4d3ac4ee651867";
+//       tokens=RESTUtility.getAccessToken();
+//       accessToken = (String) tokens.get("Access-Token");
+        accessToken = "ua7ea90f2-500e-4ec6-aba8-a1313f8556e051867";
         System.out.println("Access-Token: " + accessToken);
-
         try {
             urls = JSONUtility.getJsonDataInMap("./src/main/resources/URL.json");
         } catch (IOException e) {

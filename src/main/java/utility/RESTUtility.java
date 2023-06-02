@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class RESTUtility {
-
     public int getStatusCode(Response res) {
         return res.getStatusCode();
     }
@@ -52,6 +51,7 @@ public class RESTUtility {
         System.out.println("Response Code of OTP verification : "+response.statusCode());
         System.out.println("Access token : "+AccessToken);
         map.put("Refresh-Token",RefreshToken);
+        map.put("Access-Token",AccessToken);
         return map;
     }
 

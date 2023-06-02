@@ -2,7 +2,10 @@
 <suite name="Test Suite" parallel="tests" thread-count="4">
     <test name="Health API tests">
         <classes>
-            <class name="TestSpO2">
+            <class name="validators.health.ValidatorBloodPressure">
+                <methods>
+                    <include name="ValidatePutBloodPressure"></include>
+                </methods>
             </class>
         </classes>
     </test>
