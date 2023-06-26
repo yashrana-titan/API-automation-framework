@@ -1,0 +1,13 @@
+{
+  "date": "Date",
+  "details": {
+    "slot": {
+      "p": "P",
+      "a": "A",
+      "s": "S"
+    }
+  }
+}
+date,details,P,p
+12/12/22,abc,55,88
+15/11/22,xyz
