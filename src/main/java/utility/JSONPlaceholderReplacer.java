@@ -1,96 +1,128 @@
 package utility;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class JSONPlaceholderReplacer {
     public static void main(String[] args) {
-        String jsonTemplatePath = "./src/main/java/putdata/BPTemplate.json";
-        String csvFilePath = "./src/main/java/putdata/test.csv";
-        String result = replacePlaceholders(jsonTemplatePath, csvFilePath);
-        System.out.println(result);
+        String csvFile = "./src/main/java/putdata/test.csv";
+        String jsonFile = "./src/main/java/putdata/BPTemplate.json";
+        System.out.println(CreateJsonFromCSV(csvFile,jsonFile));
     }
 
-    public static String replacePlaceholders(String jsonTemplatePath, String csvFilePath) {
-        String jsonTemplate = readFromFile(jsonTemplatePath);
-        JSONArray csvData = readCSVFile(csvFilePath);
+    public static List<JSONObject>CreateJsonFromCSV(String CsvFilePath, String JsonFilePath)
+    {
+        List<List<String>> data = readCSV(CsvFilePath);
+        String jsonTemplate = readJSONTemplate(JsonFilePath);
 
-        JSONArray outputArray = new JSONArray();
-
-        for (int i = 0; i < csvData.length(); i++) {
-            JSONObject csvRow = csvData.getJSONObject(i);
-            JSONObject outputObject = new JSONObject(jsonTemplate);
-
-            String date = csvRow.getString("Date");
-            JSONObject slotData = csvRow.getJSONObject("Slot");
-
-            JSONObject slotDetails = new JSONObject();
-            JSONObject slotObject = new JSONObject();
-            slotObject.put("p", slotData.getString("P"));
-            slotObject.put("a", slotData.getString("A"));
-            slotObject.put("s", slotData.getString("S"));
-            slotDetails.put("Slot", slotObject);
-
-            outputObject.put("date", date);
-            outputObject.put("details", slotDetails);
-            outputArray.put(outputObject);
-        }
-
-        return outputArray.toString();
+        List<JSONObject> jsonList = createJSONs(data, jsonTemplate);
+        return jsonList;
     }
 
-    private static String readFromFile(String filePath) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(filePath));
-            StringBuilder sb = new StringBuilder();
+    public static List<List<String>> readCSV(String csvFile) {
+        List<List<String>> data = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             String line;
-
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
+            while ((line = br.readLine()) != null) {
+                String[] rowValues = line.split(",");
+                List<String> row = new ArrayList<>();
+                for (String value : rowValues) {
+                    if (value.contains("|")) {
+                        String[] values = value.split("\\|");
+                        row.add(Arrays.asList(values).toString());
+                    } else {
+                        row.add(value);
+                    }
+                }
+                data.add(row);
             }
-
-            reader.close();
-            return sb.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+
+        return data;
     }
 
-    private static JSONArray readCSVFile(String filePath) {
-        JSONArray jsonArray = new JSONArray();
 
-        try (BufferedReader csvReader = new BufferedReader(new FileReader(filePath))) {
+
+    public static String readJSONTemplate(String jsonFile) {
+        StringBuilder jsonTemplate = new StringBuilder();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(jsonFile))) {
             String line;
-            boolean isFirstLine = true;
-            String[] headers = null;
+            while ((line = br.readLine()) != null) {
+                jsonTemplate.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            while ((line = csvReader.readLine()) != null) {
-                String[] values = line.split(",");
+        return jsonTemplate.toString();
+    }
 
-                if (isFirstLine) {
-                    headers = values;
-                    isFirstLine = false;
-                } else {
-                    JSONObject rowObject = new JSONObject();
+    public static List<JSONObject> createJSONs(List<List<String>> data, String jsonTemplate) {
+        List<JSONObject> jsonList = new ArrayList<>();
 
-                    for (int i = 0; i < headers.length; i++) {
-                        String header = headers[i];
-                        String value = values[i];
-                        rowObject.put(header, value);
-                    }
+        if (data.size() < 2) {
+            System.out.println("Insufficient data rows to create JSONs.");
+            return jsonList;
+        }
 
-                    jsonArray.put(rowObject);
+        List<String> placeholders = data.get(0);
+        for (int i = 1; i < data.size(); i++) {
+            List<String> values = data.get(i);
+            String jsonStr = replacePlaceholders(jsonTemplate, placeholders, values);
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                jsonList.add(jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return combineDetailsForSameDate(jsonList);
+    }
+
+    public static String replacePlaceholders(String jsonTemplate, List<String> placeholders, List<String> values) {
+        for (int i = 0; i < placeholders.size(); i++) {
+            String placeholder = placeholders.get(i);
+            String value = (i < values.size()) ? values.get(i) : "";
+            jsonTemplate = jsonTemplate.replace(placeholder, value);
+        }
+        return jsonTemplate;
+    }
+
+    public static List<JSONObject> combineDetailsForSameDate(List<JSONObject> jsonList) {
+        List<JSONObject> mergedData = new ArrayList<>();
+        for (JSONObject obj : jsonList) {
+            String date = obj.getString("date");
+            JSONObject details = obj.getJSONObject("details");
+            JSONObject existingObject = null;
+            for (JSONObject mergedObj : mergedData) {
+                if (mergedObj.getString("date").equals(date)) {
+                    existingObject = mergedObj;
+                    break;
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            if (existingObject != null) {
+                Iterator<String> keys = details.keys();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    existingObject.getJSONObject("details").put(key, details.get(key));
+                }
+            } else {
+                mergedData.add(new JSONObject(obj.toString()));
+            }
         }
-
-        return jsonArray;
+        return mergedData;
     }
 }
+
+
