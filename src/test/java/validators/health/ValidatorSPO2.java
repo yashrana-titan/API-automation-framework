@@ -42,11 +42,12 @@ public class ValidatorSPO2 extends BaseClass {
     @Test
     public void ValidatePutAndGetBloodPressure()
     {
-        String filePath = "./src/main/java/putdata/PutBloodPressureData.json";
         healthURLMethods = new HealthURLMethods();
+        String CSVfilePath = "./xx";
+        String JsonTemplateFilePath = "./src/main/java/jsontemplates/SPO2Template.json";
         boolean result;
         try {
-            result = healthURLMethods.verifyPutAndGetHealthAPI(filePath,headers,"spo2");
+            result = healthURLMethods.verifyPutAndGetHealthAPI(CSVfilePath,JsonTemplateFilePath,headers,"steps");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

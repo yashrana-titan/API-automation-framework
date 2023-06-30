@@ -3,6 +3,8 @@ package utility;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -64,8 +66,7 @@ public class HealthURLMethods extends BaseClass{
                     .contentType(ContentType.JSON)
                     .body(jsonString)
                     .put(url);
-        }
-        else {
+        } else {
             res = RestAssured.given().headers(headers)
                     .contentType(ContentType.JSON)
                     .body(new File(filePath))
@@ -77,16 +78,37 @@ public class HealthURLMethods extends BaseClass{
         return res;
     }
 
-    public boolean verifyPutAndGetHealthAPI(String filePath,Map<String,Object> headers,String HealthApiItem) throws IOException {
+
+
+    public Response putDataHealthAPIFromCSV(String CSVfilePath,String TemplateFilePath,Map<String,Object> headers,String HealthApiItem)
+    {
         String url = healthURL+HealthApiItem;
-        List<String> dates = JSONUtility.fetchDatesFromJson(filePath);
+        System.out.println(url);
+        Response res;
+        String jsonString = JSONPlaceholderReplacer.CreateJsonFromCSV(CSVfilePath,TemplateFilePath).toString();
+        System.out.println(jsonString);
+        res = RestAssured.given().headers(headers)
+                .contentType(ContentType.JSON)
+                .body(jsonString)
+                .put(url);
+        //System.out.println(res.statusCode());
+        System.out.println("Response Code for Put Data Request : "+res.statusCode());
+        return res;
+    }
+
+    public boolean verifyPutAndGetHealthAPI(String CSVfilePath,String JsonTemplate,Map<String,Object> headers,String HealthApiItem) throws IOException {
+        String url = healthURL+HealthApiItem;
+        System.out.println(url);
+        List<JSONObject>data = JSONPlaceholderReplacer.CreateJsonFromCSV(CSVfilePath,JsonTemplate);
+        System.out.println(data);
+        List<String>dates = JSONUtility.fetchDatesfromJSONList(data);
         System.out.println(dates);
         restUtil = new RESTUtility();
         Response resGet;
         Response resPut = RestAssured.given()
                 .headers(headers)
                 .contentType(ContentType.JSON)
-                .body(new File(filePath)).put(url);
+                .body(data.toString()).put(url);
         if(restUtil.getStatusCode(resPut) != 200)
         {
             System.out.println("Put Method failed Status Code not equal to 200");
@@ -122,10 +144,10 @@ public class HealthURLMethods extends BaseClass{
             System.out.println(resGet.body().prettyPrint());
             return false;
         }
-        String responsePut = new String(Files.readAllBytes(Paths.get(filePath)));
+        String responsePut = data.toString();
         System.out.println("put data "+responsePut);
         System.out.println("get data "+resGet.asPrettyString());
-        return JSONUtility.compareUsingCommonFields(resGet.asString(),responsePut);
+        return JSONUtility.compareJSONArrays(resGet.asString(),responsePut);
     }
 
     public Response updateDataUsingIDHealthAPI(String filePath,Map<String,Object> headers,String HealthApiItem,String id)
@@ -139,5 +161,4 @@ public class HealthURLMethods extends BaseClass{
         System.out.println("Response Code for Update Data Request : "+res.statusCode());
         return res;
     }
-
 }

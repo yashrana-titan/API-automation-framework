@@ -10,6 +10,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -17,10 +18,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class JSONUtility {
     private static ObjectMapper objectMapper = new ObjectMapper();
@@ -73,11 +71,29 @@ public class JSONUtility {
         }
     }
 
+    public static List<String> fetchDatesfromJSONList(List<JSONObject>list)
+    {
+        List<String> dates = new ArrayList<>();
+
+        for (JSONObject jsonObject :list) {
+            if (jsonObject.has("date")) {
+                try {
+                    String date = jsonObject.getString("date");
+                    dates.add(date);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return dates;
+    }
+
+
     public static List<String> fetchDatesFromJson(String filePath) {
         List<String> dates = new ArrayList<>();
         String jsonString;
 
-        if (filePath.contains("xlsx")) {
+        if (filePath.contains("csv")) {
             jsonString = JSONUtility.excelToJson(filePath);
         } else {
             try {
@@ -140,46 +156,89 @@ public class JSONUtility {
 //        return true;
 //    }
 
-
-    public static boolean compareUsingCommonFields(String jsonString1, String jsonString2) {
+    public static boolean compareJSONArrays(String json1, String json2) {
         try {
-            JsonNode jsonNode1 = objectMapper.readTree(jsonString1);
-            JsonNode jsonNode2 = objectMapper.readTree(jsonString2);
+            JSONArray array1 = new JSONArray(json1);
+            JSONArray array2 = new JSONArray(json2);
 
-            return compareJsonNodes(jsonNode1, jsonNode2);
-        } catch (IOException e) {
-            throw new RuntimeException("Error parsing JSON strings", e);
-        }
-    }
-
-    private static boolean compareJsonNodes(JsonNode node1, JsonNode node2) {
-        if (node1.equals(node2)) {
-            return true;
-        }
-
-        if (node1.isObject() && node2.isObject()) {
-            if (node1.size() != node2.size()) {
+            if (array1.length() != array2.length()) {
                 return false;
             }
 
-            for (Iterator<String> fieldNames = node1.fieldNames(); fieldNames.hasNext(); ) {
-                String fieldName = fieldNames.next();
-                if (!node2.has(fieldName)) {
-                    return false;
-                }
+            List<JSONObject> list1 = new ArrayList<>();
+            List<JSONObject> list2 = new ArrayList<>();
 
-                JsonNode fieldValue1 = node1.get(fieldName);
-                JsonNode fieldValue2 = node2.get(fieldName);
+            for (int i = 0; i < array1.length(); i++) {
+                JSONObject obj1 = array1.getJSONObject(i);
+                JSONObject obj2 = array2.getJSONObject(i);
 
-                if (!compareJsonNodes(fieldValue1, fieldValue2)) {
-                    return false;
+                list1.add(obj1);
+                list2.add(obj2);
+            }
+
+            return compareJSONObjectsList(list1, list2);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private static boolean compareJSONObjectsList(List<JSONObject> list1, List<JSONObject> list2) {
+        if (list1.size() != list2.size()) {
+            return false;
+        }
+
+        for (JSONObject obj1 : list1) {
+            boolean foundMatch = false;
+
+            for (JSONObject obj2 : list2) {
+                if (compareJSONObjects(obj1, obj2)) {
+                    foundMatch = true;
+                    break;
                 }
             }
 
-            return true;
+            if (!foundMatch) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
+    }
+
+    private static boolean compareJSONObjects(JSONObject obj1, JSONObject obj2) {
+        if (obj1.length() != obj2.length()) {
+            return false;
+        }
+
+        Iterator<String> keys = obj1.keys();
+
+        while (keys.hasNext()) {
+            String key = keys.next();
+
+            if (!obj2.has(key)) {
+                return false;
+            }
+
+            Object value1 = obj1.get(key);
+            Object value2 = obj2.get(key);
+
+            if (value1 instanceof JSONObject && value2 instanceof JSONObject) {
+                if (!compareJSONObjects((JSONObject) value1, (JSONObject) value2)) {
+                    return false;
+                }
+            } else if (value1 instanceof JSONArray && value2 instanceof JSONArray) {
+                if (!compareJSONArrays(value1.toString(), value2.toString())) {
+                    return false;
+                }
+            } else {
+                if (!Objects.equals(value1, value2)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
     public static String excelToJson(String excelFilePath) {
         File excelFile = new File(excelFilePath);

@@ -42,11 +42,12 @@ public class ValidatorSteps extends BaseClass {
     @Test
     public void ValidatePutAndGetSteps()
     {
-        String filePath = "./src/main/java/putdata/PutStepsData.json";
+        String CSVfilePath = "./xx";
+        String JsonTemplateFilePath = "./src/main/java/jsontemplates/StepsTemplate.json";
         healthURLMethods = new HealthURLMethods();
         boolean result;
         try {
-            result = healthURLMethods.verifyPutAndGetHealthAPI(filePath,headers,"sports");
+            result = healthURLMethods.verifyPutAndGetHealthAPI(CSVfilePath,JsonTemplateFilePath,headers,"steps");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

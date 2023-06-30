@@ -12,9 +12,9 @@ public class BaseClass {
 
     @BeforeSuite
     public void beforeSuite() {
-//       tokens=RESTUtility.getAccessToken();
-//       accessToken = (String) tokens.get("Access-Token");
-        accessToken = "ua7ea90f2-500e-4ec6-aba8-a1313f8556e051867";
+//        tokens=RESTUtility.getAccessToken();
+//        accessToken = (String) tokens.get("Access-Token");
+        accessToken = "u871d068c-64b3-46e6-b336-457ce0d0674a51867";
         System.out.println("Access-Token: " + accessToken);
         try {
             urls = JSONUtility.getJsonDataInMap("./src/main/resources/URL.json");

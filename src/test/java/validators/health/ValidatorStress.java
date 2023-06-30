@@ -42,11 +42,12 @@ public class ValidatorStress extends BaseClass {
     @Test
     public void ValidatePutAndGetStress()
     {
-        String filePath = "./src/main/java/putdata/PutStressData.json";
         healthURLMethods = new HealthURLMethods();
+        String CSVfilePath = "./xx";
+        String JsonTemplateFilePath = "./src/main/java/jsontemplates/StressTemplate.json";
         boolean result;
         try {
-            result = healthURLMethods.verifyPutAndGetHealthAPI(filePath,headers,"stress");
+            result = healthURLMethods.verifyPutAndGetHealthAPI(CSVfilePath,JsonTemplateFilePath,headers,"stress");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

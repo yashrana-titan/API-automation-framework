@@ -42,11 +42,12 @@ public class ValidatorHeartRate extends BaseClass {
     @Test
     public void ValidatePutAndGetHeartRate()
     {
-        String filePath = "./src/main/java/putdata/PutHeartRateData.json";
+        String CSVfilePath = "./";
+        String JsonTemplateFilePath = "./src/main/java/jsontemplates/HRTemplate.json";
         healthURLMethods = new HealthURLMethods();
         Boolean result = null;
         try {
-            result = healthURLMethods.verifyPutAndGetHealthAPI(filePath,headers,"hr");
+            result = healthURLMethods.verifyPutAndGetHealthAPI(CSVfilePath,JsonTemplateFilePath,headers,"hr");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

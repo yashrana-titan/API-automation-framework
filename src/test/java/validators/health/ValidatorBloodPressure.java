@@ -14,8 +14,9 @@ public class ValidatorBloodPressure extends BaseClass {
     public void ValidatePutBloodPressure()
     {
         healthURLMethods = new HealthURLMethods();
-        String filePath = "src/main/java/putdata/random.xlsx";
-        Response res1 = healthURLMethods.putDataHealthAPI(filePath,headers,"bp");
+        String CSVfilePath = "src/main/java/csvdata/BPData.csv";
+        String TemplateFilePath = "src/main/java/jsontemplates/BPTemplate.json";
+        Response res1 = healthURLMethods.putDataHealthAPIFromCSV(CSVfilePath,TemplateFilePath,headers,"bp");
         System.out.println(res1.asPrettyString());
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
@@ -44,11 +45,12 @@ public class ValidatorBloodPressure extends BaseClass {
     @Test
     public void ValidatePutAndGetBloodPressure()
     {
-        String filePath = "./src/main/java/putdata/random.xlsx";
+        String CSVfilePath = "./src/main/java/csvdata/BPData.csv";
+        String JsonTemplateFilePath = "./src/main/java/jsontemplates/BPTemplate.json";
         healthURLMethods = new HealthURLMethods();
         boolean result;
         try {
-            result = healthURLMethods.verifyPutAndGetHealthAPI(filePath,headers,"bp");
+            result = healthURLMethods.verifyPutAndGetHealthAPI(CSVfilePath,JsonTemplateFilePath,headers,"bp");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

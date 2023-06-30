@@ -1,23 +1,22 @@
 package utility;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
+
 public class JSONPlaceholderReplacer {
     public static void main(String[] args) {
-        String csvFile = "./src/main/java/putdata/test.csv";
-        String jsonFile = "./src/main/java/putdata/BPTemplate.json";
-        System.out.println(CreateJsonFromCSV(csvFile,jsonFile));
+        String csvFile = "./src/main/java/csvdata/BPData.csv";
+        String jsonFile = "./src/main/java/jsontemplates/BPTemplate.json";
+        System.out.println(CreateJsonFromCSV(csvFile, jsonFile));
     }
 
-    public static List<JSONObject>CreateJsonFromCSV(String CsvFilePath, String JsonFilePath)
-    {
+    public static List<JSONObject> CreateJsonFromCSV(String CsvFilePath, String JsonFilePath) {
         List<List<String>> data = readCSV(CsvFilePath);
         String jsonTemplate = readJSONTemplate(JsonFilePath);
 
@@ -50,8 +49,6 @@ public class JSONPlaceholderReplacer {
         return data;
     }
 
-
-
     public static String readJSONTemplate(String jsonFile) {
         StringBuilder jsonTemplate = new StringBuilder();
 
@@ -78,7 +75,7 @@ public class JSONPlaceholderReplacer {
         List<String> placeholders = data.get(0);
         for (int i = 1; i < data.size(); i++) {
             List<String> values = data.get(i);
-            String jsonStr = replacePlaceholders(jsonTemplate, placeholders, values);
+            String jsonStr = replacePlaceholders(jsonTemplate, removeAngleBrackets(placeholders), values);
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 jsonList.add(jsonObject);
@@ -94,9 +91,18 @@ public class JSONPlaceholderReplacer {
         for (int i = 0; i < placeholders.size(); i++) {
             String placeholder = placeholders.get(i);
             String value = (i < values.size()) ? values.get(i) : "";
-            jsonTemplate = jsonTemplate.replace(placeholder, value);
+            jsonTemplate = jsonTemplate.replace("<" + placeholder + ">", value);
         }
         return jsonTemplate;
+    }
+
+    public static List<String> removeAngleBrackets(List<String> placeholders) {
+        List<String> cleanedPlaceholders = new ArrayList<>();
+        for (String placeholder : placeholders) {
+            placeholder = placeholder.replaceAll("<", "").replaceAll(">", "");
+            cleanedPlaceholders.add(placeholder);
+        }
+        return cleanedPlaceholders;
     }
 
     public static List<JSONObject> combineDetailsForSameDate(List<JSONObject> jsonList) {
@@ -124,5 +130,3 @@ public class JSONPlaceholderReplacer {
         return mergedData;
     }
 }
-
-

@@ -4,7 +4,7 @@
         <classes>
             <class name="validators.health.ValidatorBloodPressure">
                 <methods>
-                    <include name="ValidatePutBloodPressure"></include>
+                    <include name="ValidatePutBloodPressure"/>
                 </methods>
             </class>
         </classes>

@@ -42,11 +42,12 @@ public class ValidatorSleep extends BaseClass {
     @Test
     public void ValidatePutAndGetSleep()
     {
-        String filePath = "./src/main/java/putdata/PutSleepData.json";
         healthURLMethods = new HealthURLMethods();
-        Boolean result = null;
+        String CSVfilePath = "./";
+        String JsonTemplateFilePath = "./src/main/java/jsontemplates/SleepTemplate.json";
+        boolean result;
         try {
-            result = healthURLMethods.verifyPutAndGetHealthAPI(filePath,headers,"sleep");
+            result = healthURLMethods.verifyPutAndGetHealthAPI(CSVfilePath,JsonTemplateFilePath,headers,"sleep");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
