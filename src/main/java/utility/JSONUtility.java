@@ -120,80 +120,107 @@ public class JSONUtility {
     }
 
 
-//    public boolean areEqualIgnoringProductField(String jsonString1, String jsonString2) {
-//        JsonNode arrayNode1 = null;
-//        try {
-//            arrayNode1 = objectMapper.readTree(jsonString1);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        JsonNode arrayNode2 = null;
-//        try {
-//            arrayNode2 = objectMapper.readTree(jsonString2);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        if (arrayNode1.size() != arrayNode2.size()) {
-//            return false;
-//        }
-//
-//        for (int i = 0; i < arrayNode1.size(); i++) {
-//            JsonNode node1 = arrayNode1.get(i);
-//            JsonNode node2 = arrayNode2.get(i);
-//
-//            // Remove the "product" field from the nodes before comparison
-//            ((ObjectNode) node1).remove("product");
-//            ((ObjectNode) node2).remove("product");
-//            System.out.println("node1  " + node1);
-//            System.out.println("node2  " + node2);
-//            if (!node1.equals(node2)) {
-//                return false;
-//            }
-//        }
-//
-//        return true;
-//    }
-
-    public static boolean compareJSONArrays(String json1, String json2) {
+    public static boolean compareJSONArrays(String jsonStr1, String jsonStr2) {
         try {
-            JSONArray array1 = new JSONArray(json1);
-            JSONArray array2 = new JSONArray(json2);
+            JSONArray jsonArray1 = new JSONArray(jsonStr1);
+            JSONArray jsonArray2 = new JSONArray(jsonStr2);
 
-            if (array1.length() != array2.length()) {
+            if (jsonArray1.length() != jsonArray2.length()) {
                 return false;
             }
 
-            List<JSONObject> list1 = new ArrayList<>();
-            List<JSONObject> list2 = new ArrayList<>();
+            Set<Integer> matchedIndices = new HashSet<>();
 
-            for (int i = 0; i < array1.length(); i++) {
-                JSONObject obj1 = array1.getJSONObject(i);
-                JSONObject obj2 = array2.getJSONObject(i);
+            for (int i = 0; i < jsonArray1.length(); i++) {
+                JSONObject jsonObj1 = jsonArray1.getJSONObject(i);
+                boolean foundMatch = false;
 
-                list1.add(obj1);
-                list2.add(obj2);
+                for (int j = 0; j < jsonArray2.length(); j++) {
+                    if (matchedIndices.contains(j)) {
+                        continue;
+                    }
+
+                    JSONObject jsonObj2 = jsonArray2.getJSONObject(j);
+
+                    if (compareJSONObjects(jsonObj1, jsonObj2)) {
+                        foundMatch = true;
+                        matchedIndices.add(j);
+                        break;
+                    }
+                }
+
+                if (!foundMatch) {
+                    return false;
+                }
             }
 
-            return compareJSONObjectsList(list1, list2);
+            return matchedIndices.size() == jsonArray2.length();
         } catch (JSONException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    private static boolean compareJSONObjectsList(List<JSONObject> list1, List<JSONObject> list2) {
-        if (list1.size() != list2.size()) {
+    private static boolean compareJSONObjects(JSONObject obj1, JSONObject obj2) {
+        try {
+            // Get the keys from both objects
+            Set<String> keys1 = obj1.keySet();
+            Set<String> keys2 = obj2.keySet();
+
+            // Get the common keys
+            Set<String> commonKeys = new HashSet<>(keys1);
+            commonKeys.retainAll(keys2);
+
+            // Compare the values for common keys
+            for (String key : commonKeys) {
+                Object value1 = obj1.get(key);
+                Object value2 = obj2.get(key);
+
+                if (!areEqualJSONValues(value1, value2)) {
+                    return false;
+                }
+            }
+
+            return true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private static boolean areEqualJSONValues(Object value1, Object value2) {
+        if (value1 instanceof JSONObject && value2 instanceof JSONObject) {
+            return compareJSONObjects((JSONObject) value1, (JSONObject) value2);
+        } else if (value1 instanceof JSONArray && value2 instanceof JSONArray) {
+            return compareJSONArrays((JSONArray) value1, (JSONArray) value2);
+        } else {
+            String strValue1 = String.valueOf(value1).replaceAll("[\"\\{\\}\\[\\]]", "");
+            String strValue2 = String.valueOf(value2).replaceAll("[\"\\{\\}\\[\\]]", "");
+            return strValue1.equals(strValue2);
+        }
+    }
+
+    private static boolean compareJSONArrays(JSONArray arr1, JSONArray arr2) {
+        if (arr1.length() != arr2.length()) {
             return false;
         }
 
-        for (JSONObject obj1 : list1) {
+        Set<Integer> matchedIndices = new HashSet<>();
+
+        for (int i = 0; i < arr1.length(); i++) {
+            JSONObject element1 = arr1.getJSONObject(i);
             boolean foundMatch = false;
 
-            for (JSONObject obj2 : list2) {
-                if (compareJSONObjects(obj1, obj2)) {
+            for (int j = 0; j < arr2.length(); j++) {
+                if (matchedIndices.contains(j)) {
+                    continue;
+                }
+
+                JSONObject element2 = arr2.getJSONObject(j);
+
+                if (compareJSONObjects(element1, element2)) {
                     foundMatch = true;
+                    matchedIndices.add(j);
                     break;
                 }
             }
@@ -203,43 +230,43 @@ public class JSONUtility {
             }
         }
 
-        return true;
+        return matchedIndices.size() == arr2.length();
     }
 
-    private static boolean compareJSONObjects(JSONObject obj1, JSONObject obj2) {
-        if (obj1.length() != obj2.length()) {
-            return false;
-        }
-
-        Iterator<String> keys = obj1.keys();
-
-        while (keys.hasNext()) {
-            String key = keys.next();
-
-            if (!obj2.has(key)) {
-                return false;
-            }
-
-            Object value1 = obj1.get(key);
-            Object value2 = obj2.get(key);
-
-            if (value1 instanceof JSONObject && value2 instanceof JSONObject) {
-                if (!compareJSONObjects((JSONObject) value1, (JSONObject) value2)) {
-                    return false;
-                }
-            } else if (value1 instanceof JSONArray && value2 instanceof JSONArray) {
-                if (!compareJSONArrays(value1.toString(), value2.toString())) {
-                    return false;
-                }
-            } else {
-                if (!Objects.equals(value1, value2)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
+//    private static boolean compareJSONObjects(JSONObject obj1, JSONObject obj2) {
+//        if (obj1.length() != obj2.length()) {
+//            return false;
+//        }
+//
+//        Iterator<String> keys = obj1.keys();
+//
+//        while (keys.hasNext()) {
+//            String key = keys.next();
+//
+//            if (!obj2.has(key)) {
+//                return false;
+//            }
+//
+//            Object value1 = obj1.get(key);
+//            Object value2 = obj2.get(key);
+//
+//            if (value1 instanceof JSONObject && value2 instanceof JSONObject) {
+//                if (!compareJSONObjects((JSONObject) value1, (JSONObject) value2)) {
+//                    return false;
+//                }
+//            } else if (value1 instanceof JSONArray && value2 instanceof JSONArray) {
+//                if (!compareJSONArrays(value1.toString(), value2.toString())) {
+//                    return false;
+//                }
+//            } else {
+//                if (!Objects.equals(value1, value2)) {
+//                    return false;
+//                }
+//            }
+//        }
+//
+//        return true;
+//    }
     public static String excelToJson(String excelFilePath) {
         File excelFile = new File(excelFilePath);
         FileInputStream fis = null;

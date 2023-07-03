@@ -24,21 +24,21 @@ public class ValidatorBloodPressure extends BaseClass {
     public void ValidateGetDailyBloodPressure()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-11",headers,"bp","DAILY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01",headers,"bp","DAILY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetWeeklyBloodPressure()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12",headers,"bp","WEEKLY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01",headers,"bp","WEEKLY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetMonthlyBloodPressure()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12",headers,"bp","MONTHLY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01",headers,"bp","MONTHLY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
 

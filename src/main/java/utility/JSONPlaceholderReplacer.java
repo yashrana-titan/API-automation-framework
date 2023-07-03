@@ -88,9 +88,16 @@ public class JSONPlaceholderReplacer {
     }
 
     public static String replacePlaceholders(String jsonTemplate, List<String> placeholders, List<String> values) {
+        Map<String, String> placeholderValues = new LinkedHashMap<>();
         for (int i = 0; i < placeholders.size(); i++) {
             String placeholder = placeholders.get(i);
             String value = (i < values.size()) ? values.get(i) : "";
+            placeholderValues.put(placeholder, value);
+        }
+
+        for (Map.Entry<String, String> entry : placeholderValues.entrySet()) {
+            String placeholder = entry.getKey();
+            String value = entry.getValue();
             jsonTemplate = jsonTemplate.replace("<" + placeholder + ">", value);
         }
         return jsonTemplate;
@@ -107,26 +114,53 @@ public class JSONPlaceholderReplacer {
 
     public static List<JSONObject> combineDetailsForSameDate(List<JSONObject> jsonList) {
         List<JSONObject> mergedData = new ArrayList<>();
+
         for (JSONObject obj : jsonList) {
             String date = obj.getString("date");
             JSONObject details = obj.getJSONObject("details");
             JSONObject existingObject = null;
+
             for (JSONObject mergedObj : mergedData) {
                 if (mergedObj.getString("date").equals(date)) {
                     existingObject = mergedObj;
                     break;
                 }
             }
+
             if (existingObject != null) {
                 Iterator<String> keys = details.keys();
                 while (keys.hasNext()) {
-                    String key = keys.next();
-                    existingObject.getJSONObject("details").put(key, details.get(key));
+                    String slot = keys.next();
+                    JSONObject slotDetails = details.getJSONObject(slot);
+                    JSONObject existingSlotDetails = existingObject.getJSONObject("details").optJSONObject(slot);
+
+                    if (existingSlotDetails != null) {
+                        mergeJSONObjects(existingSlotDetails, slotDetails);
+                    } else {
+                        existingObject.getJSONObject("details").put(slot, new JSONObject(slotDetails.toString()));
+                    }
                 }
             } else {
                 mergedData.add(new JSONObject(obj.toString()));
             }
         }
+
         return mergedData;
     }
+
+    private static void mergeJSONObjects(JSONObject target, JSONObject source) {
+        Iterator<String> keys = source.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            Object value = source.get(key);
+
+            if (target.has(key) && target.get(key) instanceof JSONObject && value instanceof JSONObject) {
+                mergeJSONObjects(target.getJSONObject(key), (JSONObject) value);
+            } else {
+                target.put(key, value);
+            }
+        }
+    }
+
+
 }

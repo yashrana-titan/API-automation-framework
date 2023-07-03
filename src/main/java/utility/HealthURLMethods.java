@@ -4,11 +4,8 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -146,7 +143,7 @@ public class HealthURLMethods extends BaseClass{
         }
         String responsePut = data.toString();
         System.out.println("put data "+responsePut);
-        System.out.println("get data "+resGet.asPrettyString());
+        System.out.println("get data "+resGet.asString());
         return JSONUtility.compareJSONArrays(resGet.asString(),responsePut);
     }
 

@@ -3,9 +3,6 @@
     <test name="Health API tests">
         <classes>
             <class name="validators.health.ValidatorBloodPressure">
-                <methods>
-                    <include name="ValidatePutBloodPressure"/>
-                </methods>
             </class>
         </classes>
     </test>
