@@ -9,12 +9,12 @@ public class BaseClass {
     public static Map<String, Object> urls = new HashMap<>();
     public static Map<String, Object> headers = new HashMap<>();
     public static Map<String, Object> tokens = new HashMap<>();
-
-    @BeforeSuite
-    public void beforeSuite() {
+    @Parameters("productId")
+    @BeforeClass
+    public void beforeClass(String productId) {
 //        tokens=RESTUtility.getAccessToken();
 //        accessToken = (String) tokens.get("Access-Token");
-        accessToken = "ubaabf8e0-b6b7-422b-a9f3-13d7769c4a7651867";
+        accessToken = "uc76ab18b-3e1b-4d19-920f-36b89189ea7751867";
         System.out.println("Access-Token: " + accessToken);
         try {
             urls = JSONUtility.getJsonDataInMap("./src/main/resources/URL.json");
@@ -24,14 +24,15 @@ public class BaseClass {
 
         try {
             headers = JSONUtility.getJsonDataInMap("./src/main/resources/headers.json");
-            headers.put("access-token", accessToken); // Assigning value to the headers map
+            headers.put("access-token", accessToken);
+            headers.put("titan-context-product-code",productId);// Assigning value to the headers map
             System.out.println("Headers: " + headers);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     @AfterSuite
-    public void afterSuite()
+    public void afterClass()
     {
         System.out.println("Execution Completed");
     }

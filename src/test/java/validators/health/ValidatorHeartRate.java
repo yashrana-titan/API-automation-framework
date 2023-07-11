@@ -5,44 +5,47 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import utility.BaseClass;
 import utility.HealthURLMethods;
+import utility.JSONPlaceholderReplacer;
 
 import java.io.IOException;
 
 public class ValidatorHeartRate extends BaseClass {
     public HealthURLMethods healthURLMethods;
-    @Test
-    public void ValidatePutHeartRate()
-    {
-        healthURLMethods = new HealthURLMethods();
-        String filePath = "./src/main/java/putdata/PutHeartRateData.json";
-        Response res1 = healthURLMethods.putDataHealthAPI(filePath,headers,"hr");
-        Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
-    }
+//    @Test
+//    public void ValidatePutHeartRate()
+//    {
+//        healthURLMethods = new HealthURLMethods();
+//        String CSVfilePath = "./src/main/java/csvdata/HRData.csv";
+//        String JsonTemplateFilePath = "./src/main/java/jsontemplates/HRTemplate.json";
+//        String data = JSONPlaceholderReplacer.CreateJsonFromCSV(CSVfilePath,JsonTemplateFilePath).toString();
+//        Response res1 = healthURLMethods.putDataHealthAPI(data,headers,"hr");
+//        Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
+//    }
     @Test
     public void ValidateGetDailyHeartRate()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12",headers,"hr","DAILY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01",headers,"hr","DAY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetWeeklyHeartRate()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12",headers,"hr","WEEKLY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01",headers,"hr","WEEK");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetMonthlyHeartRate()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12",headers,"hr","MONTHLY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01",headers,"hr","MONTH");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidatePutAndGetHeartRate()
     {
-        String CSVfilePath = "./";
+        String CSVfilePath = "./src/main/java/csvdata/HRData.csv";
         String JsonTemplateFilePath = "./src/main/java/jsontemplates/HRTemplate.json";
         healthURLMethods = new HealthURLMethods();
         Boolean result = null;

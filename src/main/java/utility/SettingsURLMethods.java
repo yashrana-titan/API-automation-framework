@@ -6,24 +6,30 @@ import io.restassured.response.Response;
 import java.io.File;
 import java.util.Map;
 
-public class SettingsURLMethods{
+public class SettingsURLMethods extends BaseClass{
     public RESTUtility restUtil;
 //    public String url = (String) urls.get("HeartRate");
+    public String settingsURL = (String) urls.get("Settings");
 
-    public Response getData( String url,Map<String,Object> headers) {
+    public Response getData(Map<String,Object> headers) {
         restUtil = new RESTUtility();
-        Response res = RestAssured.given().headers(headers).contentType(ContentType.JSON).get(url);
+        Response res = RestAssured.given().headers(headers).contentType(ContentType.JSON).get(settingsURL);
         System.out.println("response   "+ res.prettyPrint());
         return res;
     }
 
-    public Response putData(String url,String filePath,Map<String,Object> headers)
+    public Response putDataHealthAPIFromCSV(String CSVfilePath,String TemplateFilePath,Map<String,Object> headers)
     {
-        Response res = RestAssured.given().headers(headers)
+        System.out.println(settingsURL);
+        Response res;
+        String jsonString = JSONPlaceholderReplacer.CreateJsonFromCSV(CSVfilePath,TemplateFilePath).toString();
+        System.out.println(jsonString);
+        res = RestAssured.given().headers(headers)
                 .contentType(ContentType.JSON)
-                .body(new File(filePath))
-                .put(url);
-        System.out.println(res.statusCode());
+                .body(jsonString)
+                .put(settingsURL);
+        //System.out.println(res.statusCode());
+        System.out.println("Response Code for Put Data Request : "+res.statusCode());
         return res;
     }
 }

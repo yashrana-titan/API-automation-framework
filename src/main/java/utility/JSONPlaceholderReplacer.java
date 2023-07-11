@@ -11,8 +11,8 @@ import java.util.*;
 
 public class JSONPlaceholderReplacer {
     public static void main(String[] args) {
-        String csvFile = "./src/main/java/csvdata/BPData.csv";
-        String jsonFile = "./src/main/java/jsontemplates/BPTemplate.json";
+        String csvFile = "./src/main/java/csvdata/HRData.csv";
+        String jsonFile = "./src/main/java/jsontemplates/HRTemplate.json";
         System.out.println(CreateJsonFromCSV(csvFile, jsonFile));
     }
 
@@ -88,7 +88,7 @@ public class JSONPlaceholderReplacer {
     }
 
     public static String replacePlaceholders(String jsonTemplate, List<String> placeholders, List<String> values) {
-        Map<String, String> placeholderValues = new LinkedHashMap<>();
+        Map<String, String> placeholderValues = new LinkedHashMap<>(); // Use LinkedHashMap to preserve insertion order
         for (int i = 0; i < placeholders.size(); i++) {
             String placeholder = placeholders.get(i);
             String value = (i < values.size()) ? values.get(i) : "";
@@ -102,6 +102,7 @@ public class JSONPlaceholderReplacer {
         }
         return jsonTemplate;
     }
+
 
     public static List<String> removeAngleBrackets(List<String> placeholders) {
         List<String> cleanedPlaceholders = new ArrayList<>();
@@ -117,7 +118,7 @@ public class JSONPlaceholderReplacer {
 
         for (JSONObject obj : jsonList) {
             String date = obj.getString("date");
-            JSONObject details = obj.getJSONObject("details");
+            JSONObject details = obj.optJSONObject("details");
             JSONObject existingObject = null;
 
             for (JSONObject mergedObj : mergedData) {
@@ -128,16 +129,29 @@ public class JSONPlaceholderReplacer {
             }
 
             if (existingObject != null) {
-                Iterator<String> keys = details.keys();
-                while (keys.hasNext()) {
-                    String slot = keys.next();
-                    JSONObject slotDetails = details.getJSONObject(slot);
-                    JSONObject existingSlotDetails = existingObject.getJSONObject("details").optJSONObject(slot);
+                if (details != null) {
+                    Iterator<String> keys = details.keys();
+                    while (keys.hasNext()) {
+                        String slot = keys.next();
+                        Object slotValue = details.opt(slot);
+                        Object existingSlotValue = existingObject.getJSONObject("details").opt(slot);
 
-                    if (existingSlotDetails != null) {
-                        mergeJSONObjects(existingSlotDetails, slotDetails);
-                    } else {
-                        existingObject.getJSONObject("details").put(slot, new JSONObject(slotDetails.toString()));
+                        if (existingSlotValue != null && existingSlotValue instanceof JSONObject && slotValue instanceof JSONObject) {
+                            mergeJSONObjects((JSONObject) existingSlotValue, (JSONObject) slotValue);
+                        } else {
+                            if (existingSlotValue != null) {
+                                JSONArray jsonArray = new JSONArray();
+                                if (existingSlotValue instanceof JSONArray) {
+                                    jsonArray = (JSONArray) existingSlotValue;
+                                } else {
+                                    jsonArray.put(existingSlotValue);
+                                }
+                                jsonArray.put(slotValue);
+                                existingObject.getJSONObject("details").put(slot, jsonArray);
+                            } else {
+                                existingObject.getJSONObject("details").put(slot, slotValue);
+                            }
+                        }
                     }
                 }
             } else {
@@ -161,6 +175,4 @@ public class JSONPlaceholderReplacer {
             }
         }
     }
-
-
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.gson.*;
 import io.restassured.response.Response;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.*;
@@ -18,6 +19,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.*;
 
 public class JSONUtility {
@@ -60,12 +62,12 @@ public class JSONUtility {
         return responseNode1.equals(responseNode2);
     }
 
-    public static void saveResponseInFile(Response response) {
+    public static void saveResponseInFile(Response response, String filePath) {
         String responseBody = response.getBody().asString();
 
-        try (FileWriter fileWriter = new FileWriter("dataSpo2.json")) {
+        try (FileWriter fileWriter = new FileWriter(filePath)) {
             fileWriter.write(responseBody);
-            System.out.println("Response saved to response.json");
+            System.out.println("Response saved to " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -120,153 +122,124 @@ public class JSONUtility {
     }
 
 
-    public static boolean compareJSONArrays(String jsonStr1, String jsonStr2) {
-        try {
-            JSONArray jsonArray1 = new JSONArray(jsonStr1);
-            JSONArray jsonArray2 = new JSONArray(jsonStr2);
+    public static boolean compareJsonArrays(String putDataJson,String getDataJson,String productCode)
+    {
+        JsonArray putData = new Gson().fromJson(putDataJson, JsonArray.class);
+        JsonArray getData = new Gson().fromJson(getDataJson, JsonArray.class);
 
-            if (jsonArray1.length() != jsonArray2.length()) {
-                return false;
+        System.out.println("put data from function "+putData);
+        System.out.println("get data from function "+getData);
+        // Extract dates from putData
+        Set<LocalDate> putDates = extractDates(putData);
+        //System.out.println(putDataJson);
+        // Filter getData based on the dates and product code
+        JsonArray filteredGetData = filterDataByDatesAndProduct(getData, putDates, productCode);
+        System.out.println(filteredGetData);
+        // Compare the filtered data
+        return compareJSONData(putData, filteredGetData);
+    }
+    private static Set<LocalDate> extractDates(JsonArray data) {
+        Set<LocalDate> dates = new HashSet<>();
+        for (JsonElement element : data) {
+            JsonObject jsonObject = element.getAsJsonObject();
+            if (jsonObject.has("date")) {
+                LocalDate date = LocalDate.parse(jsonObject.get("date").getAsString());
+                dates.add(date);
             }
-
-            Set<Integer> matchedIndices = new HashSet<>();
-
-            for (int i = 0; i < jsonArray1.length(); i++) {
-                JSONObject jsonObj1 = jsonArray1.getJSONObject(i);
-                boolean foundMatch = false;
-
-                for (int j = 0; j < jsonArray2.length(); j++) {
-                    if (matchedIndices.contains(j)) {
-                        continue;
-                    }
-
-                    JSONObject jsonObj2 = jsonArray2.getJSONObject(j);
-
-                    if (compareJSONObjects(jsonObj1, jsonObj2)) {
-                        foundMatch = true;
-                        matchedIndices.add(j);
-                        break;
-                    }
-                }
-
-                if (!foundMatch) {
-                    return false;
-                }
-            }
-
-            return matchedIndices.size() == jsonArray2.length();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return false;
         }
+        return dates;
     }
 
-    private static boolean compareJSONObjects(JSONObject obj1, JSONObject obj2) {
-        try {
-            // Get the keys from both objects
-            Set<String> keys1 = obj1.keySet();
-            Set<String> keys2 = obj2.keySet();
-
-            // Get the common keys
-            Set<String> commonKeys = new HashSet<>(keys1);
-            commonKeys.retainAll(keys2);
-
-            // Compare the values for common keys
-            for (String key : commonKeys) {
-                Object value1 = obj1.get(key);
-                Object value2 = obj2.get(key);
-
-                if (!areEqualJSONValues(value1, value2)) {
-                    return false;
+    private static JsonArray filterDataByDatesAndProduct(JsonArray data, Set<LocalDate> dates, String productCode) {
+        JsonArray filteredData = new JsonArray();
+        for (JsonElement element : data) {
+            JsonObject jsonObject = element.getAsJsonObject();
+            if (jsonObject.has("date") && jsonObject.has("product")) {
+                LocalDate date = LocalDate.parse(jsonObject.get("date").getAsString());
+                String product = jsonObject.get("product").getAsString();
+                if (dates.contains(date) && product.equals(productCode)) {
+                    filteredData.add(jsonObject);
                 }
             }
-
-            return true;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return false;
         }
+        return filteredData;
     }
 
-    private static boolean areEqualJSONValues(Object value1, Object value2) {
-        if (value1 instanceof JSONObject && value2 instanceof JSONObject) {
-            return compareJSONObjects((JSONObject) value1, (JSONObject) value2);
-        } else if (value1 instanceof JSONArray && value2 instanceof JSONArray) {
-            return compareJSONArrays((JSONArray) value1, (JSONArray) value2);
+    private static boolean compareJSONData(JsonArray putData, JsonArray getData) {
+        // Map to store the compared data
+        Map<LocalDate, Map<String, JsonObject>> comparedData = new HashMap<>();
+
+        // Iterate over the putData
+        for (JsonElement putElement : putData) {
+            JsonObject putObject = putElement.getAsJsonObject();
+            LocalDate date = LocalDate.parse(putObject.get("date").getAsString());
+
+            // Get the corresponding getObject from getData
+            JsonObject getObject = getObjectByDate(getData, date);
+
+            if (getObject != null) {
+                JsonObject putDetails = putObject.getAsJsonObject("details");
+                JsonObject getDetails = getObject.getAsJsonObject("details");
+
+                // Compare the slots and add to the comparedData map
+                for (Map.Entry<String, JsonElement> entry : putDetails.entrySet()) {
+                    String putSlot = entry.getKey();
+                    if (getDetails.has(putSlot)) {
+                        JsonObject putSlotData = convertToJsonObject(entry.getValue());
+                        JsonObject getSlotData = convertToJsonObject(getDetails.get(putSlot));
+
+                        if (areEqual(putSlotData, getSlotData)) {
+                            comparedData.computeIfAbsent(date, k -> new HashMap<>()).put(putSlot, putSlotData);
+                        }
+                    }
+                }
+            }
+        }
+        return !comparedData.isEmpty();
+    }
+
+    private static JsonObject convertToJsonObject(JsonElement element) {
+        if (element.isJsonObject()) {
+            return element.getAsJsonObject();
         } else {
-            String strValue1 = String.valueOf(value1).replaceAll("[\"\\{\\}\\[\\]]", "");
-            String strValue2 = String.valueOf(value2).replaceAll("[\"\\{\\}\\[\\]]", "");
-            return strValue1.equals(strValue2);
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("value", element.getAsString());
+            return jsonObject;
         }
     }
 
-    private static boolean compareJSONArrays(JSONArray arr1, JSONArray arr2) {
-        if (arr1.length() != arr2.length()) {
-            return false;
-        }
 
-        Set<Integer> matchedIndices = new HashSet<>();
 
-        for (int i = 0; i < arr1.length(); i++) {
-            JSONObject element1 = arr1.getJSONObject(i);
-            boolean foundMatch = false;
 
-            for (int j = 0; j < arr2.length(); j++) {
-                if (matchedIndices.contains(j)) {
-                    continue;
-                }
-
-                JSONObject element2 = arr2.getJSONObject(j);
-
-                if (compareJSONObjects(element1, element2)) {
-                    foundMatch = true;
-                    matchedIndices.add(j);
-                    break;
-                }
-            }
-
-            if (!foundMatch) {
-                return false;
+    private static JsonObject getObjectByDate(JsonArray data, LocalDate date) {
+        for (JsonElement element : data) {
+            JsonObject jsonObject = element.getAsJsonObject();
+            if (jsonObject.has("date") && jsonObject.get("date").getAsString().equals(date.toString())) {
+                return jsonObject;
             }
         }
-
-        return matchedIndices.size() == arr2.length();
+        return null;
     }
 
-//    private static boolean compareJSONObjects(JSONObject obj1, JSONObject obj2) {
-//        if (obj1.length() != obj2.length()) {
-//            return false;
-//        }
-//
-//        Iterator<String> keys = obj1.keys();
-//
-//        while (keys.hasNext()) {
-//            String key = keys.next();
-//
-//            if (!obj2.has(key)) {
-//                return false;
-//            }
-//
-//            Object value1 = obj1.get(key);
-//            Object value2 = obj2.get(key);
-//
-//            if (value1 instanceof JSONObject && value2 instanceof JSONObject) {
-//                if (!compareJSONObjects((JSONObject) value1, (JSONObject) value2)) {
-//                    return false;
-//                }
-//            } else if (value1 instanceof JSONArray && value2 instanceof JSONArray) {
-//                if (!compareJSONArrays(value1.toString(), value2.toString())) {
-//                    return false;
-//                }
-//            } else {
-//                if (!Objects.equals(value1, value2)) {
-//                    return false;
-//                }
-//            }
-//        }
-//
-//        return true;
-//    }
+    private static boolean areEqual(JsonElement elem1, JsonElement elem2) {
+        if (elem1.isJsonObject() && elem2.isJsonObject()) {
+            return elem1.getAsJsonObject().equals(elem2.getAsJsonObject());
+        } else if (elem1.isJsonPrimitive() && elem2.isJsonPrimitive()) {
+            JsonPrimitive primitive1 = elem1.getAsJsonPrimitive();
+            JsonPrimitive primitive2 = elem2.getAsJsonPrimitive();
+
+            if (primitive1.isString() && primitive2.isString()) {
+                String value1 = primitive1.getAsString().replaceAll("\"", "");
+                String value2 = primitive2.getAsString().replaceAll("\"", "");
+                return value1.equals(value2);
+            } else {
+                return primitive1.equals(primitive2);
+            }
+        }
+        return false;
+    }
+
+
     public static String excelToJson(String excelFilePath) {
         File excelFile = new File(excelFilePath);
         FileInputStream fis = null;

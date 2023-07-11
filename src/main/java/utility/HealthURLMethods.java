@@ -17,10 +17,11 @@ public class HealthURLMethods extends BaseClass{
         String url = healthURL + HealthApiItem;
         System.out.println(url);
         Response res = RestAssured.given()
-                .headers(headers).
-                contentType(ContentType.JSON)
+                .headers(headers)
+                .contentType(ContentType.JSON)
                 .param("scope",scope).param("date", date).get(url);
 //        System.out.println("response   "+ res.prettyPrint());
+        System.out.println(res.asPrettyString());
         System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
         return res;
     }
@@ -33,6 +34,7 @@ public class HealthURLMethods extends BaseClass{
                 contentType(ContentType.JSON)
                 .get(url);
 //        System.out.println("response   "+ res.prettyPrint());
+        System.out.println(res.asPrettyString());
         System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
         return res;
     }
@@ -95,9 +97,11 @@ public class HealthURLMethods extends BaseClass{
 
     public boolean verifyPutAndGetHealthAPI(String CSVfilePath,String JsonTemplate,Map<String,Object> headers,String HealthApiItem) throws IOException {
         String url = healthURL+HealthApiItem;
+        String productId = (String) headers.get("titan-context-product-code");
+        System.out.println("\n"+productId+"\n");
         System.out.println(url);
         List<JSONObject>data = JSONPlaceholderReplacer.CreateJsonFromCSV(CSVfilePath,JsonTemplate);
-        System.out.println(data);
+        //System.out.println(data);
         List<String>dates = JSONUtility.fetchDatesfromJSONList(data);
         System.out.println(dates);
         restUtil = new RESTUtility();
@@ -142,9 +146,10 @@ public class HealthURLMethods extends BaseClass{
             return false;
         }
         String responsePut = data.toString();
+        System.out.println(headers);
         System.out.println("put data "+responsePut);
         System.out.println("get data "+resGet.asString());
-        return JSONUtility.compareJSONArrays(resGet.asString(),responsePut);
+        return JSONUtility.compareJsonArrays(responsePut,resGet.asString(),productId);
     }
 
     public Response updateDataUsingIDHealthAPI(String filePath,Map<String,Object> headers,String HealthApiItem,String id)
