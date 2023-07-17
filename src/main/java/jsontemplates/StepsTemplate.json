@@ -1,0 +1,18 @@
+{
+    "date": "<DATE>",
+    "s": "<S>",
+    "c": "<C>",
+    "d": "<D>",
+    "t": "<T>",
+    "goal": "<GOAL>",
+    "goalType": "<GOALTYPE>",
+    "duration": "<DURATION>",
+    "details": {
+      "<slot>": {
+        "s": "<S>",
+        "c": "<C>",
+        "d": "<D>",
+        "t": "<T>"
+      }
+    }
+}

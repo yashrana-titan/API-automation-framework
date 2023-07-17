@@ -1,0 +1,12 @@
+{
+  "date": "<DATE>",
+  "min": "<MIN>",
+  "max": "<MAX>",
+  "high": "<HIGH>",
+  "medium": "<MEDIUM>",
+  "normal": "<NORMAL>",
+  "relax": "<RELAX>",
+  "details": {
+    "<slot>": "<STRESS>"
+  }
+}

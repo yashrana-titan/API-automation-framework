@@ -7,21 +7,25 @@ import java.util.Map;
 public class BaseClass {
     public static String accessToken;
     public static Map<String, Object> urls = new HashMap<>();
-    public static Map<String, Object> headers = new HashMap<>();
+    public  Map<String, Object> headers = new HashMap<>();
     public static Map<String, Object> tokens = new HashMap<>();
-    @Parameters("productId")
-    @BeforeClass
-    public void beforeClass(String productId) {
-//        tokens=RESTUtility.getAccessToken();
-//        accessToken = (String) tokens.get("Access-Token");
-        accessToken = "uc76ab18b-3e1b-4d19-920f-36b89189ea7751867";
+
+    @BeforeSuite
+    public void beforeClass() {
+        tokens = RESTUtility.getAccessToken();
+        accessToken = (String) tokens.get("Access-Token");
+//        accessToken = "ue51f7ae2-18a4-4154-9721-d40c5891b33451867";
         System.out.println("Access-Token: " + accessToken);
         try {
             urls = JSONUtility.getJsonDataInMap("./src/main/resources/URL.json");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+    }
+    @Parameters("productId")
+    @BeforeClass
+    public void beforeTest(String productId)
+    {
         try {
             headers = JSONUtility.getJsonDataInMap("./src/main/resources/headers.json");
             headers.put("access-token", accessToken);
@@ -30,6 +34,8 @@ public class BaseClass {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
     }
     @AfterSuite
     public void afterClass()

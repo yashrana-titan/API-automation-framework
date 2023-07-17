@@ -122,22 +122,22 @@ public class JSONUtility {
     }
 
 
-    public static boolean compareJsonArrays(String putDataJson,String getDataJson,String productCode)
-    {
+    public static boolean compareJsonArrays(String putDataJson , String getDataJson , String productToCompare) {
+
         JsonArray putData = new Gson().fromJson(putDataJson, JsonArray.class);
         JsonArray getData = new Gson().fromJson(getDataJson, JsonArray.class);
 
-        System.out.println("put data from function "+putData);
-        System.out.println("get data from function "+getData);
-        // Extract dates from putData
         Set<LocalDate> putDates = extractDates(putData);
-        //System.out.println(putDataJson);
-        // Filter getData based on the dates and product code
-        JsonArray filteredGetData = filterDataByDatesAndProduct(getData, putDates, productCode);
+        System.out.println(putDataJson);
+
+        JsonArray filteredGetData = filterDataByDatesAndProduct(getData, putDates, productToCompare);
         System.out.println(filteredGetData);
-        // Compare the filtered data
-        return compareJSONData(putData, filteredGetData);
+
+        boolean areEqual = compareJSONData(putData, filteredGetData);
+
+        return areEqual;
     }
+
     private static Set<LocalDate> extractDates(JsonArray data) {
         Set<LocalDate> dates = new HashSet<>();
         for (JsonElement element : data) {
@@ -167,7 +167,7 @@ public class JSONUtility {
 
     private static boolean compareJSONData(JsonArray putData, JsonArray getData) {
         // Map to store the compared data
-        Map<LocalDate, Map<String, JsonObject>> comparedData = new HashMap<>();
+        Map<LocalDate, Map<Integer, JsonElement>> comparedData = new HashMap<>();
 
         // Iterate over the putData
         for (JsonElement putElement : putData) {
@@ -179,17 +179,20 @@ public class JSONUtility {
 
             if (getObject != null) {
                 JsonObject putDetails = putObject.getAsJsonObject("details");
+                System.out.println("\n\nComparator");
+                System.out.println(putDetails);
                 JsonObject getDetails = getObject.getAsJsonObject("details");
+                System.out.println(getDetails);
 
                 // Compare the slots and add to the comparedData map
                 for (Map.Entry<String, JsonElement> entry : putDetails.entrySet()) {
                     String putSlot = entry.getKey();
                     if (getDetails.has(putSlot)) {
-                        JsonObject putSlotData = convertToJsonObject(entry.getValue());
-                        JsonObject getSlotData = convertToJsonObject(getDetails.get(putSlot));
-
+                        int slot = Integer.parseInt(putSlot);
+                        JsonElement putSlotData = entry.getValue();
+                        JsonElement getSlotData = getDetails.get(putSlot);
                         if (areEqual(putSlotData, getSlotData)) {
-                            comparedData.computeIfAbsent(date, k -> new HashMap<>()).put(putSlot, putSlotData);
+                            comparedData.computeIfAbsent(date, k -> new HashMap<>()).put(slot, putSlotData);
                         }
                     }
                 }
@@ -197,19 +200,6 @@ public class JSONUtility {
         }
         return !comparedData.isEmpty();
     }
-
-    private static JsonObject convertToJsonObject(JsonElement element) {
-        if (element.isJsonObject()) {
-            return element.getAsJsonObject();
-        } else {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("value", element.getAsString());
-            return jsonObject;
-        }
-    }
-
-
-
 
     private static JsonObject getObjectByDate(JsonArray data, LocalDate date) {
         for (JsonElement element : data) {
@@ -223,20 +213,30 @@ public class JSONUtility {
 
     private static boolean areEqual(JsonElement elem1, JsonElement elem2) {
         if (elem1.isJsonObject() && elem2.isJsonObject()) {
-            return elem1.getAsJsonObject().equals(elem2.getAsJsonObject());
-        } else if (elem1.isJsonPrimitive() && elem2.isJsonPrimitive()) {
-            JsonPrimitive primitive1 = elem1.getAsJsonPrimitive();
-            JsonPrimitive primitive2 = elem2.getAsJsonPrimitive();
+            return areEqual(elem1.getAsJsonObject(), elem2.getAsJsonObject());
+        } else {
+            String value1 = elem1.isJsonPrimitive() ? elem1.getAsString().replaceAll("\"", "") : elem1.toString();
+            String value2 = elem2.isJsonPrimitive() ? elem2.getAsString().replaceAll("\"", "") : elem2.toString();
+            return value1.equals(value2);
+        }
+    }
 
-            if (primitive1.isString() && primitive2.isString()) {
-                String value1 = primitive1.getAsString().replaceAll("\"", "");
-                String value2 = primitive2.getAsString().replaceAll("\"", "");
-                return value1.equals(value2);
-            } else {
-                return primitive1.equals(primitive2);
+    private static boolean areEqual(JsonObject obj1, JsonObject obj2) {
+        if (obj1.size() != obj2.size()) {
+            return false;
+        }
+
+        for (Map.Entry<String, JsonElement> entry : obj1.entrySet()) {
+            String key = entry.getKey();
+            JsonElement value1 = entry.getValue();
+            JsonElement value2 = obj2.get(key);
+
+            if (!areEqual(value1, value2)) {
+                return false;
             }
         }
-        return false;
+
+        return true;
     }
 
 

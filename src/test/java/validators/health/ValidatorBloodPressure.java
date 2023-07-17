@@ -37,6 +37,7 @@ public class ValidatorBloodPressure extends BaseClass {
     @Test
     public void ValidateGetMonthlyBloodPressure()
     {
+        System.out.println("access token when in test class "+accessToken);
         healthURLMethods = new HealthURLMethods();
         Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01",headers,"bp","MONTH");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");

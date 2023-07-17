@@ -1,0 +1,7 @@
+{
+  "date": "<DATE>",
+  "resting_hr": "<RESTING_HR>",
+  "details": {
+    "<slot>": "<HEARTRATE>"
+  }
+}

@@ -3,15 +3,16 @@ package utility;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class JSONPlaceholderReplacer {
+public class BackupCode {
     public static void main(String[] args) {
-        String csvFile = "./src/main/java/csvdata/HRData.csv";
-        String jsonFile = "./src/main/java/jsontemplates/HRTemplate.json";
+        String csvFile = "./src/main/java/csvdata/BPData.csv";
+        String jsonFile = "./src/main/java/jsontemplates/BPTemplate.json";
         System.out.println(CreateJsonFromCSV(csvFile, jsonFile));
     }
 
@@ -19,8 +20,8 @@ public class JSONPlaceholderReplacer {
         List<List<String>> data = readCSV(CsvFilePath);
         String jsonTemplate = readJSONTemplate(JsonFilePath);
 
-        List<JSONObject> jsoNs = createJSONs(data, jsonTemplate);
-        return jsoNs;
+        List<JSONObject> jsonList = createJSONs(data, jsonTemplate);
+        return jsonList;
     }
 
     public static List<List<String>> readCSV(String csvFile) {
@@ -117,7 +118,7 @@ public class JSONPlaceholderReplacer {
 
         for (JSONObject obj : jsonList) {
             String date = obj.getString("date");
-            JSONObject details = obj.optJSONObject("details");
+            JSONObject details = obj.getJSONObject("details");
             JSONObject existingObject = null;
 
             for (JSONObject mergedObj : mergedData) {
@@ -128,29 +129,16 @@ public class JSONPlaceholderReplacer {
             }
 
             if (existingObject != null) {
-                if (details != null) {
-                    Iterator<String> keys = details.keys();
-                    while (keys.hasNext()) {
-                        String slot = keys.next();
-                        Object slotValue = details.opt(slot);
-                        Object existingSlotValue = existingObject.getJSONObject("details").opt(slot);
+                Iterator<String> keys = details.keys();
+                while (keys.hasNext()) {
+                    String slot = keys.next();
+                    JSONObject slotDetails = details.getJSONObject(slot);
+                    JSONObject existingSlotDetails = existingObject.getJSONObject("details").optJSONObject(slot);
 
-                        if (existingSlotValue != null && existingSlotValue instanceof JSONObject && slotValue instanceof JSONObject) {
-                            mergeJSONObjects((JSONObject) existingSlotValue, (JSONObject) slotValue);
-                        } else {
-                            if (existingSlotValue != null) {
-                                JSONArray jsonArray = new JSONArray();
-                                if (existingSlotValue instanceof JSONArray) {
-                                    jsonArray = (JSONArray) existingSlotValue;
-                                } else {
-                                    jsonArray.put(existingSlotValue);
-                                }
-                                jsonArray.put(slotValue);
-                                existingObject.getJSONObject("details").put(slot, jsonArray);
-                            } else {
-                                existingObject.getJSONObject("details").put(slot, slotValue);
-                            }
-                        }
+                    if (existingSlotDetails != null) {
+                        mergeJSONObjects(existingSlotDetails, slotDetails);
+                    } else {
+                        existingObject.getJSONObject("details").put(slot, new JSONObject(slotDetails.toString()));
                     }
                 }
             } else {
@@ -174,4 +162,6 @@ public class JSONPlaceholderReplacer {
             }
         }
     }
+
+
 }

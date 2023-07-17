@@ -38,6 +38,7 @@ public class ValidatorHeartRate extends BaseClass {
     @Test
     public void ValidateGetMonthlyHeartRate()
     {
+//        System.out.println();
         healthURLMethods = new HealthURLMethods();
         Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01",headers,"hr","MONTH");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
