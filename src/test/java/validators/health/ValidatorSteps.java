@@ -15,7 +15,7 @@ public class ValidatorSteps extends BaseClass {
     {
         healthURLMethods = new HealthURLMethods();
         String filePath = "./src/main/java/putdata/PutStepsData.json";
-        Response res1 = healthURLMethods.putDataHealthAPI(filePath,headers,"steps");
+        Response res1 = healthURLMethods.putDataHealthAPI(headers,"steps");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
@@ -43,7 +43,7 @@ public class ValidatorSteps extends BaseClass {
     public void ValidatePutAndGetSteps()
     {
         String CSVfilePath = "./xx";
-        String JsonTemplateFilePath = "./src/main/java/jsontemplates/StepsTemplate.json";
+        String JsonTemplateFilePath = "./src/main/java/jsontemplates/stepsTemplate.json";
         healthURLMethods = new HealthURLMethods();
         boolean result;
         try {

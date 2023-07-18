@@ -13,7 +13,7 @@ public class ValidatorTemperature extends BaseClass {
     {
         healthURLMethods = new HealthURLMethods();
         String filePath = "./src/main/java/putdata/PutTemperatureData.json";
-        Response res1 = healthURLMethods.putDataHealthAPI(filePath,headers,"temperature");
+        Response res1 = healthURLMethods.putDataHealthAPI(headers,"temperatures");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test

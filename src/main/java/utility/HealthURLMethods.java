@@ -51,8 +51,9 @@ public class HealthURLMethods extends BaseClass{
         return res;
     }
 
-    public Response putDataHealthAPI(String filePath,Map<String,Object> headers,String HealthApiItem)
+    public Response putDataHealthAPI(Map<String,Object> headers,String HealthApiItem)
     {
+        String filePath = "./src/main/java/jsontemplates/"+HealthApiItem+"Template.json";
         String url = healthURL+HealthApiItem;
         System.out.println(url);
         Response res;
@@ -79,12 +80,13 @@ public class HealthURLMethods extends BaseClass{
 
 
 
-    public Response putDataHealthAPIFromCSV(String CSVfilePath,String TemplateFilePath,Map<String,Object> headers,String HealthApiItem)
+    public Response putDataHealthAPIFromCSV(Map<String,Object> headers,String HealthApiItem)
     {
         String url = healthURL+HealthApiItem;
+        System.out.println(headers);
         System.out.println(url);
         Response res;
-        String jsonString = JSONPlaceholderReplacer.CreateJsonFromCSV(CSVfilePath,TemplateFilePath).toString();
+        String jsonString = JSONPlaceholderReplacer.jsonGenerator(HealthApiItem).toString();
         System.out.println(jsonString);
         res = RestAssured.given().headers(headers)
                 .contentType(ContentType.JSON)
@@ -163,4 +165,6 @@ public class HealthURLMethods extends BaseClass{
         System.out.println("Response Code for Update Data Request : "+res.statusCode());
         return res;
     }
+
+
 }

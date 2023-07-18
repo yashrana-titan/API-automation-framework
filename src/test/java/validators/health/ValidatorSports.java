@@ -15,7 +15,7 @@ public class ValidatorSports extends BaseClass {
     {
         healthURLMethods = new HealthURLMethods();
         String filePath = "./src/main/java/putdata/PutSportsData.json";
-        Response res1 = healthURLMethods.putDataHealthAPI(filePath,headers,"sports");
+        Response res1 = healthURLMethods.putDataHealthAPI(headers,"sports");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test

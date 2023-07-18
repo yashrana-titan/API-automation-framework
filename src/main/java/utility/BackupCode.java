@@ -12,7 +12,7 @@ import java.util.*;
 public class BackupCode {
     public static void main(String[] args) {
         String csvFile = "./src/main/java/csvdata/BPData.csv";
-        String jsonFile = "./src/main/java/jsontemplates/BPTemplate.json";
+        String jsonFile = "./src/main/java/jsontemplates/bpTemplate.json";
         System.out.println(CreateJsonFromCSV(csvFile, jsonFile));
     }
 

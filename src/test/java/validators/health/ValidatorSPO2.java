@@ -15,7 +15,7 @@ public class ValidatorSPO2 extends BaseClass {
     {
         healthURLMethods = new HealthURLMethods();
         String filePath = "./src/main/java/putdata/PutSpO2Data.json";
-        Response res1 = healthURLMethods.putDataHealthAPI(filePath,headers,"spo2");
+        Response res1 = healthURLMethods.putDataHealthAPI(headers,"spo2");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
@@ -44,7 +44,7 @@ public class ValidatorSPO2 extends BaseClass {
     {
         healthURLMethods = new HealthURLMethods();
         String CSVfilePath = "./xx";
-        String JsonTemplateFilePath = "./src/main/java/jsontemplates/SPO2Template.json";
+        String JsonTemplateFilePath = "./src/main/java/jsontemplates/spo2Template.json";
         boolean result;
         try {
             result = healthURLMethods.verifyPutAndGetHealthAPI(CSVfilePath,JsonTemplateFilePath,headers,"steps");

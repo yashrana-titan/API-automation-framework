@@ -14,7 +14,7 @@ public class ValidatorSettings extends BaseClass {
     public void validatePutSettings() {
         settingsURLMethods = new SettingsURLMethods();
         String CSVfilePath = "src/main/java/csvdata/BPData.csv";
-        String TemplateFilePath = "src/main/java/jsontemplates/BPTemplate.json";
+        String TemplateFilePath = "src/main/java/jsontemplates/bpTemplate.json";
         Response res=settingsURLMethods.putDataHealthAPIFromCSV(CSVfilePath,TemplateFilePath,headers);
         Assert.assertEquals(res.statusCode(),200);
     }
