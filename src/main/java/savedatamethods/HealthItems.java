@@ -10,9 +10,12 @@ import utility.RESTUtility;
 import java.util.Map;
 
 public class HealthItems extends BaseClass {
-    static RESTUtility restUtility;
+    public static RESTUtility restUtility;
 
-    public static Response getDataHealthAPIinFile(Map<String,Object> headers, String HealthApiItem,String scope,String date) {
+    public static void main(String[] args) {
+        }
+
+    public static void getDataHealthAPIinFile(Map<String,Object> headers, String HealthApiItem, String scope, String date) {
         String healthURL = (String)urls.get("health");
         restUtility = new RESTUtility();
         String url = healthURL + HealthApiItem;
@@ -30,6 +33,5 @@ public class HealthItems extends BaseClass {
         {
             JSONUtility.saveResponseInFile(res,filePath);
         }
-        return res;
     }
 }

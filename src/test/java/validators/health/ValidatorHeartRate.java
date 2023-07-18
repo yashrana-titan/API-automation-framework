@@ -16,7 +16,7 @@ public class ValidatorHeartRate extends BaseClass {
 //    {
 //        healthURLMethods = new HealthURLMethods();
 //        String CSVfilePath = "./src/main/java/csvdata/HRData.csv";
-//        String JsonTemplateFilePath = "./src/main/java/jsontemplates/HRTemplate.json";
+//        String JsonTemplateFilePath = "./src/main/java/jsontemplates/hrTemplate.json";
 //        String data = JSONPlaceholderReplacer.CreateJsonFromCSV(CSVfilePath,JsonTemplateFilePath).toString();
 //        Response res1 = healthURLMethods.putDataHealthAPI(data,headers,"hr");
 //        Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
@@ -47,7 +47,7 @@ public class ValidatorHeartRate extends BaseClass {
     public void ValidatePutAndGetHeartRate()
     {
         String CSVfilePath = "./src/main/java/csvdata/HRData.csv";
-        String JsonTemplateFilePath = "./src/main/java/jsontemplates/HRTemplate.json";
+        String JsonTemplateFilePath = "./src/main/java/jsontemplates/hrTemplate.json";
         healthURLMethods = new HealthURLMethods();
         Boolean result = null;
         try {

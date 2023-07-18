@@ -15,7 +15,7 @@ public class ValidatorStress extends BaseClass {
     {
         healthURLMethods = new HealthURLMethods();
         String filePath = "./src/main/java/putdata/PutStressData.json";
-        Response res1 = healthURLMethods.putDataHealthAPI(filePath,headers,"stress");
+        Response res1 = healthURLMethods.putDataHealthAPI(headers,"stress");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
@@ -44,7 +44,7 @@ public class ValidatorStress extends BaseClass {
     {
         healthURLMethods = new HealthURLMethods();
         String CSVfilePath = "./xx";
-        String JsonTemplateFilePath = "./src/main/java/jsontemplates/StressTemplate.json";
+        String JsonTemplateFilePath = "./src/main/java/jsontemplates/stressTemplate.json";
         boolean result;
         try {
             result = healthURLMethods.verifyPutAndGetHealthAPI(CSVfilePath,JsonTemplateFilePath,headers,"stress");

@@ -15,7 +15,7 @@ public class ValidatorSleep extends BaseClass {
     {
         healthURLMethods = new HealthURLMethods();
         String filePath = "./src/main/java/putdata/PutSleepData.json";
-        Response res1 = healthURLMethods.putDataHealthAPI(filePath,headers,"sleep");
+        Response res1 = healthURLMethods.putDataHealthAPI(headers,"sleep");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
@@ -44,7 +44,7 @@ public class ValidatorSleep extends BaseClass {
     {
         healthURLMethods = new HealthURLMethods();
         String CSVfilePath = "./";
-        String JsonTemplateFilePath = "./src/main/java/jsontemplates/SleepTemplate.json";
+        String JsonTemplateFilePath = "./src/main/java/jsontemplates/sleepTemplate.json";
         boolean result;
         try {
             result = healthURLMethods.verifyPutAndGetHealthAPI(CSVfilePath,JsonTemplateFilePath,headers,"sleep");

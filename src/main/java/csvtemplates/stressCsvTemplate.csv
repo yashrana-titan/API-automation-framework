@@ -1,0 +1,27 @@
+DATE,MIN,MAX,HIGH,MEDIUM,NORMAL,RELAX,slot,STRESS
+<TODAY>,<SLOT>
+<TODAY-1>,<SLOT>,96
+<TODAY-2>,<SLOT>,97
+<LAST_WEEK>,<SLOT>,95
+<LAST_MONTH>,<SLOT>,94
+
+
+
+
+
+
+
+
+
+{
+  "date": "<DATE>",
+  "min": "<MIN>",
+  "max": "<MAX>",
+  "high": "<HIGH>",
+  "medium": "<MEDIUM>",
+  "normal": "<NORMAL>",
+  "relax": "<RELAX>",
+  "details": {
+    "<slot>": "<STRESS>"
+  }
+}

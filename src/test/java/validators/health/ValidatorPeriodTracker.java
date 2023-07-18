@@ -13,7 +13,7 @@ public class ValidatorPeriodTracker extends BaseClass {
     public void ValidatePutPT() {
         healthURLMethods = new HealthURLMethods();
         String filePath = "./src/main/java/putdata/PutPTData.json";
-        Response res1 = healthURLMethods.putDataHealthAPI(filePath, headers, "pt");
+        Response res1 = healthURLMethods.putDataHealthAPI(headers, "pt");
         Assert.assertEquals(res1.statusCode(), 200, "Status Code not 200");
     }
 
@@ -64,7 +64,7 @@ public class ValidatorPeriodTracker extends BaseClass {
     public void ValidatePutPeriodLogs() {
         String filePath = "./src/main/java/putdata/PutPeriodLogs.json";
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.putDataHealthAPI(filePath, headers, "pt");
+        Response res1 = healthURLMethods.putDataHealthAPI( headers, "pt");
         Assert.assertEquals(res1.statusCode(), 200, "Status Code not 200");
     }
 }

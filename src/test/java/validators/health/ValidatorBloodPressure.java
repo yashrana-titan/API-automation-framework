@@ -10,16 +10,16 @@ import java.io.IOException;
 
 public class ValidatorBloodPressure extends BaseClass {
     public HealthURLMethods healthURLMethods;
-    @Test
-    public void ValidatePutBloodPressure()
-    {
-        healthURLMethods = new HealthURLMethods();
-        String CSVfilePath = "src/main/java/csvdata/BPData.csv";
-        String TemplateFilePath = "src/main/java/jsontemplates/BPTemplate.json";
-        Response res1 = healthURLMethods.putDataHealthAPIFromCSV(CSVfilePath,TemplateFilePath,headers,"bp");
-        System.out.println(res1.asPrettyString());
-        Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
-    }
+//    @Test
+//    public void ValidatePutBloodPressure()
+//    {
+//        healthURLMethods = new HealthURLMethods();
+//        String CSVfilePath = "src/main/java/csvdata/BPData.csv";
+//        String TemplateFilePath = "src/main/java/jsontemplates/bpTemplate.json";
+//        Response res1 = healthURLMethods.putDataHealthAPIFromCSV(CSVfilePath,TemplateFilePath,headers,"bp");
+//        System.out.println(res1.asPrettyString());
+//        Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
+//    }
     @Test
     public void ValidateGetDailyBloodPressure()
     {
@@ -47,7 +47,7 @@ public class ValidatorBloodPressure extends BaseClass {
     public void ValidatePutAndGetBloodPressure()
     {
         String CSVfilePath = "./src/main/java/csvdata/BPData.csv";
-        String JsonTemplateFilePath = "./src/main/java/jsontemplates/BPTemplate.json";
+        String JsonTemplateFilePath = "./src/main/java/jsontemplates/bpTemplate.json";
         healthURLMethods = new HealthURLMethods();
         boolean result;
         try {

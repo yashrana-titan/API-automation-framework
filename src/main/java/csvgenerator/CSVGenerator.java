@@ -10,11 +10,16 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class CSVGenerator {
-    public static void main(String[] args) {
-        String templateFilePath = "./src/main/java/org/example/BPTemplateCSV.csv";
-        String outputFilePath = "./final_BP_data.csv";
 
-        generateCSVFromTemplate(templateFilePath, outputFilePath);
+    public static void main(String[] args) {
+        csvGenerator("sleep");
+    }
+
+    public static void csvGenerator(String HealthApiItem)
+    {
+        String templateFilePath = "./src/main/java/csvtemplates/"+HealthApiItem+"CsvTemplate.csv";
+        String outputFilePath = "./src/main/resources/generatedCSVData/"+HealthApiItem+"Data.csv";
+        generateCSVFromTemplate(templateFilePath,outputFilePath);
     }
 
     private static void generateCSVFromTemplate(String templateFilePath, String outputFilePath) {
@@ -78,7 +83,7 @@ public class CSVGenerator {
             String datePart = line.substring(0, slotIndex);
             String remainingPart = line.substring(slotIndex + slotPlaceholder.length());
 
-            String currentDate = datePart.split(",")[0].trim(); // Extract the current date from the line
+            String currentDate = datePart.split(",")[0].trim();
             long slot = getSlotTimestamp(currentDate);
             line = datePart + slot + remainingPart;
         }
@@ -90,7 +95,6 @@ public class CSVGenerator {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date currentDate = dateFormat.parse(date);
-
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(currentDate);
             calendar.set(Calendar.HOUR_OF_DAY, 10);

@@ -10,11 +10,14 @@ import java.util.*;
 
 public class JSONPlaceholderReplacer {
     public static void main(String[] args) {
-        String csvFile = "./src/main/java/csvdata/HRData.csv";
-        String jsonFile = "./src/main/java/jsontemplates/HRTemplate.json";
-        System.out.println(CreateJsonFromCSV(csvFile, jsonFile));
+        jsonGenerator("bp");
     }
-
+    public static List<JSONObject> jsonGenerator(String HealthApiItem)
+    {
+        String csvFilePath = "./src/main/resources/generatedCSVData/"+HealthApiItem+"Data.csv";
+        String jsonFilePath = "./src/main/java/jsontemplates/"+HealthApiItem+"Template.json";
+        return CreateJsonFromCSV(csvFilePath,jsonFilePath);
+    }
     public static List<JSONObject> CreateJsonFromCSV(String CsvFilePath, String JsonFilePath) {
         List<List<String>> data = readCSV(CsvFilePath);
         String jsonTemplate = readJSONTemplate(JsonFilePath);
