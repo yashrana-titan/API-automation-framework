@@ -10,7 +10,8 @@ import java.util.*;
 
 public class JSONPlaceholderReplacer {
     public static void main(String[] args) {
-        jsonGenerator("bp");
+        CSVGenerator.csvGenerator("stress");
+        System.out.println(jsonGenerator("stress"));
     }
     public static List<JSONObject> jsonGenerator(String HealthApiItem)
     {

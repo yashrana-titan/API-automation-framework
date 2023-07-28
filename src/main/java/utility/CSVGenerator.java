@@ -1,4 +1,4 @@
-package csvgenerator;
+package utility;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,7 +12,7 @@ import java.util.Date;
 public class CSVGenerator {
 
     public static void main(String[] args) {
-        csvGenerator("sleep");
+        csvGenerator("spo2");
     }
 
     public static void csvGenerator(String HealthApiItem)
@@ -78,27 +78,42 @@ public class CSVGenerator {
 
     private static String replaceSlotPlaceholder(String line) {
         String slotPlaceholder = "<SLOT>";
+        String slot2Placeholder = "<SLOT2>";
+
         int slotIndex = line.indexOf(slotPlaceholder);
+        int slot2Index = line.indexOf(slot2Placeholder);
+
         if (slotIndex != -1) {
             String datePart = line.substring(0, slotIndex);
             String remainingPart = line.substring(slotIndex + slotPlaceholder.length());
 
             String currentDate = datePart.split(",")[0].trim();
-            long slot = getSlotTimestamp(currentDate);
+            long slot = getSlotTimestamp(currentDate, 10, 0); // 10 AM
             line = datePart + slot + remainingPart;
         }
+
+        if (slot2Index != -1) {
+            String datePart = line.substring(0, slot2Index);
+            String remainingPart = line.substring(slot2Index + slot2Placeholder.length());
+
+            String currentDate = datePart.split(",")[0].trim();
+            long slot2 = getSlotTimestamp(currentDate, 18, 0); // 6 PM
+            line = datePart + slot2 + remainingPart;
+        }
+
         return line;
     }
 
 
-    private static long getSlotTimestamp(String date) {
+
+    private static long getSlotTimestamp(String date, int hour, int minute) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date currentDate = dateFormat.parse(date);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(currentDate);
-            calendar.set(Calendar.HOUR_OF_DAY, 10);
-            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
+            calendar.set(Calendar.MINUTE, minute);
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
 
@@ -108,5 +123,4 @@ public class CSVGenerator {
         }
         return -1;
     }
-
 }

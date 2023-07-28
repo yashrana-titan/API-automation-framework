@@ -1,11 +1,10 @@
 package validators.health;
 
-import csvgenerator.CSVGenerator;
+import utility.CSVGenerator;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import utility.BaseClass;
 import utility.HealthURLMethods;
-import utility.JSONPlaceholderReplacer;
 
 public class tempTest extends BaseClass {
     public HealthURLMethods healthURLMethods;

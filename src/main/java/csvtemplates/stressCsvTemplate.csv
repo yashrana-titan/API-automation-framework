@@ -1,27 +1,11 @@
 DATE,MIN,MAX,HIGH,MEDIUM,NORMAL,RELAX,slot,STRESS
-<TODAY>,<SLOT>
-<TODAY-1>,<SLOT>,96
-<TODAY-2>,<SLOT>,97
-<LAST_WEEK>,<SLOT>,95
-<LAST_MONTH>,<SLOT>,94
-
-
-
-
-
-
-
-
-
-{
-  "date": "<DATE>",
-  "min": "<MIN>",
-  "max": "<MAX>",
-  "high": "<HIGH>",
-  "medium": "<MEDIUM>",
-  "normal": "<NORMAL>",
-  "relax": "<RELAX>",
-  "details": {
-    "<slot>": "<STRESS>"
-  }
-}
+<TODAY>,22,34,0,0,1,1,<SLOT>,22
+<TODAY>,22,34,0,0,1,1,<SLOT2>,34
+<TODAY-1>,29,55,0,1,1,0,<SLOT>,55
+<TODAY-1>,22,34,0,0,1,1,<SLOT2>,34
+<TODAY-2>,15,76,1,0,0,1,<SLOT>,15
+<TODAY-2>,15,76,0,0,1,1,<SLOT2>,76
+<LAST_WEEK>,31,48,0,0,2,0,<SLOT>,48
+<LAST_WEEK>,31,48,0,0,2,0,<SLOT2>,31
+<LAST_MONTH>,12,44,0,0,1,1,<SLOT>,12
+<LAST_MONTH>,12,44,0,0,1,1,<SLOT2>,44

@@ -1,0 +1,62 @@
+{
+  "date": "<DATE>",
+  "start_time": "<START_TIME>",
+  "type": "<TYPE>",
+  "dur": "<DUR>",
+  "steps_interval": "<STEPS_INTERVAL>",
+  "hr_interval": "<HR_INTERVAL>",
+  "avg_heart_rate": "<AVG_HEART_RATE>",
+  "heart_rate_zones": "<HEART_RATE_ZONE>",
+  "total_steps": "<TOTAL_STEPS>",
+  "total_cal": "<TOTAL_CAL>",
+  "total_dist": "<TOTAL_DIST>",
+  "steps": "<STEPS>",
+  "cal": "<CAL>",
+  "dist": "<DIST>",
+  "avg_speed": "<AVG_SPEED>",
+  "pace": "<PACE>",
+  "avg_pace": "<AVG_PACE>",
+  "fast_pace": "<FAST_PACE>",
+  "pace_per_km": "<PACE_PER_KM>",
+  "pace_per_mi": "<PACE_PER_MI>",
+  "cadence": "<CADENCE>",
+  "avg_cadence": "<AVG_CADENCE>",
+  "stride": "<STRIDE>",
+  "vo2_max": "<VO2_MAX>",
+  "hr": "<HR>",
+  "duration_details": "<DURATION_DETAIL>",
+  "overall_stroke_type": "<OVERALL_STROKE_TYPE>",
+  "stroke_types": "<STROKE_TYPE>",
+  "total_strokes": "<TOTAL_STROKES>",
+  "total_swolf": "<TOTAL_SWOLF>",
+  "swolf": "<SWOLF>",
+  "laps_per_distance": "<LAPS_PER_DISTANCE>",
+  "lap_count": "<LAP_COUNT>",
+  "total_activity_time": "<TOTAL_ACTIVITY_TIME>",
+  "stroke_rate_per_min": "<STROKE_RATE_PER_MIN>",
+  "swim_details": [{
+    "start_time": "<START_TIME>",
+    "duration": "<DURATION>",
+    "strokes": "<STROKES>",
+    "swolf_score": "<SWOLF_SCORE>",
+    "stroke_type": "<STROKE_TYPE>",
+    "distance": "<DISTANCE>",
+    "frequency": "<FREQUENCY>",
+    "speed": "<SPEED>"
+  }],
+  "gps_data": {
+    "<slot>": {
+      "latitude": "<LATITUDE>",
+      "longitude": "<LONGITUDE>"
+    }
+  },
+  "meta_run": {
+    "userArtifactId": "<USERARTIFACTID>",
+    "userArtifactUri": "<USERARTIFACTURI>",
+    "aiArtifactId": "<AIARTIFACTID>",
+    "aiAvatarUri": "<AIAVATARURI>",
+    "backgroundArtifactId": "<BACKGROUNDARTIFACTID>",
+    "backgroundArtifactUri": "<BACKGROUNDARTIFACTURI>",
+    "aiPace": "<AIPACE>"
+  }
+}
