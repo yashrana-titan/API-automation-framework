@@ -15,39 +15,37 @@ public class ValidatorSteps extends BaseClass {
     {
         healthURLMethods = new HealthURLMethods();
         String filePath = "./src/main/java/putdata/PutStepsData.json";
-        Response res1 = healthURLMethods.putDataHealthAPI(headers,"steps");
+        Response res1 = healthURLMethods.putDataHealthAPI("steps");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetDailySteps()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12",headers,"steps","DAILY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12","steps","DAILY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetWeeklySteps()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12",headers,"steps","WEEKLY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12","steps","WEEKLY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetMonthlySteps()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12",headers,"steps","MONTHLY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12","steps","MONTHLY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidatePutAndGetSteps()
     {
-        String CSVfilePath = "./xx";
-        String JsonTemplateFilePath = "./src/main/java/jsontemplates/stepsTemplate.json";
         healthURLMethods = new HealthURLMethods();
         boolean result;
         try {
-            result = healthURLMethods.verifyPutAndGetHealthAPI(CSVfilePath,JsonTemplateFilePath,headers,"steps");
+            result = healthURLMethods.verifyPutAndGetHealthAPI("steps");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -3,20 +3,133 @@ package utility;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class JSONPlaceholderReplacer {
-    public static void main(String[] args) {
-        CSVGenerator.csvGenerator("stress");
-        System.out.println(jsonGenerator("stress"));
+public class DataGenerationUtility {
+
+
+    //Methods to generate CSV file from a template CSV
+    public static void csvGenerator(String HealthApiItem)
+    {
+        String templateFilePath = "./src/main/java/csvtemplates/health/"+HealthApiItem+"CsvTemplate.csv";
+        String outputFilePath = "./src/main/resources/generatedCSVData/"+HealthApiItem+"Data.csv";
+        generateCSVFromTemplate(templateFilePath,outputFilePath);
     }
+
+    private static void generateCSVFromTemplate(String templateFilePath, String outputFilePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(templateFilePath));
+             BufferedWriter bw = new BufferedWriter(new FileWriter(outputFilePath))) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = replacePlaceholders(line);
+                bw.write(line);
+                bw.newLine();
+            }
+
+            System.out.println("CSV generated successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String replacePlaceholders(String line) {
+        String todayDate = getCurrentDate();
+        line = line.replaceAll("<TODAY>", todayDate);
+
+        line = line.replaceAll("<TODAY-1>", Objects.requireNonNull(getDateOffset(todayDate, -1)));
+
+        line = line.replaceAll("<TODAY-2>", Objects.requireNonNull(getDateOffset(todayDate, -2)));
+
+        line = line.replaceAll("<LAST_WEEK>", Objects.requireNonNull(getDateOffset(todayDate, -7)));
+
+        line = line.replaceAll("<LAST_MONTH>", Objects.requireNonNull(getDateOffset(todayDate, -30)));
+
+        // Replace <SLOT> placeholder with slot timestamp
+        line = replaceSlotPlaceholder(line);
+
+        return line;
+    }
+
+    private static String getCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(calendar.getTime());
+    }
+
+    private static String getDateOffset(String currentDate, int offset) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dateFormat.parse(currentDate));
+            calendar.add(Calendar.DAY_OF_MONTH, offset);
+            return dateFormat.format(calendar.getTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static String replaceSlotPlaceholder(String line) {
+        String slotPlaceholder = "<SLOT>";
+        String slot2Placeholder = "<SLOT2>";
+
+        int slotIndex = line.indexOf(slotPlaceholder);
+        int slot2Index = line.indexOf(slot2Placeholder);
+
+        if (slotIndex != -1) {
+            String datePart = line.substring(0, slotIndex);
+            String remainingPart = line.substring(slotIndex + slotPlaceholder.length());
+
+            String currentDate = datePart.split(",")[0].trim();
+            long slot = getSlotTimestamp(currentDate, 10, 0); // 10 AM
+            line = datePart + slot + remainingPart;
+        }
+
+        if (slot2Index != -1) {
+            String datePart = line.substring(0, slot2Index);
+            String remainingPart = line.substring(slot2Index + slot2Placeholder.length());
+
+            String currentDate = datePart.split(",")[0].trim();
+            long slot2 = getSlotTimestamp(currentDate, 18, 0); // 6 PM
+            line = datePart + slot2 + remainingPart;
+        }
+
+        return line;
+    }
+
+
+
+    private static long getSlotTimestamp(String date, int hour, int minute) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date currentDate = dateFormat.parse(date);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
+            calendar.set(Calendar.MINUTE, minute);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+
+            return calendar.getTimeInMillis() / 1000;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
+
+    //Methods to generate JSON from CSV file
+
     public static List<JSONObject> jsonGenerator(String HealthApiItem)
     {
+        csvGenerator(HealthApiItem);
         String csvFilePath = "./src/main/resources/generatedCSVData/"+HealthApiItem+"Data.csv";
-        String jsonFilePath = "./src/main/java/jsontemplates/"+HealthApiItem+"Template.json";
+        String jsonFilePath = "./src/main/java/jsontemplates/health/"+HealthApiItem+"ptTemplate.json";
         return CreateJsonFromCSV(csvFilePath,jsonFilePath);
     }
     public static List<JSONObject> CreateJsonFromCSV(String CsvFilePath, String JsonFilePath) {
@@ -139,7 +252,7 @@ public class JSONPlaceholderReplacer {
                         Object slotValue = details.opt(slot);
                         Object existingSlotValue = existingObject.getJSONObject("details").opt(slot);
 
-                        if (existingSlotValue != null && existingSlotValue instanceof JSONObject && slotValue instanceof JSONObject) {
+                        if (existingSlotValue instanceof JSONObject && slotValue instanceof JSONObject) {
                             mergeJSONObjects((JSONObject) existingSlotValue, (JSONObject) slotValue);
                         } else {
                             if (existingSlotValue != null) {

@@ -50,17 +50,6 @@ public class JSONUtility {
         return responseNode.equals(expectedNode);
     }
 
-    public static boolean compareJsonFromResponse(Response response1, Response response2) throws IOException {
-        String responseJson1 = response1.getBody().asString();
-        String responseJson2 = response2.getBody().asString();
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        JsonNode responseNode1 = objectMapper.readTree(responseJson1);
-        JsonNode responseNode2 = objectMapper.readTree(responseJson2);
-
-        return responseNode1.equals(responseNode2);
-    }
 
     public static void saveResponseInFile(Response response, String filePath) {
         String responseBody = response.getBody().asString();
@@ -342,6 +331,47 @@ public class JSONUtility {
         } else {
             return objectMapper.valueToTree(dataFormatter.formatCellValue(cell));
         }
+    }
+
+    public static boolean compareJsonStrings(String jsonString1, String jsonString2) {
+        try {
+            JsonNode jsonNode1 = objectMapper.readTree(jsonString1);
+            JsonNode jsonNode2 = objectMapper.readTree(jsonString2);
+
+            return compareJsonNodes(jsonNode1, jsonNode2);
+        } catch (IOException e) {
+            throw new RuntimeException("Error parsing JSON strings", e);
+        }
+    }
+
+    private static boolean compareJsonNodes(JsonNode node1, JsonNode node2) {
+        if (node1.equals(node2)) {
+            return true;
+        }
+
+        if (node1.isObject() && node2.isObject()) {
+            if (node1.size() != node2.size()) {
+                return false;
+            }
+
+            for (Iterator<String> fieldNames = node1.fieldNames(); fieldNames.hasNext();) {
+                String fieldName = fieldNames.next();
+                if (!node2.has(fieldName)) {
+                    return false;
+                }
+
+                JsonNode fieldValue1 = node1.get(fieldName);
+                JsonNode fieldValue2 = node2.get(fieldName);
+
+                if (!compareJsonNodes(fieldValue1, fieldValue2)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
 }

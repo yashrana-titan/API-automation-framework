@@ -15,39 +15,37 @@ public class ValidatorStress extends BaseClass {
     {
         healthURLMethods = new HealthURLMethods();
         String filePath = "./src/main/java/putdata/PutStressData.json";
-        Response res1 = healthURLMethods.putDataHealthAPI(headers,"stress");
+        Response res1 = healthURLMethods.putDataHealthAPI("stress");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetDailyStress()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12",headers,"stress","DAILY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12","stress","DAILY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetWeeklyStress()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12",headers,"stress","WEEKLY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12","stress","WEEKLY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetMonthlyStress()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12",headers,"stress","MONTHLY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12","stress","MONTHLY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidatePutAndGetStress()
     {
         healthURLMethods = new HealthURLMethods();
-        String CSVfilePath = "./xx";
-        String JsonTemplateFilePath = "./src/main/java/jsontemplates/stressTemplate.json";
         boolean result;
         try {
-            result = healthURLMethods.verifyPutAndGetHealthAPI(CSVfilePath,JsonTemplateFilePath,headers,"stress");
+            result = healthURLMethods.verifyPutAndGetHealthAPI("stress");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

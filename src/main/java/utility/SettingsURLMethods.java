@@ -22,7 +22,7 @@ public class SettingsURLMethods extends BaseClass{
     {
         System.out.println(settingsURL);
         Response res;
-        String jsonString = JSONPlaceholderReplacer.CreateJsonFromCSV(CSVfilePath,TemplateFilePath).toString();
+        String jsonString = DataGenerationUtility.CreateJsonFromCSV(CSVfilePath,TemplateFilePath).toString();
         System.out.println(jsonString);
         res = RestAssured.given().headers(headers)
                 .contentType(ContentType.JSON)

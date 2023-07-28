@@ -8,7 +8,7 @@ import utility.HealthURLMethods;
 
 import java.io.IOException;
 
-public class ValidatorBloodPressure extends BaseClass {
+public class ValidatorBloodPressure{
     public HealthURLMethods healthURLMethods;
 //    @Test
 //    public void ValidatePutBloodPressure()
@@ -24,34 +24,31 @@ public class ValidatorBloodPressure extends BaseClass {
     public void ValidateGetDailyBloodPressure()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01",headers,"bp","DAY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01","bp","DAY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetWeeklyBloodPressure()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01",headers,"bp","WEEK");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01","bp","WEEK");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetMonthlyBloodPressure()
     {
-        System.out.println("access token when in test class "+accessToken);
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01",headers,"bp","MONTH");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01","bp","MONTH");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
 
     @Test
     public void ValidatePutAndGetBloodPressure()
     {
-        String CSVfilePath = "./src/main/java/csvdata/BPData.csv";
-        String JsonTemplateFilePath = "./src/main/java/jsontemplates/bpTemplate.json";
         healthURLMethods = new HealthURLMethods();
         boolean result;
         try {
-            result = healthURLMethods.verifyPutAndGetHealthAPI(CSVfilePath,JsonTemplateFilePath,headers,"bp");
+            result = healthURLMethods.verifyPutAndGetHealthAPI("bp");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -5,7 +5,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import utility.BaseClass;
 import utility.HealthURLMethods;
-import utility.JSONPlaceholderReplacer;
 
 import java.io.IOException;
 
@@ -25,14 +24,14 @@ public class ValidatorHeartRate extends BaseClass {
     public void ValidateGetDailyHeartRate()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01",headers,"hr","DAY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01","hr","DAY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetWeeklyHeartRate()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01",headers,"hr","WEEK");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01","hr","WEEK");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
@@ -40,18 +39,16 @@ public class ValidatorHeartRate extends BaseClass {
     {
 //        System.out.println();
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01",headers,"hr","MONTH");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01","hr","MONTH");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidatePutAndGetHeartRate()
     {
-        String CSVfilePath = "./src/main/java/csvdata/HRData.csv";
-        String JsonTemplateFilePath = "./src/main/java/jsontemplates/hrTemplate.json";
         healthURLMethods = new HealthURLMethods();
         Boolean result = null;
         try {
-            result = healthURLMethods.verifyPutAndGetHealthAPI(CSVfilePath,JsonTemplateFilePath,headers,"hr");
+            result = healthURLMethods.verifyPutAndGetHealthAPI("hr");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -1,0 +1,110 @@
+{
+  "stepsGoal": "<STEPS_GOAL>",
+  "sleepGoal": "<SLEEP_GOAL>",
+  "multiSportGoal": "<MULTI_SPORT_GOAL>",
+  "screenTime": "<SCREEN_TIME>",
+  "snooze": "<SNOOZE>",
+  "calorieType": "<CALORIE_TYPE>",
+  "wristSense": "<WRIST_SENSE>",
+  "antiLost": "<ANTI_LOST>",
+  "leftHand": "<LEFT_HAND>",
+  "powerOffMode": "<POWER_OFF_MODE>",
+  "findPhone": "<FIND_PHONE>",
+  "stress": "<STRESS>",
+  "calorieGoal": "<CALORIE_GOAL>",
+  "distanceGoal": "<DISTANCE_GOAL>",
+  "timeFormat": "<TIME_FORMAT>",
+  "rem": "<REM>",
+  "notification": {
+    "enable": "<NOTIFICATION_ENABLE>",
+    "callAlert": "<CALL_ALERT>",
+    "calendar": "<CALENDAR>",
+    "blocked": "<BLOCKED>"
+  },
+  "sedentary": {
+    "enable": "<SEDENTARY_ENABLE>",
+    "interval": "<SEDENTARY_INTERVAL>",
+    "repeat": "<SEDENTARY_REPEAT>",
+    "sh": "<SEDENTARY_SH>",
+    "sm": "<SEDENTARY_SM>",
+    "eh": "<SEDENTARY_EH>",
+    "em": "<SEDENTARY_EM>"
+  },
+  "sleep" : {
+    "enable" : "<SLEEP_ENABLE>",
+    "sh": "<SLEEP_SH>",
+    "sm": "<SLEEP_SM>",
+    "eh": "<SLEEP_EH>",
+    "em": "<SLEEP_EM>"
+  },
+  "dnd": {
+    "enable": "<DND_ENABLE>",
+    "sh": "<DND_SH>",
+    "sm": "<DND_SM>",
+    "eh": "<DND_EH>",
+    "em": "<DND_EM>"
+  },
+  "heartrate": {
+    "enable": "<HEARTRATE_ENABLE>",
+    "limitAlert": "<LIMITALERT>",
+    "min": "<HEARTRATE_MIN>",
+    "max": "<HEARTRATE_MAX>",
+    "frequency": "<HEARTRATE_FREQUENCY>"
+  },
+  "alarm": [
+    {
+      "alarmId": "<ALARM_ID>",
+      "enable": "<ALARM_ENABLE>",
+      "repeat": "<ALARM_REPEAT>",
+      "hour": "<ALARM_HOUR>",
+      "min": "<ALARM_MINUTE>"
+    }
+  ],
+  "hydration": {
+    "enable": "<HYDRATION_ENABLE>",
+    "interval": "<HYDRATION_INTERVAL>",
+    "repeat": "<HYDRATION_REPEAT>",
+    "eh": "<HYDRATION_END_HOUR>",
+    "sm": "<HYDRATION_START_MINUTE>",
+    "em": "<HYDRATION_END_MINUTE>",
+    "sh": "<HYDRATION_START_HOUR>"
+  },
+  "favouriteContacts":[
+    {
+      "name": "FAV_NAME1",
+      "phone": "FAV_PHONE1"
+    },
+    {
+      "name": "FAV_NAME2",
+      "phone": "FAV_PHONE2"
+    }
+  ],
+  "sosContacts":[
+    {
+      "name": "SOS_NAME1",
+      "phone": "SOS_PHONE1"
+    },
+    {
+      "name": "SOS_NAME2",
+      "phone": "SOS_PHONE2"
+    }
+  ],
+  "autoDetection":"<AUTO_DETECTION>",
+  "worldClock":[
+    {
+      "abbr":"<WORLD_CLOCK_ABBR>",
+      "offset":"<WORLD_CLOCK_OFFSET>",
+      "utc":"<WORLD_CLOCK_UTC>"
+    }
+  ],
+  "eventRem": [
+    {
+      "id": "<EVENT_REM_ID>",
+      "enable": "<EVENT_REM_ENABLE>",
+      "title": "<EVENT_REM_TITLE>",
+      "note": "<EVENT_REM_NOTE>",
+      "startDate": "<EVENT_REM_START_DATE>",
+      "repeat": "<EVENT_REM_REPEAT>"
+    }
+  ]
+}

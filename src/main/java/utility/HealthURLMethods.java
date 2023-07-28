@@ -4,15 +4,13 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.json.JSONObject;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class HealthURLMethods extends BaseClass{
     public RESTUtility restUtil;
     public String healthURL = (String) urls.get("health");
-    public Response getDataHealthAPI(String date, Map<String,Object> headers,String HealthApiItem,String scope) {
+    public Response getDataHealthAPI(String date,String HealthApiItem,String scope) {
         restUtil = new RESTUtility();
         String url = healthURL + HealthApiItem;
         System.out.println(url);
@@ -25,7 +23,7 @@ public class HealthURLMethods extends BaseClass{
         System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
         return res;
     }
-    public Response getDataHealthAPI(Map<String,Object> headers,String HealthApiItem,String id) {
+    public Response getDataHealthAPI(String HealthApiItem,String id) {
         restUtil = new RESTUtility();
         String url = healthURL + HealthApiItem+"/"+id;
         System.out.println(url);
@@ -38,7 +36,9 @@ public class HealthURLMethods extends BaseClass{
         System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
         return res;
     }
-    public Response getDataHealthAPI(Map<String,Object> headers,String HealthApiItem) {
+
+
+    public Response getDataHealthAPI(String HealthApiItem) {
         restUtil = new RESTUtility();
         String url = healthURL + HealthApiItem;
         System.out.println(url);
@@ -51,59 +51,80 @@ public class HealthURLMethods extends BaseClass{
         return res;
     }
 
-    public Response putDataHealthAPI(Map<String,Object> headers,String HealthApiItem)
+
+
+    public Response putDataHealthAPI(String HealthApiItem)
     {
-        String filePath = "./src/main/java/jsontemplates/"+HealthApiItem+"Template.json";
         String url = healthURL+HealthApiItem;
         System.out.println(url);
         Response res;
-        if(filePath.contains("xlsx"))
-        {
-            System.out.println("entered excel file condition");
-            String jsonString = JSONUtility.excelToJson(filePath);
-            System.out.println(jsonString);
-            res = RestAssured.given().headers(headers)
-                    .contentType(ContentType.JSON)
-                    .body(jsonString)
-                    .put(url);
-        } else {
-            res = RestAssured.given().headers(headers)
-                    .contentType(ContentType.JSON)
-                    .body(new File(filePath))
-                    .put(url);
-
-        }
-        //System.out.println(res.statusCode());
-        System.out.println("Response Code for Put Data Request : "+res.statusCode());
-        return res;
-    }
-
-
-
-    public Response putDataHealthAPIFromCSV(Map<String,Object> headers,String HealthApiItem)
-    {
-        String url = healthURL+HealthApiItem;
-        System.out.println(headers);
-        System.out.println(url);
-        Response res;
-        String jsonString = JSONPlaceholderReplacer.jsonGenerator(HealthApiItem).toString();
-        System.out.println(jsonString);
+        List<JSONObject>data = DataGenerationUtility.jsonGenerator(HealthApiItem);
         res = RestAssured.given().headers(headers)
                 .contentType(ContentType.JSON)
-                .body(jsonString)
+                .body(data.toString())
                 .put(url);
-        //System.out.println(res.statusCode());
         System.out.println("Response Code for Put Data Request : "+res.statusCode());
         return res;
     }
 
-    public boolean verifyPutAndGetHealthAPI(String CSVfilePath,String JsonTemplate,Map<String,Object> headers,String HealthApiItem) throws IOException {
+    public Response putDataHealthAPIWithFilename(String HealthApiItem,String Filename)
+    {
+        String url = healthURL+HealthApiItem;
+        System.out.println(url);
+        Response res;
+        List<JSONObject>data = DataGenerationUtility.jsonGenerator(Filename);
+        res = RestAssured.given().headers(headers)
+                .contentType(ContentType.JSON)
+                .body(data.toString())
+                .put(url);
+        System.out.println("Response Code for Put Data Request : "+res.statusCode());
+        return res;
+    }
+
+
+
+    public Response putDataHealthAPIFromFile(String HealthApiItem,String filePath)
+    {
+        String url = healthURL+HealthApiItem;
+        System.out.println(url);
+        Response res;
+        String data = null;
+        try {
+            data = JSONUtility.getJSONString(filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        res = RestAssured.given().headers(headers)
+                .contentType(ContentType.JSON)
+                .body(data)
+                .put(url);
+        System.out.println("Response Code for Put Data Request : "+res.statusCode());
+        return res;
+    }
+
+
+    public Response updateDataUsingIDHealthAPI(String HealthApiItem,String id)
+    {
+        String url = healthURL+HealthApiItem+"/"+id;
+        System.out.println(url);
+        Response res;
+        List<JSONObject>data = DataGenerationUtility.jsonGenerator(HealthApiItem);
+        res = RestAssured.given().headers(headers)
+                .contentType(ContentType.JSON)
+                .body(data.toString())
+                .put(url);
+        System.out.println("Response Code for Put Data Request : "+res.statusCode());
+        return res;
+    }
+
+
+
+    public boolean verifyPutAndGetHealthAPI(String HealthApiItem) throws IOException {
         String url = healthURL+HealthApiItem;
         String productId = (String) headers.get("titan-context-product-code");
         System.out.println("\n"+productId+"\n");
         System.out.println(url);
-        List<JSONObject>data = JSONPlaceholderReplacer.CreateJsonFromCSV(CSVfilePath,JsonTemplate);
-        //System.out.println(data);
+        List<JSONObject>data = DataGenerationUtility.jsonGenerator(HealthApiItem);
         List<String>dates = JSONUtility.fetchDatesfromJSONList(data);
         System.out.println(dates);
         restUtil = new RESTUtility();
@@ -154,17 +175,23 @@ public class HealthURLMethods extends BaseClass{
         return JSONUtility.compareJsonArrays(responsePut,resGet.asString(),productId);
     }
 
-    public Response updateDataUsingIDHealthAPI(String filePath,Map<String,Object> headers,String HealthApiItem,String id)
-    {
-        String url = healthURL+HealthApiItem+"/"+id;
-        Response res = RestAssured.given().headers(headers)
-                .contentType(ContentType.JSON)
-                .body(new File(filePath))
-                .put(url);
-        //System.out.println(res.statusCode());
-        System.out.println("Response Code for Update Data Request : "+res.statusCode());
-        return res;
-    }
 
+    public void getDataHealthAPIinFile(String HealthApiItem, String scope, String date) {
+        String url = healthURL + HealthApiItem;
+        System.out.println(url);
+        Response res = RestAssured.given()
+                .headers(headers).
+                contentType(ContentType.JSON).param("scope",scope).param("date",date)
+                .get(url);
+        String filePath = "./src/main/resources/SavedData/"+HealthApiItem+"ptTemplate.json";
+        if(res.statusCode()!=200)
+        {
+            System.out.println("Response code is not 200");
+        }
+        else
+        {
+            JSONUtility.saveResponseInFile(res,filePath);
+        }
+    }
 
 }

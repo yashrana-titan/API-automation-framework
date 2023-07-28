@@ -15,39 +15,37 @@ public class ValidatorSports extends BaseClass {
     {
         healthURLMethods = new HealthURLMethods();
         String filePath = "./src/main/java/putdata/PutSportsData.json";
-        Response res1 = healthURLMethods.putDataHealthAPI(headers,"sports");
+        Response res1 = healthURLMethods.putDataHealthAPI("sports");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetDailySports()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12",headers,"sports","DAILY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12","sports","DAILY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetWeeklySports()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12",headers,"sports","WEEKLY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12","sports","WEEKLY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetMonthlySports()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12",headers,"sports","MONTHLY");
+        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12","sports","MONTHLY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidatePutAndGetSports()
     {
         healthURLMethods = new HealthURLMethods();
-        String CSVfilePath = "./src/main/java/putdata/PutStepsData.json";
-        String JsonTemplateFilePath = "./xx";
         boolean result;
         try {
-            result = healthURLMethods.verifyPutAndGetHealthAPI(CSVfilePath,JsonTemplateFilePath,headers,"sports");
+            result = healthURLMethods.verifyPutAndGetHealthAPI("sports");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
