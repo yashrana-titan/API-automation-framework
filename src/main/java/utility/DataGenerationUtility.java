@@ -6,12 +6,20 @@ import org.json.JSONObject;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class DataGenerationUtility {
 
 
     //Methods to generate CSV file from a template CSV
+    public static void csvGenerator(String URLName,String URLItem){
+        String templateFilePath = "./src/main/java/csvtemplates/"+URLName+"/"+URLItem+"CsvTemplate.csv";
+        String outputFilePath = "./src/main/resources/generatedCSVData/"+URLName+"/"+URLItem+"Data.csv";
+        generateCSVFromTemplate(templateFilePath,outputFilePath);
+    }
+
     public static void csvGenerator(String HealthApiItem)
     {
         String templateFilePath = "./src/main/java/csvtemplates/health/"+HealthApiItem+"CsvTemplate.csv";
@@ -129,9 +137,20 @@ public class DataGenerationUtility {
     {
         csvGenerator(HealthApiItem);
         String csvFilePath = "./src/main/resources/generatedCSVData/"+HealthApiItem+"Data.csv";
-        String jsonFilePath = "./src/main/java/jsontemplates/health/"+HealthApiItem+"ptTemplate.json";
+        String jsonFilePath = "./src/main/java/jsontemplates/"+HealthApiItem+"ptTemplate.json";
         return CreateJsonFromCSV(csvFilePath,jsonFilePath);
     }
+
+
+
+    public static List<JSONObject> jsonGenerator(String URLName,String URLItem)
+    {
+        csvGenerator(URLName,URLItem);
+        String csvFilePath = "./src/main/resources/generatedCSVData/"+URLName+"/"+URLItem+"Data.csv";
+        String jsonFilePath = "./src/main/java/jsontemplates/"+URLName+"/"+URLItem+"Template.json";
+        return CreateJsonFromCSV(csvFilePath,jsonFilePath);
+    }
+
     public static List<JSONObject> CreateJsonFromCSV(String CsvFilePath, String JsonFilePath) {
         List<List<String>> data = readCSV(CsvFilePath);
         String jsonTemplate = readJSONTemplate(JsonFilePath);
@@ -291,4 +310,6 @@ public class DataGenerationUtility {
             }
         }
     }
+
+
 }

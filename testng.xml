@@ -3,7 +3,16 @@
     <test name="Health API tests on FS1" >
         <parameter name="productId" value="FT_38083" />
         <classes>
-            <class name="validators.health.tempTest"/>
+            <class name="validators.health.ValidatorSPO2">
+<!--                <methods>-->
+<!--                    <include name="ValidateGetWeeklySpO2"/>-->
+<!--                </methods>-->
+            </class>
+<!--            <class name="validators.health.ValidatorSPO2">-->
+<!--                <methods>-->
+<!--                    <include name="ValidateGetMonthlySpO2"/>-->
+<!--                </methods>-->
+<!--            </class>-->
         </classes>
     </test>
 </suite>

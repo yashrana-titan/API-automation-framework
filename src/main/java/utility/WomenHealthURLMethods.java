@@ -4,10 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.json.JSONObject;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class WomenHealthURLMethods extends HealthURLMethods{
     public RESTUtility restUtil;
@@ -29,7 +26,7 @@ public class WomenHealthURLMethods extends HealthURLMethods{
     {
         String url = healthURL+"pt/"+id+"/logs";
         Response res;
-        List<JSONObject>data = DataGenerationUtility.jsonGenerator(HealthAPIItem);
+        List<JSONObject>data = DataGenerationUtility.jsonGenerator("health/"+HealthAPIItem);
         res = RestAssured.given().headers(headers)
                 .contentType(ContentType.JSON)
                 .body(data.toString())

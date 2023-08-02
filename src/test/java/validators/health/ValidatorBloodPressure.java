@@ -5,11 +5,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import utility.BaseClass;
 import utility.HealthURLMethods;
+import utility.URLMethods;
 
 import java.io.IOException;
 
 public class ValidatorBloodPressure{
     public HealthURLMethods healthURLMethods;
+    String todayDate = URLMethods.todayDateString();
 //    @Test
 //    public void ValidatePutBloodPressure()
 //    {
@@ -24,21 +26,21 @@ public class ValidatorBloodPressure{
     public void ValidateGetDailyBloodPressure()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01","bp","DAY");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"bp","DAY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetWeeklyBloodPressure()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01","bp","WEEK");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"bp","WEEK");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetMonthlyBloodPressure()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01","bp","MONTH");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"bp","MONTH");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
 

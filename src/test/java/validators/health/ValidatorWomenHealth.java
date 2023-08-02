@@ -3,11 +3,14 @@ package validators.health;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import utility.URLMethods;
 import utility.WomenHealthURLMethods;
 
 public class ValidatorWomenHealth {
 
     WomenHealthURLMethods womenHealthURLMethods;
+    String todayDate = URLMethods.todayDateString();
+
 
     @Test
     public void ValidatePutPT()
@@ -34,14 +37,14 @@ public class ValidatorWomenHealth {
     @Test
     public void ValidateGetPTHistory() {
         womenHealthURLMethods = new WomenHealthURLMethods();
-        Response res1 = womenHealthURLMethods.getDataHealthAPI("pt/history");
+        Response res1 = womenHealthURLMethods.getDataFromAPI("pt/history");
         Assert.assertEquals(res1.statusCode(), 200, "Status Code not 200");
     }
 
     @Test
     public void ValidateGetPeriodTracker() {
         womenHealthURLMethods = new WomenHealthURLMethods();
-        Response res1 = womenHealthURLMethods.getDataHealthAPI( "pt/tracker");
+        Response res1 = womenHealthURLMethods.getDataFromAPI( "pt/tracker");
         Assert.assertEquals(res1.statusCode(), 200, "Status Code not 200");
     }
 
@@ -49,7 +52,7 @@ public class ValidatorWomenHealth {
     @Test
     public void ValidateGetPTAverageAndCycleLength() {
         womenHealthURLMethods = new WomenHealthURLMethods();
-        Response res1 = womenHealthURLMethods.getDataHealthAPI("pt/avgs");
+        Response res1 = womenHealthURLMethods.getDataFromAPI("pt/avgs");
         Assert.assertEquals(res1.statusCode(), 200, "Status Code not 200");
     }
 
@@ -63,7 +66,7 @@ public class ValidatorWomenHealth {
     @Test
     public void ValidateGetPeriodConfig() {
         womenHealthURLMethods = new WomenHealthURLMethods();
-        Response res1 = womenHealthURLMethods.getDataHealthAPI("pt/config");
+        Response res1 = womenHealthURLMethods.getDataFromAPI("pt/config");
         Assert.assertEquals(res1.statusCode(), 200, "Status Code not 200");
     }
 

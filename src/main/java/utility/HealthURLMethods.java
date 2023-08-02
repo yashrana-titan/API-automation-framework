@@ -7,13 +7,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.List;
 
-public class HealthURLMethods extends BaseClass{
+public class HealthURLMethods extends URLMethods {
     public RESTUtility restUtil;
     public String healthURL = (String) urls.get("health");
     public Response getDataHealthAPI(String date,String HealthApiItem,String scope) {
         restUtil = new RESTUtility();
         String url = healthURL + HealthApiItem;
         System.out.println(url);
+        System.out.println("headers in get method"+headers);
         Response res = RestAssured.given()
                 .headers(headers)
                 .contentType(ContentType.JSON)
@@ -38,27 +39,12 @@ public class HealthURLMethods extends BaseClass{
     }
 
 
-    public Response getDataHealthAPI(String HealthApiItem) {
-        restUtil = new RESTUtility();
-        String url = healthURL + HealthApiItem;
-        System.out.println(url);
-        Response res = RestAssured.given()
-                .headers(headers).
-                contentType(ContentType.JSON)
-                .get(url);
-//        System.out.println("response   "+ res.prettyPrint());
-        System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
-        return res;
-    }
-
-
-
     public Response putDataHealthAPI(String HealthApiItem)
     {
         String url = healthURL+HealthApiItem;
         System.out.println(url);
         Response res;
-        List<JSONObject>data = DataGenerationUtility.jsonGenerator(HealthApiItem);
+        List<JSONObject>data = DataGenerationUtility.jsonGenerator("health/"+HealthApiItem);
         res = RestAssured.given().headers(headers)
                 .contentType(ContentType.JSON)
                 .body(data.toString())
@@ -108,7 +94,7 @@ public class HealthURLMethods extends BaseClass{
         String url = healthURL+HealthApiItem+"/"+id;
         System.out.println(url);
         Response res;
-        List<JSONObject>data = DataGenerationUtility.jsonGenerator(HealthApiItem);
+        List<JSONObject>data = DataGenerationUtility.jsonGenerator("health/"+HealthApiItem);
         res = RestAssured.given().headers(headers)
                 .contentType(ContentType.JSON)
                 .body(data.toString())
@@ -124,7 +110,7 @@ public class HealthURLMethods extends BaseClass{
         String productId = (String) headers.get("titan-context-product-code");
         System.out.println("\n"+productId+"\n");
         System.out.println(url);
-        List<JSONObject>data = DataGenerationUtility.jsonGenerator(HealthApiItem);
+        List<JSONObject>data = DataGenerationUtility.jsonGenerator("health",HealthApiItem);
         List<String>dates = JSONUtility.fetchDatesfromJSONList(data);
         System.out.println(dates);
         restUtil = new RESTUtility();

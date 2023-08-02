@@ -5,11 +5,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import utility.BaseClass;
 import utility.HealthURLMethods;
+import utility.URLMethods;
 
 import java.io.IOException;
 
-public class ValidatorHeartRate extends BaseClass {
+public class ValidatorHeartRate{
     public HealthURLMethods healthURLMethods;
+    String todayDate = URLMethods.todayDateString();
 //    @Test
 //    public void ValidatePutHeartRate()
 //    {
@@ -24,14 +26,14 @@ public class ValidatorHeartRate extends BaseClass {
     public void ValidateGetDailyHeartRate()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01","hr","DAY");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"hr","DAY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
     public void ValidateGetWeeklyHeartRate()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01","hr","WEEK");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"hr","WEEK");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
@@ -39,7 +41,7 @@ public class ValidatorHeartRate extends BaseClass {
     {
 //        System.out.println();
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-01","hr","MONTH");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"hr","MONTH");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test

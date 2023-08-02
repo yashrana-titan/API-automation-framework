@@ -5,17 +5,19 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import utility.BaseClass;
 import utility.HealthURLMethods;
+import utility.URLMethods;
 
 import java.io.IOException;
 
-public class ValidatorSleep extends BaseClass {
+public class ValidatorSleep{
     public HealthURLMethods healthURLMethods;
+    String todayDate = URLMethods.todayDateString();
+
     @Test
     public void ValidatePutSleep()
     {
         healthURLMethods = new HealthURLMethods();
-        String filePath = "./src/main/java/putdata/PutSleepData.json";
-        Response res1 = healthURLMethods.putDataHealthAPI("sleep");
+        Response res1 = healthURLMethods.putDataAPI("health","sleep");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test
