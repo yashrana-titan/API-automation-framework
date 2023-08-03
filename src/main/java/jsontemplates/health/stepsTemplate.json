@@ -1,18 +1,18 @@
 {
-    "date": "<DATE>",
-    "s": "<S>",
-    "c": "<C>",
-    "d": "<D>",
-    "t": "<T>",
-    "goal": "<GOAL>",
-    "goalType": "<GOALTYPE>",
-    "duration": "<DURATION>",
-    "details": {
-      "<slot>": {
-        "s": "<S2>",
-        "c": "<C2>",
-        "d": "<D2>",
-        "t": "<T2>"
-      }
+  "date": "<DATE>",
+  "s": "<S>",
+  "c": "<C>",
+  "d": "<D>",
+  "t": "<T>",
+  "goal": "<GOAL>",
+  "goalType": "<GOALTYPE>",
+  "duration": "<DURATION>",
+  "details": {
+    "<slot>": {
+      "s": "<S2>",
+      "c": "<C2>",
+      "d": "<D2>",
+      "t": "<T2>"
     }
+  }
 }

@@ -11,8 +11,8 @@ import java.util.*;
 public class DataGenerationUtility {
 
     public static void main(String[] args) {
-        System.out.println(jsonGenerator("health","spo2"));
-        System.out.println(jsonGenerator("users"));
+        System.out.println(jsonGenerator("health","steps"));
+//        System.out.println(jsonGenerator("users"));
     }
     //Methods to generate CSV file from a template CSV
     public static void csvGenerator(String URLName,String URLItem){
@@ -214,7 +214,7 @@ public class DataGenerationUtility {
         for (int i = 1; i < data.size(); i++) {
             List<String> values = data.get(i);
             String jsonStr = replacePlaceholders(jsonTemplate, removeAngleBrackets(placeholders), values);
-
+           // System.out.println("josnStr "+jsonStr);
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 jsonList.add(jsonObject);

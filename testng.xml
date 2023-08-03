@@ -12,8 +12,13 @@
 <!--            <class name="validators.health.ValidatorStress"/>-->
 <!--            <class name="validators.health.ValidatorTemperature"/>-->
 <!--            <class name="validators.health.ValidatorWomenHealth"/>-->
-            <class name="validators.users.ValidatorUser"/>
-<!--            <class name="validators.weather.ValidatorWeather"/>-->
+<!--            <class name="validators.users.ValidatorUser"/>-->
+<!--            <class name="validators.ValidatorWeather"/>-->
+<!--            <class name="validators.users.ValidatorUserProfilePicture">-->
+<!--            <class name="validators.ValidatorLeaderboard"/>-->
+<!--            <class name="validators.ValidatorLeaderboard"/>-->
+<!--            <class name="validators.ValidatorGamification"/>-->
+            <class name="validators.ValidatorReflexGames"/>
         </classes>
     </test>
 </suite>

@@ -41,6 +41,7 @@ public class ValidatorHRVariability extends BaseClass {
     {
         healthURLMethods = new HealthURLMethods();
         Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"hrv","MONTH");
+        System.out.println(res1.getBody());
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test(priority = 4)

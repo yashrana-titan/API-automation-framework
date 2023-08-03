@@ -1,4 +1,4 @@
-package validators.weather;
+package validators;
 
 import io.restassured.response.Response;
 import org.testng.Assert;

@@ -3,15 +3,16 @@ package validators.health;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import utility.BaseClass;
 import utility.URLMethods;
 import utility.WomenHealthURLMethods;
 
-public class ValidatorWomenHealth {
+public class ValidatorWomenHealth extends BaseClass {
 
     WomenHealthURLMethods womenHealthURLMethods;
     String todayDate = URLMethods.todayDateString();
 
-    @Test(priority = 1)
+    @Test(priority = 0)
     public void ValidatePutPT()
     {
         womenHealthURLMethods = new WomenHealthURLMethods();
@@ -58,7 +59,7 @@ public class ValidatorWomenHealth {
     @Test
     public void ValidateGetPeriodCycle() {
         womenHealthURLMethods = new WomenHealthURLMethods();
-        Response res1 = womenHealthURLMethods.getDataHealthAPI("2023-05-11", "pt/cycle");
+        Response res1 = womenHealthURLMethods.getDataHealthAPI(todayDate, "pt/cycle");
         Assert.assertEquals(res1.statusCode(), 200, "Status Code not 200");
     }
 

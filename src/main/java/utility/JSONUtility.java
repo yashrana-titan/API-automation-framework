@@ -122,9 +122,7 @@ public class JSONUtility {
         JsonArray filteredGetData = filterDataByDatesAndProduct(getData, putDates, productToCompare);
         System.out.println(filteredGetData);
 
-        boolean areEqual = compareJSONData(putData, filteredGetData);
-
-        return areEqual;
+        return compareJSONData(putData, filteredGetData);
     }
 
     private static Set<LocalDate> extractDates(JsonArray data) {
