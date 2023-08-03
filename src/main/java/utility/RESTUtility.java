@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class RESTUtility {
+public class RESTUtility extends JSONUtility{
     public int getStatusCode(Response res) {
         return res.getStatusCode();
     }

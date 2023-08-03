@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class URLMethods extends BaseClass{
 
@@ -46,10 +47,20 @@ public class URLMethods extends BaseClass{
         System.out.println(url);
         Response res;
         List<JSONObject> data = DataGenerationUtility.jsonGenerator(URI,URIEndpoint);
-        res = RestAssured.given().headers(headers)
-                .contentType(ContentType.JSON)
-                .body(data.toString())
-                .put(url);
+        System.out.println(data);
+        if(data.size()==1)
+        {
+            res = RestAssured.given().headers(headers)
+                    .contentType(ContentType.JSON)
+                    .body(data.get(0).toString())
+                    .put(url);
+        }
+        else {
+            res = RestAssured.given().headers(headers)
+                    .contentType(ContentType.JSON)
+                    .body(data.toString())
+                    .put(url);
+        }
         System.out.println("Response Code for Put Data Request : "+res.statusCode());
         return res;
     }
@@ -60,10 +71,21 @@ public class URLMethods extends BaseClass{
         System.out.println(url);
         Response res;
         List<JSONObject> data = DataGenerationUtility.jsonGenerator(URI);
-        res = RestAssured.given().headers(headers)
-                .contentType(ContentType.JSON)
-                .body(data.toString())
-                .put(url);
+        if(data.size()==1)
+        {
+            res = RestAssured.given().headers(headers)
+                    .contentType(ContentType.JSON)
+                    .body(data.get(0).toString())
+                    .put(url);
+        }
+        else {
+            res = RestAssured.given().headers(headers)
+                    .contentType(ContentType.JSON)
+                    .body(data.toString())
+                    .put(url);
+        }
+
+        System.out.println("put data: "+data);
         System.out.println("Response Code for Put Data Request : "+res.statusCode());
         return res;
     }
@@ -106,4 +128,40 @@ public class URLMethods extends BaseClass{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return today.format(formatter);
     }
+
+    public String getWeatherkey()
+    {
+        Response res = getDataFromAPI("users","keys");
+        restUtil = new RESTUtility();
+        return restUtil.extractValueFromResponse(res,"weather");
+    }
+
+    public Response getWeatherForecast(String Key,String lat,String longitude)
+    {
+        restUtil = new RESTUtility();
+        String url = BaseUrl+"weather/v2";
+        System.out.println(url);
+        Response res = RestAssured.given()
+                .param("key",Key).param("lat",lat).param("long",longitude)
+                .contentType(ContentType.JSON)
+                .get(url);
+//        System.out.println("response   "+ res.prettyPrint());
+        System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
+        return res;
+    }
+
+    public Response getWeatherForecast(String Key,String City)
+    {
+        restUtil = new RESTUtility();
+        String url = BaseUrl+"weather/v2";
+        System.out.println(url);
+        Response res = RestAssured.given()
+                .param("key",Key).param("city",City)
+                .contentType(ContentType.JSON)
+                .get(url);
+//        System.out.println("response   "+ res.prettyPrint());
+        System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
+        return res;
+    }
+
 }

@@ -8,13 +8,12 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class DataGenerationUtility {
+public class DataGenerator2 {
 
     public static void main(String[] args) {
-        System.out.println(jsonGenerator("health","spo2"));
         System.out.println(jsonGenerator("users"));
+        System.out.println(jsonGenerator("health","spo2"));
     }
-    //Methods to generate CSV file from a template CSV
     public static void csvGenerator(String URLName,String URLItem){
         String templateFilePath = "./src/main/java/csvtemplates/"+URLName+"/"+URLItem+"CsvTemplate.csv";
         String outputFilePath = "./src/main/resources/generatedCSVData/"+URLName+"/"+URLItem+"Data.csv";
@@ -130,6 +129,8 @@ public class DataGenerationUtility {
         return -1;
     }
 
+
+
     //Methods to generate JSON from CSV file
 
     public static List<JSONObject> jsonGenerator(String HealthApiItem)
@@ -157,7 +158,6 @@ public class DataGenerationUtility {
         List<JSONObject> jsoNs = createJSONs(data, jsonTemplate);
         return jsoNs;
     }
-
 
     public static List<List<String>> readCSV(String csvFile) {
         List<List<String>> data = new ArrayList<>();
@@ -208,35 +208,6 @@ public class DataGenerationUtility {
         }
 
         List<String> placeholders = data.get(0);
-        System.out.println(placeholders);
-        boolean hasDatePlaceholder = placeholders.contains("DATE");
-
-        for (int i = 1; i < data.size(); i++) {
-            List<String> values = data.get(i);
-            String jsonStr = replacePlaceholders(jsonTemplate, removeAngleBrackets(placeholders), values);
-
-            try {
-                JSONObject jsonObject = new JSONObject(jsonStr);
-                jsonList.add(jsonObject);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        if(hasDatePlaceholder)
-            return combineDetailsForSameDate(jsonList);
-        else
-            return jsonList;
-    }
-
-    public static List<JSONObject> createJSONsNoDate(List<List<String>> data, String jsonTemplate) {
-        List<JSONObject> jsonList = new ArrayList<>();
-
-        if (data.size() < 2) {
-            System.out.println("Insufficient data rows to create JSONs.");
-            return jsonList;
-        }
-
-        List<String> placeholders = data.get(0);
         List<String> cleanedPlaceholders = removeAngleBrackets(placeholders);
 
         // Check if the JSON template contains a "date" placeholder
@@ -249,7 +220,7 @@ public class DataGenerationUtility {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 // If the template contains "date" placeholder, combine details for the same date
                 if (hasDatePlaceholder) {
-                    jsonList = combineDetailsForSameDate(jsonList);
+                    jsonList = combineDetailsForSameDate(jsonList, jsonObject);
                 } else {
                     jsonList.add(jsonObject);
                 }
@@ -260,6 +231,9 @@ public class DataGenerationUtility {
 
         return jsonList;
     }
+
+
+
 
     public static String replacePlaceholders(String jsonTemplate, List<String> placeholders, List<String> values) {
         Map<String, String> placeholderValues = new LinkedHashMap<>(); // Use LinkedHashMap to preserve insertion order
@@ -287,7 +261,7 @@ public class DataGenerationUtility {
         return cleanedPlaceholders;
     }
 
-    public static List<JSONObject> combineDetailsForSameDate(List<JSONObject> jsonList) {
+    public static List<JSONObject> combineDetailsForSameDate(List<JSONObject> jsonList, JSONObject jsonObject) {
         List<JSONObject> mergedData = new ArrayList<>();
 
         for (JSONObject obj : jsonList) {
@@ -349,6 +323,9 @@ public class DataGenerationUtility {
             }
         }
     }
-
-
+    public static List<JSONObject> addJSONObject(List<JSONObject> jsonList, JSONObject jsonObject) {
+        // Add the JSON object to the list without combining details
+        jsonList.add(jsonObject);
+        return jsonList;
+    }
 }

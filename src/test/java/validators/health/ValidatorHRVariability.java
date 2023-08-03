@@ -10,46 +10,46 @@ import utility.URLMethods;
 
 import java.io.IOException;
 
-public class ValidatorSports extends BaseClass {
+public class ValidatorHRVariability extends BaseClass {
     public HealthURLMethods healthURLMethods;
     String todayDate = URLMethods.todayDateString();
 
     @Test(priority = 0)
-    public void ValidatePutSports()
+    public void ValidatePutHRVariability()
     {
         healthURLMethods = new HealthURLMethods();
-        String filePath = "./src/main/java/putdata/PutSportsData.json";
-        Response res1 = healthURLMethods.putDataAPI("health","sports");
+        Response res1 = healthURLMethods.putDataAPI("health","hrv");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test(priority = 1)
-    public void ValidateGetDailySports()
+    public void ValidateGetDailyHRVariability()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"sports","DAY");
+        System.out.println("date is: "+todayDate);
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"hrv","DAY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test(priority = 2)
-    public void ValidateGetWeeklySports()
+    public void ValidateGetWeeklyHRVariability()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"sports","WEEK");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"hrv","WEEK");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test(priority = 3)
-    public void ValidateGetMonthlySports()
+    public void ValidateGetMonthlyHRVariability()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"sports","MONTH");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"hrv","MONTH");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
     @Test(priority = 4)
-    public void ValidatePutAndGetSports()
+    public void ValidatePutAndGetHRVariability()
     {
         healthURLMethods = new HealthURLMethods();
         boolean result;
         try {
-            result = healthURLMethods.verifyPutAndGetHealthAPI("sports");
+            result = healthURLMethods.verifyPutAndGetHealthAPI("hrv");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

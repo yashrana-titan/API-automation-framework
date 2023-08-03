@@ -13,7 +13,7 @@ public class ValidatorStress{
     public HealthURLMethods healthURLMethods;
     String todayDate = URLMethods.todayDateString();
 
-    @Test
+    @Test(priority = 0)
     public void ValidatePutStress()
     {
         healthURLMethods = new HealthURLMethods();
@@ -21,28 +21,28 @@ public class ValidatorStress{
         Response res1 = healthURLMethods.putDataAPI("health","stress");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+    @Test(priority = 1)
     public void ValidateGetDailyStress()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"stress","DAILY");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"stress","DAY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+    @Test(priority = 2)
     public void ValidateGetWeeklyStress()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"stress","WEEKLY");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"stress","WEEK");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+    @Test(priority = 3)
     public void ValidateGetMonthlyStress()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"stress","MONTHLY");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"stress","MONTH");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+    @Test(priority = 4)
     public void ValidatePutAndGetStress()
     {
         healthURLMethods = new HealthURLMethods();

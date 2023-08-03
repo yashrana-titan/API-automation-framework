@@ -374,4 +374,27 @@ public class JSONUtility {
         return false;
     }
 
+    public String extractValueFromResponse(Response response, String keyToFind) {
+        // Get the response body as a JSON string
+        String responseBody = response.getBody().asString();
+        String value;
+            ObjectMapper objectMapper = new ObjectMapper();
+
+        JsonNode jsonNode = null;
+        try {
+            jsonNode = objectMapper.readTree(responseBody);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        JsonNode valueNode = jsonNode.get(keyToFind);
+
+            if (valueNode != null) {
+                value = valueNode.asText();
+                return value;
+            } else {
+                System.out.println("Key '" + keyToFind + "' not found in the response.");
+                return null;
+            }
+    }
 }

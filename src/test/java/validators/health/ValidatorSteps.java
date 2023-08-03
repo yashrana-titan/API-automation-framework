@@ -9,40 +9,39 @@ import utility.URLMethods;
 
 import java.io.IOException;
 
-public class ValidatorSteps{
+public class ValidatorSteps extends BaseClass{
     public HealthURLMethods healthURLMethods;
     String todayDate = URLMethods.todayDateString();
 
-    @Test
+    @Test(priority = 0)
     public void ValidatePutSteps()
     {
         healthURLMethods = new HealthURLMethods();
-        String filePath = "./src/main/java/putdata/PutStepsData.json";
         Response res1 = healthURLMethods.putDataAPI("health","steps");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+    @Test(priority = 1)
     public void ValidateGetDailySteps()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"steps","DAILY");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"steps","DAY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+    @Test(priority = 2)
     public void ValidateGetWeeklySteps()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"steps","WEEKLY");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"steps","WEEK");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+    @Test(priority = 3)
     public void ValidateGetMonthlySteps()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"steps","MONTHLY");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"steps","MONTH");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+    @Test(priority = 4)
     public void ValidatePutAndGetSteps()
     {
         healthURLMethods = new HealthURLMethods();

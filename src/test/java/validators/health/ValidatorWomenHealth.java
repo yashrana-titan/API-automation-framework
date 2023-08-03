@@ -11,8 +11,7 @@ public class ValidatorWomenHealth {
     WomenHealthURLMethods womenHealthURLMethods;
     String todayDate = URLMethods.todayDateString();
 
-
-    @Test
+    @Test(priority = 1)
     public void ValidatePutPT()
     {
         womenHealthURLMethods = new WomenHealthURLMethods();

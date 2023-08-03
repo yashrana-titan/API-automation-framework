@@ -12,31 +12,30 @@ import java.io.IOException;
 public class ValidatorBloodPressure{
     public HealthURLMethods healthURLMethods;
     String todayDate = URLMethods.todayDateString();
-//    @Test
-//    public void ValidatePutBloodPressure()
-//    {
-//        healthURLMethods = new HealthURLMethods();
-//        String CSVfilePath = "src/main/java/csvdata/BPData.csv";
-//        String TemplateFilePath = "src/main/java/jsontemplates/bpTemplate.json";
-//        Response res1 = healthURLMethods.putDataHealthAPIFromCSV(CSVfilePath,TemplateFilePath,headers,"bp");
-//        System.out.println(res1.asPrettyString());
-//        Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
-//    }
-    @Test
-    public void ValidateGetDailyBloodPressure()
+    @Test(priority = 0)
+    public void ValidatePutBloodPressure()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"bp","DAY");
+        Response res1 = healthURLMethods.putDataAPI("health","bp");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+
+    @Test(priority = 1)
+    public void ValidateGetDailySpO2()
+    {
+        healthURLMethods = new HealthURLMethods();
+        System.out.println("date is: "+todayDate);
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"spo2","DAY");
+        Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
+    }
+    @Test(priority = 2)
     public void ValidateGetWeeklyBloodPressure()
     {
         healthURLMethods = new HealthURLMethods();
         Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"bp","WEEK");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+    @Test(priority = 3)
     public void ValidateGetMonthlyBloodPressure()
     {
         healthURLMethods = new HealthURLMethods();
@@ -44,7 +43,7 @@ public class ValidatorBloodPressure{
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
 
-    @Test
+    @Test(priority = 4)
     public void ValidatePutAndGetBloodPressure()
     {
         healthURLMethods = new HealthURLMethods();

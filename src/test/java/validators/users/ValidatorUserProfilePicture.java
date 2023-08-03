@@ -1,6 +1,5 @@
 package validators.users;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -9,18 +8,16 @@ import utility.HealthURLMethods;
 import utility.RESTUtility;
 import utility.URLMethods;
 
-import java.io.File;
-
 public class ValidatorUserProfilePicture extends BaseClass {
     URLMethods urlMethods;
-    @Test
+    @Test(priority = 0)
     public void ValidateUpdateUserProfilePicture()
     {
         urlMethods = new HealthURLMethods();
         Response res1 = urlMethods.putFileInFormData("users","images","./src/main/resources/profilepicture/profile_pic_goku.jpeg");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+    @Test(priority = 1)
     public void ValidateGetUserProfilePicture()
     {
         urlMethods = new HealthURLMethods();
@@ -29,7 +26,7 @@ public class ValidatorUserProfilePicture extends BaseClass {
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
 
-    @Test
+    @Test(priority = 2)
     public void ValidateSameImageId()
     {
         urlMethods = new HealthURLMethods();
@@ -39,7 +36,7 @@ public class ValidatorUserProfilePicture extends BaseClass {
         Assert.assertTrue(result);
     }
     
-    @Test
+    @Test(priority = 3)
     public void ValidateDeleteProfilePicture()
     {
         urlMethods = new HealthURLMethods();

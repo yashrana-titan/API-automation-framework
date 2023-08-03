@@ -9,39 +9,39 @@ import utility.URLMethods;
 
 import java.io.IOException;
 
-public class ValidatorSleep{
+public class ValidatorSleep extends BaseClass{
     public HealthURLMethods healthURLMethods;
     String todayDate = URLMethods.todayDateString();
 
-    @Test
+    @Test(priority = 0)
     public void ValidatePutSleep()
     {
         healthURLMethods = new HealthURLMethods();
         Response res1 = healthURLMethods.putDataAPI("health","sleep");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+    @Test(priority = 1)
     public void ValidateGetDailySleep()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12","sleep","DAILY");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"sleep","DAY");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+    @Test(priority = 2)
     public void ValidateGetWeeklySleep()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12","sleep","WEEKLY");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"sleep","WEEK");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+    @Test(priority = 3)
     public void ValidateGetMonthlySleep()
     {
         healthURLMethods = new HealthURLMethods();
-        Response res1 = healthURLMethods.getDataHealthAPI("2023-05-12","sleep","MONTHLY");
+        Response res1 = healthURLMethods.getDataHealthAPI(todayDate,"sleep","MONTH");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
     }
-    @Test
+    @Test(priority = 4)
     public void ValidatePutAndGetSleep()
     {
         healthURLMethods = new HealthURLMethods();
