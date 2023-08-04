@@ -8,13 +8,15 @@ public class BaseClass {
     public static String accessToken;
     public static Map<String, Object> urls = new HashMap<>();
     public static Map<String, Object> headers = new HashMap<>();
+
+    public static String BaseUrl = "https://dev-wearables.titan.in/api/";
     public static Map<String, Object> tokens = new HashMap<>();
 
     @BeforeSuite
     public void beforeClass() {
-//        tokens = RESTUtility.getAccessToken();
+        tokens = RESTUtility.getAccessToken();
 //        accessToken = (String) tokens.get("Access-Token");
-        accessToken = "u21b73b4a-3244-4ce7-9801-ed171c51ed2651867";
+        accessToken = "u6cfd106f-4208-49ed-9a42-50868bcc97b151867";
         System.out.println("Access-Token: " + accessToken);
         try {
             urls = JSONUtility.getJsonDataInMap("./src/main/resources/prerequisites/URL.json");

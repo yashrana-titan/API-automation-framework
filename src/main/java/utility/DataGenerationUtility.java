@@ -11,7 +11,7 @@ import java.util.*;
 public class DataGenerationUtility {
 
     public static void main(String[] args) {
-        System.out.println(jsonGenerator("health","steps"));
+        System.out.println(jsonGenerator("health","pt/logs"));
 //        System.out.println(jsonGenerator("users"));
     }
     //Methods to generate CSV file from a template CSV
@@ -170,7 +170,7 @@ public class DataGenerationUtility {
                 for (String value : rowValues) {
                     if (value.contains("|")) {
                         String[] values = value.split("\\|");
-                        row.add(Arrays.asList(values).toString());
+                        row.add((Arrays.toString(values)));
                     } else {
                         row.add(value);
                     }

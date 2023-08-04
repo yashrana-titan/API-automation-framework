@@ -27,8 +27,8 @@ public class RESTUtility extends JSONUtility{
 
     public static Map<String,Object> getAccessToken() {
         Map<String,Object>map = new HashMap<>();
-        String otp1 = "https://dev-wearables.titan.in/api/registry/users/mobiles";
-        String otp2 = "https://dev-wearables.titan.in/api/registry/otp";
+        String otp1 = BaseUrl+"registry/users/mobiles";
+        String otp2 = BaseUrl+"registry/otp";
         //HashMap<String,Object>body=new HashMap<>(JSONUtility.getJsonDataInMap("./src/main/resources/SignUP.json"));
         String body = null;
         try {

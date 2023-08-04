@@ -9,7 +9,7 @@ import java.util.List;
 
 public class HealthURLMethods extends URLMethods {
     public RESTUtility restUtil;
-    public String healthURL = (String) urls.get("health");
+    public String healthURL = BaseUrl+"/health/";
     public Response getDataHealthAPI(String date,String HealthApiItem,String scope) {
         restUtil = new RESTUtility();
         String url = healthURL + HealthApiItem;
@@ -32,7 +32,6 @@ public class HealthURLMethods extends URLMethods {
                 .headers(headers).
                 contentType(ContentType.JSON)
                 .get(url);
-//        System.out.println("response   "+ res.prettyPrint());
         System.out.println(res.asPrettyString());
         System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
         return res;

@@ -22,7 +22,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 
-public class JSONUtility {
+public class JSONUtility extends BaseClass{
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static HashMap<String, Object> getJsonDataInMap(String FilePath) throws IOException {

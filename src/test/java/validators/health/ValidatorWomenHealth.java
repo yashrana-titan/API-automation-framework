@@ -73,7 +73,7 @@ public class ValidatorWomenHealth extends BaseClass {
     @Test
     public void ValidatePutPeriodLogs() {
         womenHealthURLMethods = new WomenHealthURLMethods();
-        Response res1 = womenHealthURLMethods.putDataHealthAPIWithFilename("pt/logs","logs");
+        Response res1 = womenHealthURLMethods.putDataAPI("health","pt/logs");
         Assert.assertEquals(res1.statusCode(), 200, "Status Code not 200");
     }
 

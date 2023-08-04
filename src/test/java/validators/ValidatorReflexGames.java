@@ -9,7 +9,7 @@ import utility.URLMethods;
 
 public class ValidatorReflexGames extends BaseClass {
     URLMethods urlMethods;
-    String todayDate = urlMethods.todayDateString();
+    String todayDate = URLMethods.todayDateString();
 
     @Test
     public void ValidateGetGames()
@@ -46,5 +46,4 @@ public class ValidatorReflexGames extends BaseClass {
         System.out.println(res.getBody().prettyPrint());
         Assert.assertEquals(res.getStatusCode(),200,"Response code not 200");
     }
-
 }

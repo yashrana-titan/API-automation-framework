@@ -15,7 +15,6 @@ import java.util.ResourceBundle;
 public class URLMethods extends BaseClass{
 
     RESTUtility restUtil;
-    public String BaseUrl = (String) urls.get("Base");
 
     public Response getDataFromAPI(String URI) {
         restUtil = new RESTUtility();
@@ -68,8 +67,10 @@ public class URLMethods extends BaseClass{
         Response res;
         List<JSONObject> data = DataGenerationUtility.jsonGenerator(URI,URIEndpoint);
         System.out.println(data);
-        if(data.size()==1)
+
+        if(data.size()==1 && URIEndpoint !="pt/logs")
         {
+            System.out.println("condition for size one");
             res = RestAssured.given().headers(headers)
                     .contentType(ContentType.JSON)
                     .body(data.get(0).toString())
