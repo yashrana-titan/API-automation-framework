@@ -2,7 +2,6 @@
   "UserSignUP": "https://dev-wearables.titan.in/api/registry/users/mobiles",
   "OTPVerification": "https://dev-wearables.titan.in/api/registry/otp",
   "health": "https://dev-wearables.titan.in/api/health/",
-  "WomenHealth":"https://dev-wearables.titan.in/api/health/pt",
   "Settings": "https://dev-wearables.titan.in/api/users/settings",
   "Base": "https://dev-wearables.titan.in/api/"
 }

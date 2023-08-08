@@ -5,6 +5,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -255,6 +256,36 @@ public class URLMethods extends BaseClass{
 //        System.out.println("response   "+ res.prettyPrint());
         System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
         return res;
+    }
+
+    public boolean verifyPutAndGetDataAPI(String URI,String URIEndpoint) {
+        String url = URI+URIEndpoint;
+        System.out.println(url);
+        restUtil = new RESTUtility();
+        Response resPut = putDataAPI(URI,URIEndpoint);
+        if(resPut.getStatusCode() != 200){
+            System.out.println("Put request status code != 200");
+        }
+        Response resGet = getDataFromAPI(URI,URIEndpoint);
+        if(resGet.getStatusCode() != 200){
+            System.out.println("Get request status code != 200");
+        }
+        return JSONUtility.compareJsons(resGet.body().toString(),resPut.body().toString());
+    }
+
+    public Response getDataCustomParameter(String URI,String URIEndpoint, String key,String value)
+    {
+        String url = BaseUrl+URI+"/"+URIEndpoint;
+        System.out.println(url);
+        Response res = RestAssured.given()
+                .headers(headers).param(key,value)
+                .contentType(ContentType.JSON)
+                .get(url);
+        System.out.println("Response Code for Get User Data Request : "+res.statusCode());
+        System.out.println("Response body: "+res.asPrettyString());
+
+        return res;
+
     }
 
 }

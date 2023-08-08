@@ -111,6 +111,26 @@ public class JSONUtility extends BaseClass{
     }
 
 
+    public static boolean compareJsons(String json1, String json2) {
+        JSONObject jsonObj1 = new JSONObject(json1);
+        JSONObject jsonObj2 = new JSONObject(json2);
+
+        for (String key : jsonObj1.keySet()) {
+            if (jsonObj2.has(key)) {
+                Object value1 = jsonObj1.get(key);
+                Object value2 = jsonObj2.get(key);
+
+                if (!value1.equals(value2)) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     public static boolean compareJsonArrays(String putDataJson , String getDataJson , String productToCompare) {
 
         JsonArray putData = new Gson().fromJson(putDataJson, JsonArray.class);
@@ -371,6 +391,7 @@ public class JSONUtility extends BaseClass{
 
         return false;
     }
+
 
     public String extractValueFromResponse(Response response, String keyToFind) {
         // Get the response body as a JSON string
