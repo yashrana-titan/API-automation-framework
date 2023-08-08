@@ -1,7 +1,7 @@
 {
   "date": "<DATE>",
   "flow": "<FLOW>",
-  "signs": "<SIGNS>",
+  "signs": "[<SIGNS>]",
   "mood": "<MOOD>",
   "sex": "<SEX>",
   "discharge": "<DISCHARGE>",

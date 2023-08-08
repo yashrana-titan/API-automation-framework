@@ -9,7 +9,7 @@ import utility.URLMethods;
 
 import java.io.IOException;
 
-public class ValidatorBloodPressure{
+public class ValidatorBloodPressure extends BaseClass{
     public HealthURLMethods healthURLMethods;
     String todayDate = URLMethods.todayDateString();
     @Test(priority = 0)

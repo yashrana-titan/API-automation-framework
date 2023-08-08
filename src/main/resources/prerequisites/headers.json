@@ -1,5 +1,4 @@
 {
     "titan-context-group-code": "FASTRACK",
-    "Content-Type": "application/json",
-    "titan-version": "1.3"
+    "Content-Type": "application/json"
 }

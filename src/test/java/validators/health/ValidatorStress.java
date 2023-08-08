@@ -9,7 +9,7 @@ import utility.URLMethods;
 
 import java.io.IOException;
 
-public class ValidatorStress{
+public class ValidatorStress extends BaseClass{
     public HealthURLMethods healthURLMethods;
     String todayDate = URLMethods.todayDateString();
 

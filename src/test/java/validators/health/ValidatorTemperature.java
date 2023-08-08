@@ -3,12 +3,13 @@ package validators.health;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import utility.BaseClass;
 import utility.HealthURLMethods;
 import utility.URLMethods;
 
 import java.io.IOException;
 
-public class ValidatorTemperature{
+public class ValidatorTemperature extends BaseClass {
     public HealthURLMethods healthURLMethods;
     String todayDate = URLMethods.todayDateString();
 

@@ -9,7 +9,7 @@ import utility.URLMethods;
 
 import java.io.IOException;
 
-public class ValidatorHeartRate{
+public class ValidatorHeartRate extends BaseClass{
     public HealthURLMethods healthURLMethods;
     String todayDate = URLMethods.todayDateString();
 

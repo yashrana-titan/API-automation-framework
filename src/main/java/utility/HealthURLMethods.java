@@ -9,7 +9,7 @@ import java.util.List;
 
 public class HealthURLMethods extends URLMethods {
     public RESTUtility restUtil;
-    public String healthURL = BaseUrl+"/health/";
+    public String healthURL = BaseUrl+"health/";
     public Response getDataHealthAPI(String date,String HealthApiItem,String scope) {
         restUtil = new RESTUtility();
         String url = healthURL + HealthApiItem;
