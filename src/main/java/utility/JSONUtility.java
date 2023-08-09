@@ -19,6 +19,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -132,17 +133,27 @@ public class JSONUtility extends BaseClass{
 
 
     public static boolean compareJsonArrays(String putDataJson , String getDataJson , String productToCompare) {
-
         JsonArray putData = new Gson().fromJson(putDataJson, JsonArray.class);
         JsonArray getData = new Gson().fromJson(getDataJson, JsonArray.class);
 
         Set<LocalDate> putDates = extractDates(putData);
         System.out.println(putDataJson);
+        System.out.println(getDataJson);
+        JsonArray filteredGetData;
+        if(getDataJson.contains("product"))
+        {
 
-        JsonArray filteredGetData = filterDataByDatesAndProduct(getData, putDates, productToCompare);
-        System.out.println(filteredGetData);
+            filteredGetData = filterDataByDatesAndProduct(getData, putDates, productToCompare);
+        }
+        else
+        {
+            System.out.println("no product exists");
+            filteredGetData = filterDataByDates(getData, putDates);
 
-        return compareJSONData(putData, filteredGetData);
+        }
+        System.out.println("filtered data "+filteredGetData);
+        return compareJSONData(putData,filteredGetData );
+
     }
 
     private static Set<LocalDate> extractDates(JsonArray data) {
@@ -165,6 +176,20 @@ public class JSONUtility extends BaseClass{
                 LocalDate date = LocalDate.parse(jsonObject.get("date").getAsString());
                 String product = jsonObject.get("product").getAsString();
                 if (dates.contains(date) && product.equals(productCode)) {
+                    filteredData.add(jsonObject);
+                }
+            }
+        }
+        return filteredData;
+    }
+
+    private static JsonArray filterDataByDates(JsonArray data, Set<LocalDate> dates) {
+        JsonArray filteredData = new JsonArray();
+        for (JsonElement element : data) {
+            JsonObject jsonObject = element.getAsJsonObject();
+            if (jsonObject.has("date")) {
+                LocalDate date = LocalDate.parse(jsonObject.get("date").getAsString());
+                if (dates.contains(date)) {
                     filteredData.add(jsonObject);
                 }
             }

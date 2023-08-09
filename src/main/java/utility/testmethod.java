@@ -8,7 +8,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class testmethod {
+public class DataGenerationUtility {
 
     public static void main(String[] args) {
         System.out.println(jsonGenerator("health","pt/logs"));
@@ -170,7 +170,7 @@ public class testmethod {
                 for (String value : rowValues) {
                     if (value.contains("|")) {
                         String[] values = value.split("\\|");
-                        row.add(Arrays.toString(values));
+                        row.add((Arrays.toString(values)));
                     } else {
                         row.add(value);
                     }
@@ -261,53 +261,21 @@ public class testmethod {
         return jsonList;
     }
 
-    private static String replacePlaceholders(String jsonTemplate, List<String> placeholders, List<String> values) {
+    public static String replacePlaceholders(String jsonTemplate, List<String> placeholders, List<String> values) {
         Map<String, String> placeholderValues = new LinkedHashMap<>(); // Use LinkedHashMap to preserve insertion order
-
         for (int i = 0; i < placeholders.size(); i++) {
             String placeholder = placeholders.get(i);
             String value = (i < values.size()) ? values.get(i) : "";
-
             placeholderValues.put(placeholder, value);
         }
 
         for (Map.Entry<String, String> entry : placeholderValues.entrySet()) {
             String placeholder = entry.getKey();
             String value = entry.getValue();
-
-            if (value.contains("|")) {
-                // If the value contains '|', format it as an array of strings
-                String[] arrayValues = value.split("\\|");
-                JSONArray jsonArray = new JSONArray();
-                for (String arrayValue : arrayValues) {
-                    jsonArray.put(arrayValue.trim()); // Trim the values before adding to the array
-                }
-                jsonTemplate = jsonTemplate.replace("<" + placeholder + ">", jsonArray.toString());
-            } else {
-                jsonTemplate = jsonTemplate.replace("<" + placeholder + ">", "\"" + value + "\"");
-            }
+            jsonTemplate = jsonTemplate.replace("<" + placeholder + ">", value);
         }
         return jsonTemplate;
     }
-
-
-//        for (Map.Entry<String, String> entry : placeholderValues.entrySet()) {
-//            String placeholder = entry.getKey();
-//            String value = entry.getValue();
-//            if (value.startsWith("[") && value.endsWith("]")) {
-//                // If the value is a JSON array representation, use as is
-//                jsonTemplate = jsonTemplate.replace("<" + placeholder + ">", value);
-//            } else {
-//                // Otherwise, wrap the value in double quotes
-//                jsonTemplate = jsonTemplate.replace("<" + placeholder + ">", "\"" + value + "\"");
-//            }
-//        }
-//        return jsonTemplate;
-//    }
-
-
-
-
 
 
     public static List<String> removeAngleBrackets(List<String> placeholders) {
@@ -381,4 +349,5 @@ public class testmethod {
             }
         }
     }
+
 }

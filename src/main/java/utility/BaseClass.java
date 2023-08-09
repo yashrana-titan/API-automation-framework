@@ -14,9 +14,9 @@ public class BaseClass {
 
     @BeforeSuite
     public void beforeClass() {
-        tokens = RESTUtility.getAccessToken();
-        accessToken = (String) tokens.get("Access-Token");
-//        accessToken = "u0dbd038c-1e6e-45aa-a514-e653abad81ec51867";
+//        tokens = RESTUtility.getAccessToken();
+//        accessToken = (String) tokens.get("Access-Token");
+        accessToken = "u0612abef-c163-4d5c-8421-cacecfca1b8b51867";
         System.out.println("Access-Token: " + accessToken);
         try {
             urls = JSONUtility.getJsonDataInMap("./src/main/resources/prerequisites/URL.json");

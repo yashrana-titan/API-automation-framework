@@ -8,10 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class URLMethods extends BaseClass{
 
@@ -69,7 +66,7 @@ public class URLMethods extends BaseClass{
         List<JSONObject> data = DataGenerationUtility.jsonGenerator(URI,URIEndpoint);
         System.out.println(data);
 
-        if(data.size()==1 && URIEndpoint !="pt/logs")
+        if(data.size()==1 && !Objects.equals(URIEndpoint, "pt/logs"))
         {
             System.out.println("condition for size one");
             res = RestAssured.given().headers(headers)
