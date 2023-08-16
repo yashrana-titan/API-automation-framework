@@ -77,11 +77,9 @@ public class RESTUtility extends JSONUtility{
 
             ObjectMapper objectMapper = new ObjectMapper();
 
-            // Parse JSON responses into JsonNode objects
             JsonNode jsonNode1 = objectMapper.readTree(responseString1);
             JsonNode jsonNode2 = objectMapper.readTree(responseString2);
 
-            // Get the values from the JSON responses for the given key
             String value1 = jsonNode1.get(key).asText();
             String value2 = jsonNode2.get(key).asText();
 

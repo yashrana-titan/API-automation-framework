@@ -15,18 +15,23 @@
 <!--            <class name="validators.health.ValidatorSteps"/>-->
 <!--            <class name="validators.health.ValidatorStress"/>-->
 <!--            <class name="validators.health.ValidatorTemperature"/>-->
-            <class name="validators.health.ValidatorWomenHealth">
-                <methods>
-                    <include name="ValidatePutPeriodLogs"/>
-                </methods>
-            </class>
-<!--            <class name="validators.users.ValidatorUser"/>-->
-<!--            <class name="validators.ValidatorWeather"/>-->
-<!--            <class name="validators.users.ValidatorUserProfilePicture">-->
+<!--            <class name="validators.health.ValidatorWomenHealth">-->
 <!--                <methods>-->
-<!--                    <include name="ValidateSameImageId"/>-->
+<!--                    <include name="ValidateGetPTHistory"/>-->
+<!--                    <include name="ValidateGetPeriodTracker"/>-->
+<!--                    <include name="ValidateGetPTAverageAndCycleLength"/>-->
+<!--                    <include name="ValidateGetPeriodCycle"/>-->
+<!--                    <include name="ValidateGetPeriodConfig"/>-->
+
 <!--                </methods>-->
 <!--            </class>-->
+<!--            <class name="validators.users.ValidatorUser"/>-->
+<!--            <class name="validators.ValidatorWeather"/>-->
+            <class name="validators.users.ValidatorUserProfilePicture">
+                <methods>
+                    <include name="ValidateSameImageId"/>
+                </methods>
+            </class>
 <!--            <class name="validators.ValidatorLeaderboard"/>-->
 <!--            <class name="validators.ValidatorLeaderboard"/>-->
 <!--            <class name="validators.ValidatorGamification"/>-->

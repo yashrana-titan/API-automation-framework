@@ -97,7 +97,7 @@ public class HealthURLMethods extends URLMethods {
         res = RestAssured.given().headers(headers)
                 .contentType(ContentType.JSON)
                 .body(data.toString())
-                .put(url);
+                .post(url);
         System.out.println("Response Code for Put Data Request : "+res.statusCode());
         return res;
     }

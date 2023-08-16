@@ -8,16 +8,16 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class DataGenerationUtility {
+public class testmethod {
 
     public static void main(String[] args) {
-        System.out.println(jsonGenerator("health","pt/logs"));
+        System.out.println("generated json :"+jsonGenerator("health","pt/logs"));
 //        System.out.println(jsonGenerator("users"));
     }
-    //Methods to generate CSV file from a template CSV
     public static void csvGenerator(String URLName,String URLItem){
         String templateFilePath = "./src/main/java/csvtemplates/"+URLName+"/"+URLItem+"CsvTemplate.csv";
         String outputFilePath = "./src/main/resources/generatedCSVData/"+URLName+"/"+URLItem+"Data.csv";
+
         generateCSVFromTemplate(templateFilePath,outputFilePath);
     }
 
@@ -57,7 +57,7 @@ public class DataGenerationUtility {
 
         line = line.replaceAll("<LAST_MONTH>", Objects.requireNonNull(getDateOffset(todayDate, -30)));
 
-        // Replace <SLOT> placeholder with slot timestamp
+
         line = replaceSlotPlaceholder(line);
 
         return line;
@@ -110,8 +110,6 @@ public class DataGenerationUtility {
         return line;
     }
 
-
-
     private static long getSlotTimestamp(String date, int hour, int minute) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -154,8 +152,12 @@ public class DataGenerationUtility {
         List<List<String>> data = readCSV(CsvFilePath);
         String jsonTemplate = readJSONTemplate(JsonFilePath);
 
-        List<JSONObject> jsoNs = createJSONs(data, jsonTemplate);
-        return jsoNs;
+        List<JSONObject> jsonList = createJSONs(data, jsonTemplate);
+        if(jsonTemplate.contains("ARRAY"))
+        {
+            convertArrayLikeStrings(jsonList);
+        }
+        return jsonList;
     }
 
 
@@ -170,7 +172,9 @@ public class DataGenerationUtility {
                 for (String value : rowValues) {
                     if (value.contains("|")) {
                         String[] values = value.split("\\|");
-                        row.add((Arrays.toString(values)));
+
+                        row.add(Arrays.toString(values));
+
                     } else {
                         row.add(value);
                     }
@@ -214,7 +218,6 @@ public class DataGenerationUtility {
         for (int i = 1; i < data.size(); i++) {
             List<String> values = data.get(i);
             String jsonStr = replacePlaceholders(jsonTemplate, removeAngleBrackets(placeholders), values);
-            // System.out.println("josnStr "+jsonStr);
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 jsonList.add(jsonObject);
@@ -223,9 +226,12 @@ public class DataGenerationUtility {
             }
         }
         if(hasDatePlaceholder)
-            return combineDetailsForSameDate(jsonList);
-        else
-            return jsonList;
+            jsonList =  combineDetailsForSameDate(jsonList);
+        if(jsonTemplate.contains("ARRAY"))
+        {
+            return convertArrayLikeStrings(jsonList);
+        }
+        else return jsonList;
     }
 
     public static List<JSONObject> createJSONsNoDate(List<List<String>> data, String jsonTemplate) {
@@ -350,4 +356,33 @@ public class DataGenerationUtility {
         }
     }
 
+    public static List<JSONObject> convertArrayLikeStrings(List<JSONObject> jsonObjects) throws JSONException {
+        List<JSONObject> modifiedJSONObjects = new ArrayList<>();
+        for (JSONObject jsonObject : jsonObjects) {
+            JSONObject modifiedJSONObject = new JSONObject();
+
+            String[] keys = JSONObject.getNames(jsonObject);
+            if (keys != null) {
+                for (String key : keys) {
+                    String value = jsonObject.optString(key);
+                    if (value.startsWith("[") && value.endsWith("]")) {
+                        JSONArray array = new JSONArray(value);
+                        modifiedJSONObject.put(key, arrayToList(array));
+                    } else {
+                        modifiedJSONObject.put(key, value);
+                    }
+                }
+            }
+            modifiedJSONObjects.add(modifiedJSONObject);
+        }
+        return modifiedJSONObjects;
+    }
+
+    public static List<String> arrayToList(JSONArray array) throws JSONException {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < array.length(); i++) {
+            list.add(array.getString(i));
+        }
+        return list;
+    }
 }

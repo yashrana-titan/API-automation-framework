@@ -1,9 +1,9 @@
 {
   "date": "<DATE>",
   "flow": "<FLOW>",
-  "signs": "<SIGNS>",
+  "signs": "<SIGNS_ARRAY>",
   "mood": "<MOOD>",
   "sex": "<SEX>",
   "discharge": "<DISCHARGE>",
-  "medication": "<MEDICATION>"
+  "medication": "<MEDICATION_ARRAY>"
 }
