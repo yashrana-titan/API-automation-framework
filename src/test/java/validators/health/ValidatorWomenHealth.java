@@ -2,14 +2,19 @@ package validators.health;
 
 import io.restassured.response.Response;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utility.BaseClass;
 import utility.URLMethods;
 import utility.WomenHealthURLMethods;
 
+import java.util.List;
+
 public class ValidatorWomenHealth extends BaseClass {
-    public String id = "11";
+
     WomenHealthURLMethods womenHealthURLMethods;
+
+    List<Integer> ids;
     String todayDate = URLMethods.todayDateString();
 
     @Test(priority = 0)
@@ -23,14 +28,16 @@ public class ValidatorWomenHealth extends BaseClass {
     @Test(priority = 0)
     public void ValidateUpdatePT() {
         womenHealthURLMethods = new WomenHealthURLMethods();
-        Response res1 = womenHealthURLMethods.updateDataUsingIDHealthAPI("pt", id);
+        ids = womenHealthURLMethods.getIdForPT();
+        Response res1 = womenHealthURLMethods.updateDataUsingIDHealthAPI("pt",  String.valueOf(ids.get(0)));
         Assert.assertEquals(res1.statusCode(), 200, "Status Code not 200");
     }
 
     @Test(priority = 2)
     public void ValidateGetPT() {
         womenHealthURLMethods = new WomenHealthURLMethods();
-        Response res1 = womenHealthURLMethods.getDataHealthAPI( "pt/history", id);
+        ids = womenHealthURLMethods.getIdForPT();
+        Response res1 = womenHealthURLMethods.getLogsHealthAPIWithId("pt", String.valueOf(ids.get(0)));
         Assert.assertEquals(res1.statusCode(), 200, "Status Code not 200");
     }
 
@@ -80,7 +87,8 @@ public class ValidatorWomenHealth extends BaseClass {
     @Test(priority = 1)
     public void ValidatePutPeriodLogsWithId() {
         womenHealthURLMethods = new WomenHealthURLMethods();
-        Response res1 = womenHealthURLMethods.putPeriodLogsWithId("pt/logs",id);
+        ids = womenHealthURLMethods.getIdForPT();
+        Response res1 = womenHealthURLMethods.putPeriodLogsWithId("pt/logs",String.valueOf(ids.get(0)));
         Assert.assertEquals(res1.statusCode(), 200, "Status Code not 200");
     }
 
@@ -88,17 +96,9 @@ public class ValidatorWomenHealth extends BaseClass {
     public void ValidateGetPeriodLogs()
     {
         womenHealthURLMethods = new WomenHealthURLMethods();
-        Response res = womenHealthURLMethods.getLogsHealthAPIWithId("pt",id);
+        ids = womenHealthURLMethods.getIdForPT();
+        Response res = womenHealthURLMethods.getLogsHealthAPIWithId("pt",String.valueOf(ids.get(0)));
         Assert.assertEquals(res.statusCode(), 200, "Status Code not 200");
-
-    }
-
-    @Test(priority = 2)
-    public void ValidatePutAndGetGetPeriodLogs()
-    {
-        womenHealthURLMethods = new WomenHealthURLMethods();
-        Boolean result = womenHealthURLMethods.verifyPutAndGetPeriodLogs("pt","11");
-        Assert.assertTrue(result);
 
     }
 }

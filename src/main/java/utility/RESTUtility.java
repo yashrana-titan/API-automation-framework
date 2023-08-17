@@ -83,16 +83,10 @@ public class RESTUtility extends JSONUtility{
             String value1 = jsonNode1.get(key).asText();
             String value2 = jsonNode2.get(key).asText();
 
-            // Compare the values
             return value1.equals(value2);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-
 }
-
-
-
-

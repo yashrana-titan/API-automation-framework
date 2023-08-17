@@ -3,7 +3,10 @@ package utility;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class WomenHealthURLMethods extends HealthURLMethods{
@@ -35,11 +38,11 @@ public class WomenHealthURLMethods extends HealthURLMethods{
         return res;
     }
 
-    public boolean verifyPutAndGetPeriodLogs(String HealthApiItem,String id) {
-        String url = healthURL +HealthApiItem+"/" + id + "/logs";
+    public boolean verifyPutAndGetPeriodLogs(String id) {
+        String url = healthURL +"pt/" + id + "/logs";
         String productId = (String) headers.get("titan-context-product-code");
-        Response resPut=putPeriodLogsWithId(HealthApiItem,id);
-        Response resGet=getLogsHealthAPIWithId(HealthApiItem,id);
+        Response resPut=putPeriodLogsWithId("pt",id);
+        Response resGet=getLogsHealthAPIWithId("pt",id);
         if(resPut.statusCode()!=200)
         {
             System.out.println("Put request not successful status code is "+resPut.statusCode());
@@ -54,4 +57,22 @@ public class WomenHealthURLMethods extends HealthURLMethods{
         System.out.println(url);
         return JSONUtility.compareJsonArrays(resPut.toString(),resGet.toString(),productId);
     }
+
+    public List<Integer> getIdForPT()
+    {
+        Response jsonResponse = getDataFromAPI("health","pt/history");
+//        System.out.println(jsonResponse.getBody().asString());
+        JSONArray jsonArray = new JSONArray(jsonResponse.getBody().asString());
+
+        List<Integer> idList = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            int id = jsonObject.getInt("id");
+            idList.add(id);
+        }
+        System.out.println(idList);
+        return idList;
+
+    }
+
 }

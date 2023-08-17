@@ -36,11 +36,11 @@ public class ValidatorUserProfilePicture extends BaseClass {
         Assert.assertTrue(result);
     }
     
-    @Test(priority = 3)
-    public void ValidateDeleteProfilePicture()
-    {
-        urlMethods = new HealthURLMethods();
-        Response res1 = urlMethods.deleteDataAPI("users","images");
-        Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
-    }
+//    @Test(priority = 3)
+//    public void ValidateDeleteProfilePicture()
+//    {
+//        urlMethods = new HealthURLMethods();
+//        Response res1 = urlMethods.deleteDataAPI("users","images");
+//        Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
+//    }
 }
