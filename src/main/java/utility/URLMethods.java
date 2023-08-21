@@ -5,7 +5,6 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -54,10 +53,58 @@ public class URLMethods extends BaseClass{
                 .contentType(ContentType.JSON)
                 .param("date", date).get(url);
 //        System.out.println("response   "+ res.prettyPrint());
+        System.out.println("Response : "+res.asPrettyString());
+        System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
+        return res;
+    }
+
+    public Response getDataFromAPIWithScope(String URI,String URIendpoint,String date,String scope) {
+        restUtil = new RESTUtility();
+        String url = BaseUrl+URI+"/"+URIendpoint;
+
+        System.out.println(url);
+        System.out.println("headers in get method"+headers);
+        Response res = RestAssured.given()
+                .headers(headers)
+                .contentType(ContentType.JSON)
+                .param("date", date).param("scope",scope).get(url);
+//        System.out.println("response   "+ res.prettyPrint());
+        System.out.println("Response : "+res.asPrettyString());
+        System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
+        return res;
+    }
+
+    public Response getDataFromAPIWithScope(String URI,String date,String scope) {
+        restUtil = new RESTUtility();
+        String url = BaseUrl+URI;
+
+        System.out.println(url);
+        System.out.println("headers in get method"+headers);
+        Response res = RestAssured.given()
+                .headers(headers)
+                .contentType(ContentType.JSON)
+                .param("date", date).param("scope",scope).get(url);
+//        System.out.println("response   "+ res.prettyPrint());
         System.out.println(res.asPrettyString());
         System.out.println("Response Code for Get Daily Data Request : "+res.statusCode());
         return res;
     }
+
+    public Response getDataCustomParameter(String URI,String URIEndpoint, String key,String value)
+    {
+        String url = BaseUrl+URI+"/"+URIEndpoint;
+        System.out.println(url);
+        Response res = RestAssured.given()
+                .headers(headers).param(key,value)
+                .contentType(ContentType.JSON)
+                .get(url);
+        System.out.println("Response Code for Get User Data Request : "+res.statusCode());
+        System.out.println("Response body: "+res.asPrettyString());
+
+        return res;
+
+    }
+
     public Response putDataAPI(String URI,String URIEndpoint)
     {
         String url = BaseUrl+URI+"/"+URIEndpoint;
@@ -270,19 +317,6 @@ public class URLMethods extends BaseClass{
         return JSONUtility.compareJsons(resGet.body().toString(),resPut.body().toString());
     }
 
-    public Response getDataCustomParameter(String URI,String URIEndpoint, String key,String value)
-    {
-        String url = BaseUrl+URI+"/"+URIEndpoint;
-        System.out.println(url);
-        Response res = RestAssured.given()
-                .headers(headers).param(key,value)
-                .contentType(ContentType.JSON)
-                .get(url);
-        System.out.println("Response Code for Get User Data Request : "+res.statusCode());
-        System.out.println("Response body: "+res.asPrettyString());
 
-        return res;
-
-    }
 
 }

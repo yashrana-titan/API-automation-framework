@@ -1,15 +1,12 @@
-package validators.settings;
+package validators.users;
 
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import utility.BaseClass;
-import utility.JSONUtility;
-import utility.SettingsURLMethods;
+import utility.*;
 
 public class ValidatorSettings extends BaseClass {
-    public SettingsURLMethods settingsURLMethods;
-
+    public URLMethods urlMethods;
 //    @Test
 //    public void validatePutSettings() {
 //        settingsURLMethods = new SettingsURLMethods();
@@ -20,10 +17,10 @@ public class ValidatorSettings extends BaseClass {
 //    }
 
     @Test
-    public void validateGetSettings()
+    public void ValidateGetSettings()
     {
-        settingsURLMethods = new SettingsURLMethods();
-        Response res1 = settingsURLMethods.getData(headers);
+        urlMethods = new HealthURLMethods();
+        Response res1 = urlMethods.getDataFromAPI("users","settings");
         Assert.assertEquals(res1.statusCode(),200,"Status Code not 200");
 
     }

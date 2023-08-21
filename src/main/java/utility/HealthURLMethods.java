@@ -66,28 +66,6 @@ public class HealthURLMethods extends URLMethods {
         return res;
     }
 
-
-
-    public Response putDataHealthAPIFromFile(String HealthApiItem,String filePath)
-    {
-        String url = healthURL+HealthApiItem;
-        System.out.println(url);
-        Response res;
-        String data = null;
-        try {
-            data = JSONUtility.getJSONString(filePath);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        res = RestAssured.given().headers(headers)
-                .contentType(ContentType.JSON)
-                .body(data)
-                .put(url);
-        System.out.println("Response Code for Put Data Request : "+res.statusCode());
-        return res;
-    }
-
-
     public Response updateDataUsingIDHealthAPI(String HealthApiItem,String id)
     {
         String url = healthURL+HealthApiItem+"/"+id;

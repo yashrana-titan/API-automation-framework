@@ -32,7 +32,10 @@
 <!--            <class name="validators.ValidatorLeaderboard"/>-->
 <!--            <class name="validators.ValidatorLeaderboard"/>-->
 <!--            <class name="validators.ValidatorGamification"/>-->
-            <class name="validators.ValidatorReflexGames"/>
+<!--            <class name="validators.ValidatorReflexGames"/>-->
+            <class name="validators.ValidatorWatchfaces"/>
+<!--            <class name="validators.ValidatorProfile"/>-->
+
         </classes>
     </test>
 </suite>
